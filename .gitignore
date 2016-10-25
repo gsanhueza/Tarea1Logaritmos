@@ -8,3 +8,6 @@ R_Trees/build/
 # KDevelop
 R_Trees/Tarea1.kdev
 R_Trees/.kdev4/
+
+R_Trees/.idea
+R_Trees/.directory
