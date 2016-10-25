@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/RTree.cpp
+iostream
+-
+Rectangle.h
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/Rectangle.h
+RTree.h
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/RTree.h
+
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/RTree.h
+
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/Rectangle.cpp
+Rectangle.h
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/Rectangle.h
+
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/Rectangle.h
+
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/main.cpp
+iostream
+-
+Rectangle.h
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/Rectangle.h
+RTree.h
+/home/gabriel/Documentos/TODO EL MATERIAL DE U-CURSOS/8vo Semestre/CC4102-1 Diseño y Análisis de Algoritmos/Tarea1/R_Trees/RTree.h
+
