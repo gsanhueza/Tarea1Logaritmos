@@ -33,3 +33,6 @@ Project Target=R_Trees,r_trees
 Use External Terminal=false
 Working Directory=
 isExecutable=false
+
+[Project]
+VersionControlSupport=kdevgit

@@ -1,10 +1,10 @@
 # Informe
-Informe/Informe-tarea-1.aux
-Informe/Informe-tarea-1.log
+Informe/Informe-Tarea-1.aux
+Informe/Informe-Tarea-1.log
 
 # Build
-R_Trees/build
+R_Trees/build/
 
 # KDevelop
 R_Trees/Tarea1.kdev
-R_Trees/.kdev
+R_Trees/.kdev/
