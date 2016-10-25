@@ -4,9 +4,10 @@
 
 using namespace std;
 
-RTree::RTree()
-{
-    mbr = new Rectangle(25, 25, 25, 25);
+
+RTree :: RTree(Rectangle rect) {
+    mbr = new Rectangle(rect.getX(), rect.getY(), rect.getHeight(), rect.getWidth());
+
 }
 
 void RTree::insert(Rectangle rect)

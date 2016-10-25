@@ -1,7 +1,7 @@
 class RTree
 {
 public:
-    RTree();
+    RTree(Rectangle rect);
     RTree* search(Rectangle rect);
     void insert(Rectangle rect);
     void print();
