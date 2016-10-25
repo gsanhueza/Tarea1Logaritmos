@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     Rectangle r(1, 2, 3, 4);
-    RTree *rtree;
+    RTree *rtree = new RTree();
 
     cout << r.getX() << endl;
     cout << r.getY() << endl;
@@ -15,6 +15,7 @@ int main(int argc, char **argv) {
     cout << endl;
     rtree->insert(r);
     rtree->search(r);
+    rtree->print();
 
     return 0;
 }
