@@ -1,9 +1,6 @@
 # Tarea 1 Logaritmos
-Tarea 1 de Logaritmos
 
-3 Opciones de lenguajes:
-
-* C
-* C++
-* Java
+* Vamos a usar Java
+* Hay que elegir 2 variantes de Split (dentro de las 4 que nos ofrecen)
+* Diseñar bien la cosa \#seviene
 

@@ -1,6 +1,7 @@
 # Informe
 Informe/Informe-Tarea-1.aux
 Informe/Informe-Tarea-1.log
+Informe/Informe-Tarea-1.tex.backup
 
 # Build
 R_Trees_CPP/build/
@@ -9,5 +10,13 @@ R_Trees_CPP/build/
 R_Trees_CPP/*.kdev4
 R_Trees_CPP/.kdev4/
 
-R_Trees/.idea
-R_Trees/.directory
+# Eclipse
+.metadata/
+R_Trees_Java/*.classpath
+R_Trees_Java/*.project
+R_Trees_Java/*.gitignore
+R_Trees_Java/bin/
+
+# Vim
+*~
+..*~
