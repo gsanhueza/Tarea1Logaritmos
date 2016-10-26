@@ -12,6 +12,7 @@ R_Trees_CPP/.kdev4/
 
 # Eclipse
 .metadata/
+.recommenders/
 R_Trees_Java/*.classpath
 R_Trees_Java/*.project
 R_Trees_Java/*.gitignore

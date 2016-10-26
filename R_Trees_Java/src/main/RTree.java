@@ -1,9 +1,10 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RTree {
-	protected Rectangle[] mbr;
+	protected ArrayList<Rectangle> mbr;
 
 	/**
 	 * Constructor de RTree.
@@ -11,7 +12,7 @@ public abstract class RTree {
 	 * La raíz al menos tiene 2 rectángulos.
 	 */
 	public RTree() {
-		this.mbr = new Rectangle[Constants.M];
+		mbr = new ArrayList<Rectangle>();
 	}
 
 	/**
@@ -22,6 +23,11 @@ public abstract class RTree {
 	public List<Rectangle> buscar(Rectangle rect) {
 		// TODO Buscar no implementado
 		System.out.println("Idea: Buscar en los nodos hojas todos los rectángulos que intersectan *rect*");
+		for (Rectangle r : mbr) {
+			if (rect.equals(r)) {
+				System.out.println("Rectangle found!");
+			}
+		}
 		return null;
 	}
 	
@@ -38,6 +44,9 @@ public abstract class RTree {
 		if (needsSplit) {
 			split();
 		}
+		
+		if (mbr.size() <= Constants.M)
+			mbr.add(rect);
 	}
 
 	/**
