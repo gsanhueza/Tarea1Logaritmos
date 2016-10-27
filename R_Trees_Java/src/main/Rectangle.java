@@ -61,5 +61,12 @@ public class Rectangle {
 	public RTree getNext() {
 		return next;
 	}
+	public boolean intersect(Rectangle R1){
+		return boolean R1.intersect( this.coord_x, this.coord_y, this.width, this.height );
+	}
+	protected boolean intersect( int x, int y, int width, int height ){
+		return this.coord_x < x + width && this.coord_x + this.width > x && this.coord_y < y + height && this.coord_y + this.height > y;
+	}
+	
 
 }
