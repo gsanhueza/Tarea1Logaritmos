@@ -1,7 +1,12 @@
 package main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public abstract class Rectangle implements Serializable {
 	private static final long serialVersionUID = 301762099683018640L;
@@ -25,6 +30,10 @@ public abstract class Rectangle implements Serializable {
 		this.width = w;
 		this.height = h;
 		this.next = next;
+	}
+	
+	public Rectangle() {
+		this(0, 0, 0, 0, null);
 	}
 
 	/**
@@ -70,10 +79,10 @@ public abstract class Rectangle implements Serializable {
 	/**
 	 * Busca el rectángulo en el R-Tree
 	 * @param rect El rectángulo a buscar.
-	 * @return ??
+	 * @return El rectángulo encontrado.
 	 */
-	public ArrayList<Rectangle> buscar(Rectangle rect) {
-		return null;
+	public Rectangle buscar(Rectangle rect) {
+		return intersect(rect) ? rect : new NullRectangle();
 	}
 	
 	/**
@@ -88,6 +97,34 @@ public abstract class Rectangle implements Serializable {
 
 	protected boolean intersect( int x, int y, int width, int height ){
 		return this.coord_X < x + width && this.coord_X + this.width > x && this.coord_Y < y + height && this.coord_Y + this.height > y;
+	}
+	
+	/**
+	 * Escribe un objeto a disco.
+	 * @param fileName Nombre del archivo.
+	 * @throws FileNotFoundException No se encuentra el archivo.
+	 * @throws IOException No se puede escribir al archivo.
+	 */
+	public void writeToDisk(String fileName) throws FileNotFoundException, IOException {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
+		out.writeObject(this);
+		out.flush();
+		out.close();
+	}
+	
+	/**
+	 * Carga un objeto desde el disco.
+	 * @param fileName Nombre del archivo.
+	 * @return Rectángulo (R-Tree) cargado.
+	 * @throws FileNotFoundException No se encuentra el archivo.
+	 * @throws IOException No se puede leer el archivo.
+	 * @throws ClassNotFoundException No está la clase buscada.
+	 */
+	public static Rectangle loadFromDisk(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+		Rectangle r = (Rectangle) in.readObject();
+		in.close();
+		return r;
 	}
 
 }
