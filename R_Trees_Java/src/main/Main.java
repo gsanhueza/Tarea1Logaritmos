@@ -1,17 +1,53 @@
 package main;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		Rectangle rect1 = new LinearSplitRectangle(1, 2, 3, 4, new NullRectangle());
-		Rectangle rect2 = null;
+		Rectangle header = new LinearSplitRectangle(1, 2, 3, 4, "header");
+		ArrayList<Rectangle> aux = new ArrayList<Rectangle>();
 		
+		Rectangle r1 = new LinearSplitRectangle(1, 2, 3, 4, "r1");
+		Rectangle r2 = new LinearSplitRectangle(1, 2, 3, 4, "r2");
+		Rectangle r3 = new LinearSplitRectangle(1, 2, 3, 4, "r3");
+		Rectangle r4 = new LinearSplitRectangle(1, 2, 3, 4, "r4");
+		Rectangle r5 = new LinearSplitRectangle(1, 2, 3, 4, "r5");
+		Rectangle r6 = new LinearSplitRectangle(1, 2, 3, 4, "r6");
+		Rectangle r7 = new LinearSplitRectangle(1, 2, 3, 4, "r7");
+		
+		r3.setList(new ArrayList<Rectangle>());
+		r4.setList(new ArrayList<Rectangle>());
+		r5.setList(new ArrayList<Rectangle>());
+		r6.setList(new ArrayList<Rectangle>());
+		r7.setList(new ArrayList<Rectangle>());
+		
+		aux = new ArrayList<Rectangle>();
+		aux.add(r5);
+		aux.add(r6);
+		aux.add(r7);
+		r2.setList(aux);
+		
+		aux = new ArrayList<Rectangle>();
+		aux.add(r3);
+		aux.add(r4);
+		aux.add(new NullRectangle());
+		r1.setList(aux);
+		
+		aux = new ArrayList<Rectangle>();
+		aux.add(r1);
+		aux.add(r2);
+		aux.add(new NullRectangle());
+		header.setList(aux);
+		
+		System.out.println(header.buscar(new LinearSplitRectangle(1, 2, 3, 4, "Buscado")));
+		
+		/*
 		try {
-			rect1.writeToDisk("test.rekt1");
+			root.writeToDisk("test.rekt1");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -19,7 +55,7 @@ public class Main {
 		}
 		
 		try {
-			rect2 = Rectangle.loadFromDisk("test.rekt1");
+			rect = Rectangle.loadFromDisk("test.rekt1");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -27,8 +63,9 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(rect1.intersect(rect2));
+		System.out.println(root.buscar(rect));
 		System.out.println("Ready xDDdDdDD");
+		*/
 
 	}
 

@@ -7,15 +7,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Rectangle implements Serializable {
 	private static final long serialVersionUID = 301762099683018640L;
 
-	private int coord_X;
-	private int coord_Y;
-	private int width;
-	private int height;
-	private Rectangle next;
+	protected int coord_X;
+	protected int coord_Y;
+	protected int width;
+	protected int height;
+	public String id;
+	protected List<Rectangle> innerRectangles;
 
 	/**
 	 * Constructor de un rectángulo para R-Trees.
@@ -24,16 +27,16 @@ public abstract class Rectangle implements Serializable {
 	 * @param w Ancho del rectángulo.
 	 * @param h Alto del rectángulo.
 	 */
-	public Rectangle(int x, int y, int w, int h, Rectangle next) {
+	public Rectangle(int x, int y, int w, int h, String id) {
 		this.coord_X = x;
 		this.coord_Y = y;
 		this.width = w;
 		this.height = h;
-		this.next = next;
+		this.id = id;
 	}
 	
 	public Rectangle() {
-		this(0, 0, 0, 0, null);
+		this(0, 0, 0, 0, "---");
 	}
 
 	/**
@@ -72,8 +75,8 @@ public abstract class Rectangle implements Serializable {
 	 * Devuelve el siguiente R-Tree.
 	 * @return Siguiente R-Tree respecto al rectángulo.
 	 */
-	public Rectangle getNext() {
-		return next;
+	public List<Rectangle> getNext() {
+		return innerRectangles;
 	}
 	
 	/**
@@ -81,8 +84,24 @@ public abstract class Rectangle implements Serializable {
 	 * @param rect El rectángulo a buscar.
 	 * @return El rectángulo encontrado.
 	 */
-	public Rectangle buscar(Rectangle rect) {
-		return intersect(rect) ? rect : new NullRectangle();
+	public List<Rectangle> buscar(Rectangle rect) {
+		List<Rectangle> aux = new ArrayList<Rectangle>();
+
+		for (Rectangle hijo : innerRectangles) {
+			if (rect.intersect(hijo)) {
+				System.out.println(rect.id + " intersecta a " + hijo.id);
+				if (innerRectangles.size() != 0)
+					aux = hijo.buscar(rect);
+				else
+					aux.add(hijo);
+			}
+			else {
+				System.out.println(rect.id + " no intersecta a " + hijo.id);
+			}
+		}
+		System.out.println("** Hasta ahora aux tiene " + aux.size() + " elementos.");
+
+		return aux;
 	}
 	
 	/**
@@ -90,14 +109,6 @@ public abstract class Rectangle implements Serializable {
 	 * @param rect Rectángulo a insertar.
 	 */
 	public abstract void insertar(Rectangle rect);
-
-	public boolean intersect(Rectangle R1){
-		return R1.intersect( this.coord_X, this.coord_Y, this.width, this.height );
-	}
-
-	protected boolean intersect( int x, int y, int width, int height ){
-		return this.coord_X < x + width && this.coord_X + this.width > x && this.coord_Y < y + height && this.coord_Y + this.height > y;
-	}
 	
 	/**
 	 * Escribe un objeto a disco.
@@ -125,6 +136,19 @@ public abstract class Rectangle implements Serializable {
 		Rectangle r = (Rectangle) in.readObject();
 		in.close();
 		return r;
+	}
+	
+	public boolean intersect(Rectangle R1){
+		return R1.intersect( this.coord_X, this.coord_Y, this.width, this.height );
+	}
+
+	protected boolean intersect( int x, int y, int width, int height ){
+		return  this.coord_X <= x + width && this.coord_X + this.width >= x && 
+				this.coord_Y <= y + height && this.coord_Y + this.height >= y;
+	}
+
+	public void setList(ArrayList<Rectangle> aux) {
+		this.innerRectangles = aux;		
 	}
 
 }
