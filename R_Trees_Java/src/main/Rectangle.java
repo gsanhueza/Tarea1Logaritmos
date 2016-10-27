@@ -1,11 +1,16 @@
 package main;
 
-public class Rectangle {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public abstract class Rectangle implements Serializable {
+	private static final long serialVersionUID = 301762099683018640L;
+
 	private int coord_X;
 	private int coord_Y;
 	private int width;
 	private int height;
-	private RTree next;
+	private Rectangle next;
 
 	/**
 	 * Constructor de un rectángulo para R-Trees.
@@ -14,7 +19,7 @@ public class Rectangle {
 	 * @param w Ancho del rectángulo.
 	 * @param h Alto del rectángulo.
 	 */
-	public Rectangle(int x, int y, int w, int h, RTree next) {
+	public Rectangle(int x, int y, int w, int h, Rectangle next) {
 		this.coord_X = x;
 		this.coord_Y = y;
 		this.width = w;
@@ -58,15 +63,31 @@ public class Rectangle {
 	 * Devuelve el siguiente R-Tree.
 	 * @return Siguiente R-Tree respecto al rectángulo.
 	 */
-	public RTree getNext() {
+	public Rectangle getNext() {
 		return next;
 	}
-	public boolean intersect(Rectangle R1){
-		return boolean R1.intersect( this.coord_x, this.coord_y, this.width, this.height );
-	}
-	protected boolean intersect( int x, int y, int width, int height ){
-		return this.coord_x < x + width && this.coord_x + this.width > x && this.coord_y < y + height && this.coord_y + this.height > y;
+	
+	/**
+	 * Busca el rectángulo en el R-Tree
+	 * @param rect El rectángulo a buscar.
+	 * @return ??
+	 */
+	public ArrayList<Rectangle> buscar(Rectangle rect) {
+		return null;
 	}
 	
+	/**
+	 * Inserta el rectángulo en el mbr. Abstracto para implementar distintas versiones.
+	 * @param rect Rectángulo a insertar.
+	 */
+	public abstract void insertar(Rectangle rect);
+
+	public boolean intersect(Rectangle R1){
+		return R1.intersect( this.coord_X, this.coord_Y, this.width, this.height );
+	}
+
+	protected boolean intersect( int x, int y, int width, int height ){
+		return this.coord_X < x + width && this.coord_X + this.width > x && this.coord_Y < y + height && this.coord_Y + this.height > y;
+	}
 
 }
