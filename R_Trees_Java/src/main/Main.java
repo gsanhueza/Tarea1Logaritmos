@@ -8,16 +8,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Rectangle header = new LinearSplitRectangle(1, 2, 3, 4, "header");
+		Rectangle header = new Rectangle(1, 2, 3, 4, "header");
 		ArrayList<Rectangle> aux = new ArrayList<Rectangle>();
 		
-		Rectangle r1 = new LinearSplitRectangle(1, 2, 3, 4, "r1");
-		Rectangle r2 = new LinearSplitRectangle(1, 2, 3, 4, "r2");
-		Rectangle r3 = new LinearSplitRectangle(1, 2, 3, 4, "r3");
-		Rectangle r4 = new LinearSplitRectangle(1, 2, 3, 4, "r4");
-		Rectangle r5 = new LinearSplitRectangle(1, 2, 3, 4, "r5");
-		Rectangle r6 = new LinearSplitRectangle(1, 2, 3, 4, "r6");
-		Rectangle r7 = new LinearSplitRectangle(1, 2, 3, 4, "r7");
+		Rectangle r1 = new Rectangle(1, 2, 3, 4, "r1");
+		Rectangle r2 = new Rectangle(1, 2, 3, 4, "r2");
+		Rectangle r3 = new Rectangle(1, 2, 3, 4, "r3");
+		Rectangle r4 = new Rectangle(1, 2, 3, 4, "r4");
+		Rectangle r5 = new Rectangle(1, 2, 3, 4, "r5");
+		Rectangle r6 = new Rectangle(1, 2, 3, 4, "r6");
+		Rectangle r7 = new Rectangle(1, 2, 3, 4, "r7");
 		
 		r3.setList(new ArrayList<Rectangle>());
 		r4.setList(new ArrayList<Rectangle>());
@@ -34,16 +34,16 @@ public class Main {
 		aux = new ArrayList<Rectangle>();
 		aux.add(r3);
 		aux.add(r4);
-		aux.add(new NullRectangle());
+		aux.add(new Rectangle());
 		r1.setList(aux);
 		
 		aux = new ArrayList<Rectangle>();
 		aux.add(r1);
 		aux.add(r2);
-		aux.add(new NullRectangle());
+		aux.add(new Rectangle());
 		header.setList(aux);
 		
-		System.out.println(header.buscar(new LinearSplitRectangle(1, 2, 3, 4, "Buscado")));
+		System.out.println(header.buscar(new Rectangle(1, 2, 3, 4, "Buscado")));
 		
 		/*
 		try {

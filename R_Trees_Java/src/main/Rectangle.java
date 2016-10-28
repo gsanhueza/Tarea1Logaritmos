@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Rectangle implements Serializable {
+public class Rectangle implements Serializable {
 	private static final long serialVersionUID = 301762099683018640L;
 
 	protected int coord_X;
@@ -85,7 +85,14 @@ public abstract class Rectangle implements Serializable {
 	 * @return El rectángulo encontrado.
 	 */
 	public List<String> buscar(Rectangle rect) {
-		List<String> newList= new ArrayList<String>(); 
+		/*
+		 * FIXME Rodrigo arregla esto...
+		 * Los innerRectangles son List<String>
+		 * newRect es Rectangle
+		 * Donde estan las clases de Lenguajes de Programación? ¬¬
+		 */ 
+		 
+		List<String> newList= new ArrayList<String>();
 		if (this.intersect(rect)){
 			if(this.getNext()!= null){
 				for ( rectangle : innerRectangles){
@@ -107,13 +114,17 @@ public abstract class Rectangle implements Serializable {
 		}
 		
 		return newList;
+		
+		return null;
 	}
 	
 	/**
 	 * Inserta el rectángulo en el mbr. Abstracto para implementar distintas versiones.
 	 * @param rect Rectángulo a insertar.
 	 */
-	public abstract void insertar(Rectangle rect);
+	public void insertar(Rectangle rect) {
+		
+	}
 	
 	/**
 	 * Escribe un objeto a disco.
