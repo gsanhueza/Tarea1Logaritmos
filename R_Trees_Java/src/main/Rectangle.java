@@ -18,7 +18,7 @@ public abstract class Rectangle implements Serializable {
 	protected int width;
 	protected int height;
 	public String id;
-	protected List<Rectangle> innerRectangles;
+	protected List<String> innerRectangles;
 
 	/**
 	 * Constructor de un rectángulo para R-Trees.
@@ -75,7 +75,7 @@ public abstract class Rectangle implements Serializable {
 	 * Devuelve el siguiente R-Tree.
 	 * @return Siguiente R-Tree respecto al rectángulo.
 	 */
-	public List<Rectangle> getNext() {
+	public List<String> getNext() {
 		return innerRectangles;
 	}
 	
@@ -84,24 +84,29 @@ public abstract class Rectangle implements Serializable {
 	 * @param rect El rectángulo a buscar.
 	 * @return El rectángulo encontrado.
 	 */
-	public List<Rectangle> buscar(Rectangle rect) {
-		List<Rectangle> aux = new ArrayList<Rectangle>();
-
-		for (Rectangle hijo : innerRectangles) {
-			if (rect.intersect(hijo)) {
-				System.out.println(rect.id + " intersecta a " + hijo.id);
-				if (innerRectangles.size() != 0)
-					aux = hijo.buscar(rect);
-				else
-					aux.add(hijo);
+	public List<String> buscar(Rectangle rect) {
+		List<String> newList= new ArrayList<String>(); 
+		if (this.intersect(rect)){
+			if(this.getNext()!= null){
+				for ( rectangle : innerRectangles){
+					try {
+						newRect = Rectangle.loadFromDisk(rectangle);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					newList.addAll(newRect.buscar(rect));
+				}
 			}
 			else {
-				System.out.println(rect.id + " no intersecta a " + hijo.id);
+				newList.add(this.id);
 			}
 		}
-		System.out.println("** Hasta ahora aux tiene " + aux.size() + " elementos.");
-
-		return aux;
+		
+		return newList;
 	}
 	
 	/**
