@@ -1,5 +1,3 @@
-package main;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,7 +16,7 @@ public class Rectangle implements Serializable {
 	protected int width;
 	protected int height;
 	public String id;
-	protected List<String> innerRectangles;
+	protected final List<String> innerRectangles;
 
 	/**
 	 * Constructor de un rectángulo para R-Trees.
@@ -33,6 +31,7 @@ public class Rectangle implements Serializable {
 		this.width = w;
 		this.height = h;
 		this.id = id;
+		this.innerRectangles = new ArrayList<>();
 	}
 	
 	public Rectangle() {
@@ -93,9 +92,11 @@ public class Rectangle implements Serializable {
 		 */ 
 		 
 		List<String> newList= new ArrayList<String>();
+
 		if (this.intersect(rect)){
-			if(this.getNext()!= null){
-				for ( rectangle : innerRectangles){
+			if( this.innerRectangles.size() > 0 ){
+				for (String rectangle : innerRectangles){
+					Rectangle newRect = null;
 					try {
 						newRect = Rectangle.loadFromDisk(rectangle);
 					} catch (FileNotFoundException e) {
@@ -115,7 +116,6 @@ public class Rectangle implements Serializable {
 		
 		return newList;
 		
-		return null;
 	}
 	
 	/**
@@ -163,8 +163,8 @@ public class Rectangle implements Serializable {
 				this.coord_Y <= y + height && this.coord_Y + this.height >= y;
 	}
 
-	public void setList(ArrayList<Rectangle> aux) {
-		this.innerRectangles = aux;		
+	public void setList(ArrayList<String> aux) {
+		this.innerRectangles.addAll(aux);
 	}
 
 }
