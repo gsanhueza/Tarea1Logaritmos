@@ -33,10 +33,6 @@ public class Rectangle implements Serializable {
 		this.id = id;
 		this.innerRectangles = new ArrayList<>();
 	}
-	
-	public Rectangle() {
-		this(0, 0, 0, 0, "---");
-	}
 
 	/**
 	 * Accesor de la coordenada X.
@@ -83,14 +79,7 @@ public class Rectangle implements Serializable {
 	 * @param rect El rectángulo a buscar.
 	 * @return El rectángulo encontrado.
 	 */
-	public List<String> buscar(Rectangle rect) {
-		/*
-		 * FIXME Rodrigo arregla esto...
-		 * Los innerRectangles son List<String>
-		 * newRect es Rectangle
-		 * Donde estan las clases de Lenguajes de Programación? ¬¬
-		 */ 
-		 
+	public List<String> buscar(Rectangle rect) {		 
 		List<String> newList= new ArrayList<String>();
 
 		if (this.intersect(rect)){
@@ -154,15 +143,29 @@ public class Rectangle implements Serializable {
 		return r;
 	}
 	
+	/**
+	 * Dispatcher de intersección.
+	 * @param R1 Rectángulo recibido.
+	 * @return Intersección correcta o errónea.
+	 */
 	public boolean intersect(Rectangle R1){
-		return R1.intersect( this.coord_X, this.coord_Y, this.width, this.height );
+		return R1.intersect(this.coord_X, this.coord_Y, this.width, this.height);
 	}
 
+	/**
+	 * Chequea intersección de this con un rectángulo seccionado en sus componentes.
+	 * @param x Coordenada X.
+	 * @param y Coordenada Y.
+	 * @param width Ancho del rectángulo recibido.
+	 * @param height Alto del rectángulo recibido.
+	 * @return Intersección correcta o errónea.
+	 */
 	protected boolean intersect( int x, int y, int width, int height ){
 		return  this.coord_X <= x + width && this.coord_X + this.width >= x && 
 				this.coord_Y <= y + height && this.coord_Y + this.height >= y;
 	}
 
+	// FIXME Esto no debería existir
 	public void setList(ArrayList<String> aux) {
 		this.innerRectangles.addAll(aux);
 	}

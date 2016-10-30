@@ -1,5 +1,4 @@
-//import java.io.FileNotFoundException;
-//import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +6,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		/**
+		 * Prueba 1: Rectángulos en memoria principal.
+		 */
 		Rectangle header = new Rectangle(1, 2, 3, 4, "header");
 		ArrayList<String> aux = new ArrayList<String>();
 		
@@ -30,7 +32,6 @@ public class Main {
 		aux.add(r4.id);
 		r1.setList(aux);
 
-
 		aux = new ArrayList<String>();
 		aux.add(r1.id);
 		aux.add(r2.id);
@@ -51,9 +52,12 @@ public class Main {
 
 		System.out.println(header.buscar(new Rectangle(1, 2, 3, 4, "Buscado")));
 		
-		/*
+		/**
+		 * Prueba 2: Rectángulos en disco.
+		 */
+		
 		try {
-			root.writeToDisk("test.rekt1");
+			header.writeToDisk("test.rekt1");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -61,7 +65,7 @@ public class Main {
 		}
 		
 		try {
-			rect = Rectangle.loadFromDisk("test.rekt1");
+			header = Rectangle.loadFromDisk("test.rekt1");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -69,9 +73,8 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(root.buscar(rect));
+		System.out.println(header.buscar(new Rectangle(1, 2, 3, 4, "Buscado")));
 		System.out.println("Ready xDDdDdDD");
-		*/
 
 	}
 
