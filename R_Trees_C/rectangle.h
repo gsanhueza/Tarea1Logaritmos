@@ -21,6 +21,8 @@ typedef struct node {
     Rectangle** rectArray;
 } Node;
 
+
+
 /**
  * Funciones
  */
