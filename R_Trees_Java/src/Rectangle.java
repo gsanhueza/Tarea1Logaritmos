@@ -16,6 +16,7 @@ public class Rectangle implements Serializable {
 	protected int width;
 	protected int height;
 	public String id;
+
 	protected final List<String> innerRectangles;
 
 	/**
@@ -33,6 +34,14 @@ public class Rectangle implements Serializable {
 		this.id = id;
 		this.innerRectangles = new ArrayList<>();
 	}
+
+	
+	public Rectangle() {
+		this(0, 0, 0, 0, "---");
+	}
+
+
+
 
 	/**
 	 * Accesor de la coordenada X.
@@ -79,7 +88,14 @@ public class Rectangle implements Serializable {
 	 * @param rect El rectángulo a buscar.
 	 * @return El rectángulo encontrado.
 	 */
-	public List<String> buscar(Rectangle rect) {		 
+	public List<String> buscar(Rectangle rect) {
+		/*
+		 * FIXME Rodrigo arregla esto...
+		 * Los innerRectangles son List<String>
+		 * newRect es Rectangle
+		 * Donde estan las clases de Lenguajes de Programación? ¬¬
+		 */ 
+		 
 		List<String> newList= new ArrayList<String>();
 
 		if (this.intersect(rect)){
@@ -106,13 +122,70 @@ public class Rectangle implements Serializable {
 		return newList;
 		
 	}
+	public void mergeRectangle( Rectangle rectangle ) {
+        int max_x = this.coord_X + this.width > rectangle.coord_X + rectangle.width ?
+                this.coord_X + this.width : rectangle.coord_X + rectangle.width;
+        int max_y = this.coord_Y + this.height > rectangle.coord_Y + rectangle.height ?
+                this.coord_Y + this.height : rectangle.coord_Y + rectangle.height;
+        this.coord_X = this.coord_X < rectangle.coord_X ? this.coord_X : rectangle.coord_X;
+        this.coord_Y = this.coord_Y < rectangle.coord_Y ? this.coord_Y : rectangle.coord_Y;
+        this.width = max_x - this.coord_X /*> 0 ?  max_x - this.coord_X : this.coord_X - max_x*/; // Ver si funciona bien.
+        this.height =  max_y - this.coord_Y /*> 0 ?  max_y - this.coord_Y : this.coord_Y - max_y*/; // Ver si funciona bien
+	}
+
+	public int MBR ( Rectangle rectangle) {
+        int min_x = this.coord_X < rectangle.coord_X ? this.coord_X : rectangle.coord_X;
+        int min_y = this.coord_Y < rectangle.coord_Y ? this.coord_Y : rectangle.coord_Y;
+        int max_x = this.coord_X + this.width > rectangle.coord_X + rectangle.width ?
+                this.coord_X + this.width : rectangle.coord_X + rectangle.width;
+        int max_y = this.coord_Y + this.height > rectangle.coord_Y + rectangle.height ?
+                this.coord_Y + this.height : rectangle.coord_Y + rectangle.height;
+        int this_area = ( width  - this.coord_X )*( height - this.coord_Y );
+        this_area = this_area > 0 ? this_area : -1*this_area;
+        int area = (max_x-min_x)*(max_y-min_y);
+        area =  area > 0 ? area : -1*area;
+        return area - this_area;
+    }
 	
 	/**
 	 * Inserta el rectángulo en el mbr. Abstracto para implementar distintas versiones.
 	 * @param rect Rectángulo a insertar.
 	 */
 	public void insertar(Rectangle rect) {
-		
+            if( this.innerRectangles.size() > 0 ) {
+                Rectangle minMBRRectangle = this;
+                int minMBR = Integer.MAX_VALUE;
+                for (String rectangle : innerRectangles) {
+                    Rectangle newRect = null;
+                    try {
+                        newRect = Rectangle.loadFromDisk(rectangle);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (newRect.innerRectangles.size() <= 0) {
+                        this.addRectangle(rect);
+                        this.mergeRectangle(rect);
+                        try {
+                            rect.writeToDisk(rect.id);
+                            this.writeToDisk(this.id);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
+                    if (newRect.MBR(rect) < minMBR) {
+                        minMBRRectangle = newRect;
+                    }
+                }
+                minMBRRectangle.insertar(rect);
+            }
+            else {
+
+            }
 	}
 	
 	/**
@@ -143,31 +216,21 @@ public class Rectangle implements Serializable {
 		return r;
 	}
 	
-	/**
-	 * Dispatcher de intersección.
-	 * @param R1 Rectángulo recibido.
-	 * @return Intersección correcta o errónea.
-	 */
 	public boolean intersect(Rectangle R1){
-		return R1.intersect(this.coord_X, this.coord_Y, this.width, this.height);
+		return R1.intersect( this.coord_X, this.coord_Y, this.width, this.height );
 	}
 
-	/**
-	 * Chequea intersección de this con un rectángulo seccionado en sus componentes.
-	 * @param x Coordenada X.
-	 * @param y Coordenada Y.
-	 * @param width Ancho del rectángulo recibido.
-	 * @param height Alto del rectángulo recibido.
-	 * @return Intersección correcta o errónea.
-	 */
 	protected boolean intersect( int x, int y, int width, int height ){
 		return  this.coord_X <= x + width && this.coord_X + this.width >= x && 
 				this.coord_Y <= y + height && this.coord_Y + this.height >= y;
 	}
 
-	// FIXME Esto no debería existir
 	public void setList(ArrayList<String> aux) {
 		this.innerRectangles.addAll(aux);
+	}
+	public void addRectangle(Rectangle rectangle){
+        if (!this.innerRectangles.contains(rectangle.id))
+		    this.innerRectangles.add(rectangle.id);
 	}
 
 }
