@@ -19,20 +19,21 @@ typedef struct rectangle{
 
 typedef struct node {
     Rectangle** rectArray;
+    int size;
 } Node;
-
-
 
 /**
  * Funciones
  */
 
 Rectangle* createRectangle(int x, int y, int w, int h, char *id);
-Node* createNode(Rectangle *rect, Node *node);
-Node** search(Rectangle rect);
+Node* createNode();
+Node** search(Node *node, Rectangle *rect);
 int insert(Node *node, Rectangle rect);
 
 Node* loadFromDisk(char *filename);
-char* writeToDisk(Node *data;
+char* writeToDisk(Node *data);
+
+void insertRectToNode(Node *n, Rectangle *r);
 
 #endif

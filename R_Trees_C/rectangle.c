@@ -15,18 +15,28 @@ int intersect(Rectangle rect1, Rectangle rect2){
     return 0;
 }
 
-Node* createNode(Rectangle *rect, Node *rtree) {
+Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Node **)malloc(sizeof(Node*));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
+    tree->size = 0;
 
-    *(tree->rectArray) = rtree;
     return tree;
 }
 
-Node** search(Rectangle rect) {
+Node** search(Node *node, Rectangle *rect) {
     return NULL;
 }
 
 int* insertar(Rectangle rect) {
     return 0;
+}
+
+void insertRectToNode(Node *n, Rectangle *r) {
+    int i = 0;
+    Node *header = n;
+    while (i++ < n->size)
+        n->rectArray++;
+    *(n->rectArray) = r;
+
+    n = header;
 }
