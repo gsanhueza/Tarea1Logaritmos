@@ -30,6 +30,9 @@ typedef struct node {
 Rectangle* createRectangle(int x, int y, int w, int h, char *id);
 Node* createNode(Rectangle *rect, Node *node);
 Node** search(Rectangle rect);
-int insert(Rectangle rect);
+int insert(Node *node, Rectangle rect);
+
+Node* loadFromDisk(char *filename);
+char* writeToDisk(Node *data;
 
 #endif

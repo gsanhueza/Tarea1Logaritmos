@@ -1,9 +1,11 @@
 #include "rectangle.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main (int argc,char **argv) {
     printf("Hello World!\n");
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
+    Rectangle *r2 = createRectangle(1, 2, 3, 4, "R");
     Node *node = (Node * )malloc(sizeof(Node));
     Rectangle **asdf = (Rectangle **)malloc(sizeof(Rectangle*));
 
@@ -28,7 +30,7 @@ int main (int argc,char **argv) {
         fclose(fp);
     }
     printf("Desde disco: %d",rfile->w);
-    
+
 
 
 
