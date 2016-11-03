@@ -7,8 +7,7 @@ Informe/Informe-Tarea-1.tex.backup
 R_Trees_CPP/build/
 
 # KDevelop
-R_Trees_CPP/*.kdev4
-R_Trees_CPP/.kdev4/
+*.kdev4
 
 # Eclipse
 .metadata/
