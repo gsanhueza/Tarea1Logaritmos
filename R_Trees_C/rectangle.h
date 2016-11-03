@@ -35,5 +35,8 @@ Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);
 
 void insertRectToNode(Node *n, Rectangle *r);
+int intersect (Rectangle *r1, Rectangle *r2);
+void mergeRectangle(Rectangle *r1, Rectangle *r2);
+int MBR(Rectangle *r1, Rectangle *r2);
 
 #endif
