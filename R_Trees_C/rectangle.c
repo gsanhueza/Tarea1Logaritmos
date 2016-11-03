@@ -1,5 +1,6 @@
 #include "rectangle.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
@@ -11,7 +12,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     return rect;
 }
 
-int intersect(Rectangle rect1, Rectangle rect2){
+int intersect(Rectangle *rect1, Rectangle *rect2){
     return 0;
 }
 
@@ -24,7 +25,22 @@ Node* createNode() {
 }
 
 Node** search(Node *node, Rectangle *rect) {
-    return NULL;
+
+    Node **answer = (Node **) malloc(sizeof(Node **));
+    Node *aux = node;
+
+    Rectangle *auxRect = *(aux->rectArray);
+
+    while (auxRect != NULL) {
+        if (intersect(auxRect, rect)) {
+            printf("TODO: Agregar a answer\n");
+        } else {
+            printf("TODO: Omitir\n");
+        }
+        auxRect = *(aux->rectArray++);
+    }
+
+    return answer;
 }
 
 int* insertar(Rectangle rect) {
