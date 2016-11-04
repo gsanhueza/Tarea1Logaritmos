@@ -42,7 +42,7 @@ char* writeToDisk(Node *data) {
 
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle *));
     tree->size = 0;
 
     return tree;
@@ -69,12 +69,12 @@ Node** search(Node *node, Rectangle *rect) {
 
 void insertRectToNode(Node *n, Rectangle *r) {
     int i = 0;
-    Node *header = n;
+    Rectangle **header = n->rectArray;
     while (i++ < n->size)
         n->rectArray++;
     *(n->rectArray) = r;
-
-    n = header;
+    n->size++;
+    n->rectArray = header;
 }
 
 int intersect (Rectangle *r1, Rectangle *r2){
