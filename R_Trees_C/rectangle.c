@@ -13,10 +13,8 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     return rect;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 Node* loadFromDisk(char *filename) {
-    
+
     FILE *fp;
     Node *nodeFile = malloc(sizeof(Node));
     fp = fopen(filename,"rb");
@@ -39,18 +37,9 @@ char* writeToDisk(Node *data) {
     fwrite(c, sizeof(Node), 1, fp);
     fclose(fp);
     return fileName;
-    
+
 }
 
-int intersect(Rectangle rect1, Rectangle rect2){
-=======
-int intersect(Rectangle *rect1, Rectangle *rect2){
->>>>>>> master
-    return 0;
-}
-
-=======
->>>>>>> a4537e7eca710b142a44be7b203b4243d7180bd8
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
     tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));

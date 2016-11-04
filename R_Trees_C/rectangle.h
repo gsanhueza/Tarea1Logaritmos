@@ -35,16 +35,11 @@ int insert(Node *node, Rectangle rect);
 
 Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);
-<<<<<<< HEAD
-=======
 
 void insertRectToNode(Node *n, Rectangle *r);
-<<<<<<< HEAD
->>>>>>> master
-=======
+
 int intersect (Rectangle *r1, Rectangle *r2);
 void mergeRectangle(Rectangle *r1, Rectangle *r2);
 int MBR(Rectangle *r1, Rectangle *r2);
->>>>>>> a4537e7eca710b142a44be7b203b4243d7180bd8
 
 #endif

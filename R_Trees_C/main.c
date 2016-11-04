@@ -4,34 +4,17 @@
 
 int main (int argc, char **argv) {
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
-<<<<<<< HEAD
-=======
 
-<<<<<<< HEAD
->>>>>>> master
     Node *node = (Node * )malloc(sizeof(Node));
     Rectangle **asdf = (Rectangle **)malloc(sizeof(Rectangle*));
 
-=======
->>>>>>> a4537e7eca710b142a44be7b203b4243d7180bd8
     printf("X = %d\nY = %d\nAncho = %d\nAlto = %d\nId = %s\n\n", r->x, r->y, r->w, r->h, r->id);
 
-<<<<<<< HEAD
-
-  /*  printf("%i\n",r.y);
-    RTree *t = (RTree *)malloc(sizeof(RTree));
-    t->rect = r;
-    t->trees = NULL;
-    RTree *tree = createRTree(&r,NULL);*/
-    
-  
   *asdf = r;
   node->rectArray = asdf;
   writeToDisk(node);
   writeToDisk(node);
-    
 
-=======
     FILE *fp;
     char *c = (char *)r;
     fp = fopen("test.tree", "wb+");
@@ -73,7 +56,6 @@ int main (int argc, char **argv) {
     insertRectToNode(n2, r5);
     insertRectToNode(n2, r6);
     insertRectToNode(n2, r7);
->>>>>>> master
 
     r1->hijo = n1;
     r2->hijo = n2;
