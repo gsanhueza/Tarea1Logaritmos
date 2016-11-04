@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 int main (int argc, char **argv) {
-    printf("Hello World!\n");
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
 
     printf("X = %d\nY = %d\nAncho = %d\nAlto = %d\nId = %s\n\n", r->x, r->y, r->w, r->h, r->id);
