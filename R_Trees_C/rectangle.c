@@ -12,6 +12,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     return rect;
 }
 
+<<<<<<< HEAD
 Node* loadFromDisk(char *filename) {
     
     FILE *fp;
@@ -40,21 +41,49 @@ char* writeToDisk(Node *data) {
 }
 
 int intersect(Rectangle rect1, Rectangle rect2){
+=======
+int intersect(Rectangle *rect1, Rectangle *rect2){
+>>>>>>> master
     return 0;
 }
 
-Node* createNode(Rectangle *rect, Node *rtree) {
+Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Node **)malloc(sizeof(Node*));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
+    tree->size = 0;
 
-    *(tree->rectArray) = rtree;
     return tree;
 }
 
-Node** search(Rectangle rect) {
-    return NULL;
+Node** search(Node *node, Rectangle *rect) {
+
+    Node **answer = (Node **) malloc(sizeof(Node **));
+    Node *aux = node;
+
+    Rectangle *auxRect = *(aux->rectArray);
+
+    while (auxRect != NULL) {
+        if (intersect(auxRect, rect)) {
+            printf("TODO: Agregar a answer\n");
+        } else {
+            printf("TODO: Omitir\n");
+        }
+        auxRect = *(aux->rectArray++);
+    }
+
+    return answer;
 }
 
 int* insertar(Rectangle rect) {
     return 0;
+}
+
+void insertRectToNode(Node *n, Rectangle *r) {
+    int i = 0;
+    Node *header = n;
+    while (i++ < n->size)
+        n->rectArray++;
+    *(n->rectArray) = r;
+
+    n = header;
 }
