@@ -160,19 +160,20 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  * @param rect p_rect: Rectángulo a buscar.
  * @return Node** Lista de rectángulos que intersectan a *rect.
  */
-Node** search(Node *node, Rectangle *rect) {
+Node* search(Node *node, Rectangle *rect) {
 
-    Node **answer = (Node **) malloc(sizeof(Node **));
+    Node *answer = (Node *) malloc(sizeof(Node *));
+    answer->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
     Node *aux = node;
 
     Rectangle *auxRect = *(aux->rectArray);
 
     while (auxRect != NULL) {
-        if (intersect(auxRect, rect)) {
-            printf("TODO: Agregar a answer\n");
-        } else {
-            printf("TODO: Omitir\n");
-        }
+        // Agregar rectángulo que intersecta
+        if (intersect(auxRect, rect))
+            *(answer->rectArray) = auxRect;
+
+        // Avanzar en el array
         auxRect = *(aux->rectArray++);
     }
 

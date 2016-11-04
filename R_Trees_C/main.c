@@ -70,6 +70,11 @@ int main (int argc, char **argv) {
     insertRectToNode(header, r1);
     insertRectToNode(header, r2);
 
-    Node** resultados = search(header, r2);
+    Node* resultados = search(header, r2);
+    Rectangle *iterator;
+
+    while ((iterator = *(resultados->rectArray++)) != NULL) {
+        printf("Encontrado = %s\n", iterator->id);
+    }
 
 }
