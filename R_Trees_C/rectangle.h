@@ -3,6 +3,8 @@
 
 #define MAX_SIZE 4096
 #define MIN_SIZE 1638
+#define TRUE 1
+#define FALSE 0
 
 static int count =0;
 
@@ -31,7 +33,7 @@ typedef struct node {
 Rectangle* createRectangle(int x, int y, int w, int h, char *id);
 Node* createNode();
 Node** search(Node *node, Rectangle *rect);
-int insert(Node *node, Rectangle rect);
+void insertar (Node *node , Rectangle *r );
 
 Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);

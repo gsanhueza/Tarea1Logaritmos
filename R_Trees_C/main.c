@@ -16,7 +16,7 @@ int main (int argc, char **argv) {
     printf("Nodo: %s\n",(*(node->rectArray))->id);
     //(node->rectArray)++;
     //printf("Nodo: %s\n",(*(node->rectArray))->id);
-    
+
     //*asdf = r;
     //node->rectArray = asdf;
     writeToDisk(node);
@@ -69,8 +69,6 @@ int main (int argc, char **argv) {
 
     insertRectToNode(header, r1);
     insertRectToNode(header, r2);
-    
-    
 
     Node** resultados = search(header, r2);
 
