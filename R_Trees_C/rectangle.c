@@ -6,7 +6,8 @@
 /*****************************************************
  * Inicialización
  *****************************************************/
-
+void controlOverFlow(Node *header, Rectangle *r);
+void linearSplit(Node *header, Rectangle *r);
 /**
  * @brief Crea un rectángulo con coordenadas y nombre.
  *
@@ -184,28 +185,49 @@ Node** search(Node *node, Rectangle *rect) {
  * @param node p_node: Nodo donde insertar rectángulo.
  * @param r p_r: Rectángulo a insertar.
  */
-void insert ( Node *node , Rectangle *r ) {
-    if ( (node->rectArray)[0]->hijo != NULL ){
-        int minMBR = INT_MAX;
-        Rectangle *visitor;
-        for (int i = 0; i < node->size; i++ ) {
-            if( (node->rectArray)[i] == NULL )
-                break;
-            if ( MBR ( r, (node->rectArray)[i] ) < minMBR ){
-                minMBR = MBR ( r, (node->rectArray)[i] );
-                visitor = (node->rectArray)[i];
+void insert ( Node *node , Rectangle *r, Node* header ) {
 
+    if ((node->rectArray)[0]->hijo != NULL) {
+        int minMBR = INT_MAX;
+        Rectangle * aux;
+        for(int i = 0; i < node->size ; i++) {
+            int this_mbr = MBR(node->rectArray[i],r);
+            if ( this_mbr < minMBR ) {
+                minMBR = this_mbr;
+                aux = node->rectArray[i];
             }
+
         }
-        insert( visitor->hijo, r);
+        //cerrar Nodo;
+        //Abrir nodo de aux.
+        // insert( nodo de aux, r, header);
     }
     else {
-
-        for (int i = 0; i< node->size; i ++ ){
-            if((node->rectArray)[i] == NULL){
-                (node->rectArray)[i] = r;
-                break;
-            }
+        node->size++;
+        node->rectArray[node->size] = r;
+        if (node->size == PICO) {
+            controlOverFlow(header, r);
         }
     }
 }
+void controlOverFlow( Node *header, Rectangle * r) {
+
+}
+void linearSplit(Node *header, Rectangle *r){
+    if ((header->rectArray)[0]->hijo != NULL) {
+        int minMBR = INT_MAX;
+        Rectangle * aux;
+        for(int i = 0; i < header->size ; i++) {
+            int this_mbr = MBR(header->rectArray[i],r);
+            if ( this_mbr < minMBR ) {
+                minMBR = this_mbr;
+                aux = header->rectArray[i];
+            }
+
+        }
+        //cerrar Nodo;
+        //Abrir nodo de aux.
+        // insert( nodo de aux, r, header);
+    }
+}
+
