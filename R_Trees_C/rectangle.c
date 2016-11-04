@@ -1,5 +1,6 @@
 #include "rectangle.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
@@ -9,6 +10,33 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
     rect->h = h;
     rect->id = id;
     return rect;
+}
+
+Node* loadFromDisk(char *filename) {
+    
+    FILE *fp;
+    Node *nodeFile = malloc(sizeof(Node));
+    fp = fopen(filename,"rb");
+     if (fp != NULL) {
+        fread(nodeFile, sizeof(Node), 1, fp);
+        fclose(fp);
+    }
+    else
+        printf("Error: el archivo no se puede abrir -- File: %s",filename);
+    return nodeFile;
+}
+
+char* writeToDisk(Node *data) {
+    char *fileName = (char *)malloc(sizeof(char));
+    FILE *fp;
+    sprintf(fileName, "Nodes/Node%d.bin", count);
+    count++;
+    fp = fopen(fileName,"wb+");
+    char *c = (char*)data;
+    fwrite(c, sizeof(Node), 1, fp);
+    fclose(fp);
+    return fileName;
+    
 }
 
 int intersect(Rectangle rect1, Rectangle rect2){

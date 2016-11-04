@@ -4,6 +4,8 @@
 #define MAX_SIZE 4096
 #define MIN_SIZE 1638
 
+static int count =0;
+
 /**
  * Estructuras
  */
@@ -33,6 +35,6 @@ Node** search(Rectangle rect);
 int insert(Node *node, Rectangle rect);
 
 Node* loadFromDisk(char *filename);
-char* writeToDisk(Node *data;
+char* writeToDisk(Node *data);
 
 #endif
