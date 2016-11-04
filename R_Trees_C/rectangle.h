@@ -39,6 +39,12 @@ char* writeToDisk(Node *data);
 =======
 
 void insertRectToNode(Node *n, Rectangle *r);
+<<<<<<< HEAD
 >>>>>>> master
+=======
+int intersect (Rectangle *r1, Rectangle *r2);
+void mergeRectangle(Rectangle *r1, Rectangle *r2);
+int MBR(Rectangle *r1, Rectangle *r2);
+>>>>>>> a4537e7eca710b142a44be7b203b4243d7180bd8
 
 #endif
