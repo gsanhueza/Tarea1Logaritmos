@@ -18,7 +18,7 @@ R_Trees_Java/*.gitignore
 R_Trees_Java/bin/
 
 # IntelliJ
-R_Trees_Java/.idea
+*.idea
 
 # Vim
 *~

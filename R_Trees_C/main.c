@@ -2,28 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main (int argc, char **argv) {
+int main (void) {
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
     Rectangle *q = createRectangle(5,6,7,8,"Q");
 
     Node *node = createNode();
-    Rectangle **asdf = (Rectangle **)malloc(sizeof(Rectangle*));
-
-    //printf("X = %d\nY = %d\nAncho = %d\nAlto = %d\nId = %s\n\n", r->x, r->y, r->w, r->h, r->id);
 
     insertRectToNode(node,r);
     insertRectToNode(node,q);
-    printf("Nodo: %s\n",(*(node->rectArray))->id);
-    //(node->rectArray)++;
-    //printf("Nodo: %s\n",(*(node->rectArray))->id);
 
-    //*asdf = r;
-    //node->rectArray = asdf;
+    printf("Nodo: %s\n",(*(node->rectArray))->id);
+
     writeToDisk(node);
     writeToDisk(node);
 
     FILE *fp;
-    char *c = (char *)r;
     fp = fopen("test.tree", "wb+");
     fwrite(r, sizeof(Rectangle), 1, fp);
 
@@ -35,7 +28,6 @@ int main (int argc, char **argv) {
         fread(rfile, sizeof(Rectangle), 1, fp);
         fclose(fp);
     }
-    //printf("Desde disco: %d\n", rfile->w);
 
     /**
      *        [1,      2,      N]
