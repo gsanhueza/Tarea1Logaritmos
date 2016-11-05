@@ -7,6 +7,7 @@
 #define FALSE 0
 #define PICO 127
 #define m 52
+#define NUM_RANDOM_RECTS 1000;
 
 static int count =0;
 
@@ -20,7 +21,7 @@ typedef struct rectangle{
     int h;
     int w;
     char *id;
-    struct node* hijo;
+    char* hijo;
 } Rectangle;
 
 typedef struct node {

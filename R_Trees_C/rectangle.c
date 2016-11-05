@@ -7,7 +7,7 @@
  * Inicialización
  *****************************************************/
 Rectangle ** controlOverFlow(Node *header, Rectangle *r);
-Rectangle * linearSplit(Node *header, Rectangle *r);
+Rectangle ** linearSplit(Node *header, Rectangle *r);
 
 int *calculateBounds(Node *pNode);
 
@@ -42,7 +42,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
  */
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle *));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE);
     tree->size = 0;
 
     return tree;
@@ -169,22 +169,25 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  */
 Node* search(Node *node, Rectangle *rect) {
 
-    Node *answer = (Node *) malloc(sizeof(Node *));
-    answer->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
-    Node *aux = node;
+    Node *answer = createNode();
+    Rectangle **aux = node->rectArray;
 
-    Rectangle *auxRect = *(aux->rectArray);
-
-    while (auxRect != NULL) {
+    if (aux == NULL)
+        return answer;
+    int i;
+    for (i=0;i<node->size;i++) {
+        if (aux == NULL)
+            return answer;
+        Rectangle *auxRect = *aux;
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect))
             *(answer->rectArray) = auxRect;
 
         // Avanzar en el array
-        auxRect = *(aux->rectArray++);
+        aux++;
     }
-
     return answer;
+
 }
 
 /**
@@ -194,7 +197,7 @@ Node* search(Node *node, Rectangle *rect) {
  * @param r p_r: Rectángulo a insertar.
  */
 void insert ( Node *node , Rectangle *r, Node* header ) {
-
+    
     if ((node->rectArray)[0]->hijo != NULL) {
         int minMBR = INT_MAX;
         Rectangle * aux;
@@ -219,7 +222,7 @@ void insert ( Node *node , Rectangle *r, Node* header ) {
     }
 }
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
-
+    return NULL;
 }
 Rectangle ** linearSplit(Node *header, Rectangle *r){
     if ((header->rectArray)[0]->hijo != NULL) {
@@ -284,7 +287,13 @@ Rectangle ** linearSplit(Node *header, Rectangle *r){
         rectangle1->hijo = noder1;
         rectangle2->hijo = noder2;
         free(header);
-        return {rectangle1,rectangle2}[2];
+        Rectangle **ret = (Rectangle **)malloc(sizeof (Rectangle *));
+        Rectangle **aux = ret;
+        *ret = rectangle1;
+        ret++;
+        *ret = rectangle2;
+        ret = aux;
+        return ret;
 
 
 
