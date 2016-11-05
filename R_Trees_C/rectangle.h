@@ -6,6 +6,7 @@
 #define TRUE 1
 #define FALSE 0
 #define PICO 127
+#define m 52
 
 static int count =0;
 
