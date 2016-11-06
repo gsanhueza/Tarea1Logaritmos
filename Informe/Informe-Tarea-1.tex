@@ -6,6 +6,7 @@
 \usepackage[dvipdfmx]{graphicx}
 \usepackage{bmpsize,wrapfig,xcolor}
 \usepackage{fullpage}
+\usepackage{amssymb}
 
 % Para evitar que se indente solo a cada rato
 \setlength\parindent{0pt}
@@ -40,8 +41,8 @@
 		\begin{flushright}
 			\begin{tabular}{lll}
 				Integrantes	&:	& Rodrigo Delgado\\
-						&	& Belisario Panay\\
-						&	& Gabriel Sanhueza\\
+				&	& Belisario Panay\\
+				&	& Gabriel Sanhueza\\
 				Profesor	&:	& Gonzalo Navarro\\
 				Ayudante	&:	& Sebastián Ferrada\\
 				Auxiliar	&:	& Jorge Bahamondes\\
@@ -55,28 +56,32 @@
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 	\section*{Hipótesis}
-% 	TODO Hipótesis
+	% 	TODO Hipótesis
 
-	Aquí deberían ir:
+	\subsection*{Especificaciones de la máquina utilizada (Anakena)}
 
 	\begin{itemize}
-		\item Especificaciones de la máquina a usar (cof, cof, anakena, cof, cof)
-		\item Sistema Operativo (Ubuntu 14.04 ??)
-		\item Lenguaje usado (Java ??)
-		\item Compilador (JVM ??)
-		\item RAM (Caleta xDDD)
-		\item Características del disco duro (ahí no sé, probablemente sea un disco estándar de 5400 RPM)
+		\item Procesador: Intel \textregistered Xeon \textregistered CPU E5620 @ 2.40GHz
+		\item Arquitectura: x86\_64
+		\item Número de CPUs: 12
+		\item Memoria RAM: 12288 KB
+		\item Tamaño de página de disco: M = 512 bytes ($\ulcorner40\% M\urcorner = 205$)
+		\item Sistema Operativo: Linux version 4.4.6-gentoo
+		\item Lenguaje usado: C
+		\item Compilador: gcc version 4.9.3
 	\end{itemize}
 
-	Usamos M = 4096 KB, tamaño de una página de disco (no sé si es 4096, pero es bastante estándar para Linux)
-	m = 40\% de M para el split
+
+	% 	FIXME
+	% 	que limitamos el tamaño de los nodos a 128 rectangulos y que a lo mas va a tener 127, que nuca tenemos mas de dos archivos abiertos
+	% 	y que el random lo utilizamos siempre con la misma semilla para tener experimentos repetibles
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 	\pagebreak
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 	\section*{Diseño Experimental}
-% 	TODO Diseño Experimental
+	% 	TODO Diseño Experimental
 
 	Explicar cómo diseñamos el R-Tree y que debería hacer cada método/función
 
@@ -85,19 +90,19 @@
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 	\section*{Presentación de los Resultados}
-%	TODO Presentación de los Resultados
+	%	TODO Presentación de los Resultados
 
 	\subsection*{Tiempo de Construcción del R-Tree}
 	\subsubsection*{Variante 1 de Insertar: (Inserte nombre aquí)}
-% 	TODO Gráficos?
+	% 	TODO Gráficos?
 	Hacer un gráfico?
 
 	\subsubsection*{Variante 2 de Insertar: (Inserte nombre aquí)}
-% 	TODO Gráficos?
+	% 	TODO Gráficos?
 	Hacer otro gráfico?
 
 	\subsection*{Espacio ocupado y porcentaje de llenado de páginas de disco}
-% 	TODO Gráficos?
+	% 	TODO Gráficos?
 	Aún más gráficos?
 
 	\subsection*{Desempeño de operación \textit{Buscar}}
@@ -107,7 +112,7 @@
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 	\section*{Análisis e Interpretación}
-% 	TODO Análisis e Interpretación
+	% 	TODO Análisis e Interpretación
 	Aquí hay que hacer el chamullo correspondiente (?)
 
 \end{document}
