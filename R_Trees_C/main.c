@@ -1,72 +1,47 @@
+//
+// Created by rodrigo on 11/5/16.
+//
 #include "rectangle.h"
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int main (void) {
-    Rectangle *r = createRectangle(1, 2, 3, 4, "R");
-    Rectangle *q = createRectangle(5,6,7,8,"Q");
-
+Node *createTestRectangles(int n) {
     Node *node = createNode();
-
-    insertRectToNode(node,r);
-    insertRectToNode(node,q);
-
-    printf("Nodo: %s\n",(*(node->rectArray))->id);
-
-    writeToDisk(node);
-    writeToDisk(node);
-
-    FILE *fp;
-    fp = fopen("test.tree", "wb+");
-    fwrite(r, sizeof(Rectangle), 1, fp);
-
-    fclose(fp);
-
-    Rectangle *rfile = malloc(sizeof(Rectangle));
-    fp = fopen("test.tree","rb");
-     if (fp != NULL) {
-        fread(rfile, sizeof(Rectangle), 1, fp);
-        fclose(fp);
+    char name[200];
+    for (int i = 0; i < n ; i ++ ){
+        sprintf(name, "Rectangle%d", i);
+        //puts(id);
+        Rectangle *rect = createRectangle(randomNum(10),randomNum(10),randomNum(10),randomNum(10),i);
+        printRectangle(rect);
+        node->rectArray[i]=rect;
+        node->size++;
     }
+    return node;
 
-    /**
-     *        [1,      2,      N]
-     *        /         \
-     *     [3, 4, N]   [5, 6, 7]
-     *      |  |        |  |  |
-     *      N  N        N  N  N
-     */
 
-    Rectangle *r1 = createRectangle(1, 2, 3, 4, "R1");
-    Rectangle *r2 = createRectangle(1, 2, 3, 4, "R2");
-    Rectangle *r3 = createRectangle(1, 2, 3, 4, "R3");
-    Rectangle *r4 = createRectangle(1, 2, 3, 4, "R4");
-    Rectangle *r5 = createRectangle(1, 2, 3, 4, "R5");
-    Rectangle *r6 = createRectangle(1, 2, 3, 4, "R6");
-    Rectangle *r7 = createRectangle(1, 2, 3, 4, "R7");
 
-    Node *n1 = createNode();
-    Node *n2 = createNode();
-    Node *header = createNode();
+}
 
-    insertRectToNode(n1, r3);
-    insertRectToNode(n1, r4);
 
-    insertRectToNode(n2, r5);
-    insertRectToNode(n2, r6);
-    insertRectToNode(n2, r7);
+int randomNum(int max) {
+    return rand()%max;
+}
 
-    r1->hijo = n1;
-    r2->hijo = n2;
+int main(int argc,char **argv) {
+    srand(123);/*Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia*/
+    Node *header = createTestRectangles(50);
+    char *node = writeToDisk(header);
+    Rectangle *r = createRectangle(0,0,4,5,-1);
 
-    insertRectToNode(header, r1);
-    insertRectToNode(header, r2);
-
-    Node* resultados = search(header, r2);
-    Rectangle *iterator;
-
-    while ((iterator = *(resultados->rectArray++)) != NULL) {
-        printf("Encontrado = %s\n", iterator->id);
-    }
+    Node *searched;
+    insert(node,r);
+    /*if (header->size==M){
+        Node *new_father = createNode();
+        new_father->rectArray = linearSplit(header);
+        node = writeToDisk(new_father);
+    }*/
+    searched = search(node, r);
 
 }

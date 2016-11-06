@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
     main.c
     rectangle.c
-    rectangle.h)
+    rectangle.h
+        )
 
 add_executable(R_Trees_C ${SOURCE_FILES})
