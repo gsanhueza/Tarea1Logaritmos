@@ -23,7 +23,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, int id) {
 
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Rectangle **)malloc(MAX_SIZE);
+    tree->rectArray = (Rectangle **)malloc(BLOCK_SIZE);
     tree->size = 0;
 
     return tree;

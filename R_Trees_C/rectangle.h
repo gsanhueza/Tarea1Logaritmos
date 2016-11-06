@@ -1,15 +1,7 @@
 #ifndef _RECTANGLE_H_
 #define _RECTANGLE_H_
 
-#define MAX_SIZE 4096
-#define MIN_SIZE 1638
-#define TRUE 1
-#define FALSE 0
-#define M 120
-#define m 52
-#define NUM_RANDOM_RECTS 1000;
-
-static int count = 0;
+#define BLOCK_SIZE 4096
 
 /*****************************************************
  * Estructuras
@@ -37,6 +29,14 @@ typedef struct node {
     int size;
     char* this_node_filename;
 } Node;
+
+/*****************************************************
+ * Constantes dependientes
+ *****************************************************/
+
+static int count = 0;
+#define M BLOCK_SIZE / sizeof(Rectangle)
+#define m (40 * M / 100)
 
 /*****************************************************
  * Funciones
@@ -135,7 +135,6 @@ void insert( char *nodeName , Rectangle *r );
  */
 Node *search(char *nodeName, Rectangle *rect);
 
-
 /**
  * @brief Control de overflow usando Linear Split.
  *
@@ -143,6 +142,14 @@ Node *search(char *nodeName, Rectangle *rect);
  * @return Rectangle** Lista de nodos divididos.
  */
 Rectangle ** linearSplit(Node *header);
+
+/**
+ * @brief Control de overflow usando Greene Split.
+ *
+ * @param header p_header: Nodo a dividir
+ * @return Rectangle** Lista de nodos divididos.
+ */
+Rectangle ** greeneSplit(Node *header);
 
 Rectangle ** controlOverFlow(Node *header, Rectangle *r);
 int *calculateBounds(Node *pNode);
