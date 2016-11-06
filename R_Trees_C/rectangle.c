@@ -83,14 +83,24 @@ Node* loadFromDisk(char *filename) {
  * @return char* Nombre del archivo escrito a disco.
  */
 char* writeToDisk(Node *data) {
-    char *fileName = (char *)malloc(sizeof(char));
     FILE *fp;
-    sprintf(fileName, "Nodes/Node%d.bin", count);
-    count++;
+    char *fileName;
+
+    if (data->this_node_filename!=NULL) {
+        fileName = data->this_node_filename;
+    }
+    else {
+        fileName = (char *) malloc(sizeof(char));
+        sprintf(fileName,"Nodes/Node%d.bin", count);
+        data->this_node_filename = fileName;
+        count++;
+}
     fp = fopen(fileName,"wb+");
     char *c = (char*)data;
     fwrite(c, sizeof(Node), 1, fp);
     fclose(fp);
+    free(data);
+    data = NULL;
     return fileName;
 
 }
@@ -204,8 +214,8 @@ Node* search(Node *node, Rectangle *rect) {
  * @param r p_r: Rectángulo a insertar.
  */
 
-void insert( Node *node , Rectangle *r ) {
-
+void insert( char *nodeName , Rectangle *r ) {
+    Node* node = loadFromDisk(nodeName);
     if ((node->rectArray)[0]->hijo != NULL) {
         int minMBR = INT_MAX;
         Rectangle * aux;
@@ -217,19 +227,27 @@ void insert( Node *node , Rectangle *r ) {
             }
 
         }
-        //cerrar Nodo;
+        writeToDisk(node);//cerrar Nodo;
+        if (aux==NULL)
+            printf("Error el nodo aux es null!");
         //Abrir nodo de aux.
-        insert( aux->hijo, r);
-        if (aux->hijo->size == M){
+        Node *auxHijo = loadFromDisk(aux->hijo);
+        insert( auxHijo, r);
+        if (auxHijo->size == M){
+            node = loadFromDisk(nodeName);
             Rectangle **rects = linearSplit(node,r);
             node->rectArray[node->size++]=rects[0];
             node->rectArray[node->size++] = rects[1];
         }
+        else
+            return;
     }
     else {
         node->size++;
         node->rectArray[node->size] = r;
     }
+    writeToDisk(node);
+
 }
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
     return NULL;

@@ -27,6 +27,7 @@ typedef struct rectangle{
 typedef struct node {
     Rectangle** rectArray;
     int size;
+    char* this_node_filename;
 } Node;
 
 /**
@@ -47,6 +48,6 @@ int intersect (Rectangle *r1, Rectangle *r2);
 void mergeRectangle(Rectangle *r1, Rectangle *r2);
 int MBR(Rectangle *r1, Rectangle *r2);
 void printRectangle(Rectangle *r, char *s);
-void insert( Node *node , Rectangle *r );
+void insert( char *nodeName , Rectangle *r );
 
 #endif
