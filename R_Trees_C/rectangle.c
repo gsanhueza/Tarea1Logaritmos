@@ -96,7 +96,11 @@ char* writeToDisk(Node *data) {
         data->this_node_filename = fileName;
         count++;
     }
-    fp = fopen(fileName,"wb+");
+    fp = fopen(fileName,"wb");
+    if (fp == NULL) {
+        printf("No se pudo abrir el archivo %s",fileName);
+        return NULL;
+    }
     char *c = (char*)data;
     fwrite(c, sizeof(Node), 1, fp);
 
@@ -107,13 +111,7 @@ char* writeToDisk(Node *data) {
 
 }
 
-void reWriteToDisk(Node *node, char* filename) {
-    FILE *fp;
-    fp = fopen(filename,"w+");
-    char *c = (char *) node;
-    fwrite(c, sizeof(Node), 1, fp);
-    fclose(fp);
-}
+
 
 /*****************************************************
  * Funciones auxiliares

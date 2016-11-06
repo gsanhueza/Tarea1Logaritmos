@@ -7,6 +7,6 @@ set(SOURCE_FILES
     main.c
     rectangle.c
     rectangle.h
-        test.c)
+        )
 
 add_executable(R_Trees_C ${SOURCE_FILES})
