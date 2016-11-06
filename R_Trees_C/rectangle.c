@@ -4,29 +4,10 @@
 #include <limits.h>
 #include <string.h>
 
-
 /*****************************************************
  * Inicialización
  *****************************************************/
-Rectangle ** controlOverFlow(Node *header, Rectangle *r);
 
-
-int *calculateBounds(Node *pNode);
-
-Rectangle **calculateXRectangles(Node *pNode, int w, int h);
-
-Rectangle **makeRandom(Node pNode);
-
-/**
- * @brief Crea un rectángulo con coordenadas y nombre.
- *
- * @param x p_x: Coordenada X.
- * @param y p_y: Coordenada Y.
- * @param w p_w: Ancho.
- * @param h p_h: Alto.
- * @param id p_id: Identificador.
- * @return Rectangle* El Rectángulo creado.
- */
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
 
@@ -40,11 +21,6 @@ Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     return rect;
 }
 
-/**
- * @brief Crea un nodo con un arreglo de rectángulos como información interna.
- *
- * @return Node* El nodo creado.
- */
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
     tree->rectArray = (Rectangle **)malloc(MAX_SIZE);
@@ -57,12 +33,6 @@ Node* createNode() {
  * Manejo de archivos
  *****************************************************/
 
-/**
- * @brief Carga un archivo del disco.
- *
- * @param filename p_filename: Nombre del archivo de disco.
- * @return Node* Nodo representante.
- */
 Node* loadFromDisk(char *filename) {
 
     FILE *fp;
@@ -77,12 +47,6 @@ Node* loadFromDisk(char *filename) {
     return nodeFile;
 }
 
-/**
- * @brief Escribe los datos de un nodo a disco.
- *
- * @param data p_data: Datos a escribir.
- * @return char* Nombre del archivo escrito a disco.
- */
 char* writeToDisk(Node *data) {
     FILE *fp;
     char *fileName;
@@ -111,19 +75,10 @@ char* writeToDisk(Node *data) {
 
 }
 
-
-
 /*****************************************************
  * Funciones auxiliares
  *****************************************************/
 
-
-/**
- * @brief Inserta un rectángulo al nodo dado.
- *
- * @param n p_n: Nodo donde insertar.
- * @param r p_r: Rectángulo a insertar.
- */
 void insertRectToNode(Node *n, Rectangle *r) {
     int i = 0;
     Rectangle **header = n->rectArray;
@@ -134,25 +89,10 @@ void insertRectToNode(Node *n, Rectangle *r) {
     n->rectArray = header;
 }
 
-
-/**
- * @brief Retorna un "booleano" que dice si los dos rectángulos se intersectan.
- *
- * @param r1 p_r1: Rectángulo 1.
- * @param r2 p_r2: Rectángulo 2.
- * @return int TRUE o FALSE
- */
 int intersect (Rectangle *r1, Rectangle *r2){
     return r1->x <= r2->x + r2->w && r2->x <= r1->x + r1->w && r1->y <= r2->y + r2->h && r2->y <= r1->y + r1->h;
 }
 
-/**
- * @brief Calcula la nueva Area si se agrega r2 a r1.
- *
- * @param r1 p_r1: Rectángulo 1.
- * @param r2 p_r2: Rectángulo 2.
- * @return int La diferencia de las Areas.
- */
 int MBR(Rectangle *r1, Rectangle *r2) {
     int min_x = r1->x < r2->x ? r1->x : r2->x;
     int max_x = r1->x + r1->w > r2->x + r2->w ? r1->x + r1->w : r2->x + r2->w;
@@ -163,12 +103,6 @@ int MBR(Rectangle *r1, Rectangle *r2) {
     return area - r1_area;
 }
 
-/**
- * @brief Actualiza las coordenadas de r1 al agregarle r2, solo las actualiza no añade r2 a r1.
- *
- * @param r1 p_r1: Rectángulo 1.
- * @param r2 p_r2: Rectángulo 2.
- */
 void mergeRectangle(Rectangle *r1, Rectangle *r2) {
     int max_x = r1->x + r1->w > r2->x + r2->w ? r1->x + r1->w : r2->x + r2->w;
     int max_y = r1->x + r1->h > r2->x + r2->h ? r1->x + r1->h : r2->x + r2->h;
@@ -182,24 +116,17 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  * Implementación de la tarea
  *****************************************************/
 
-/**
- * @brief Busca en el nodo todos los rectángulos que intersectan a *rect.
- *
- * @param node p_node: Nodo donde buscar.
- * @param rect p_rect: Rectángulo a buscar.
- * @return Node** Lista de rectángulos que intersectan a *rect.
- */
-Node*  search(char *nodeName, Rectangle *rect) {
+Node* search(char *nodeName, Rectangle *rect) {
         Node *node = loadFromDisk(nodeName);
         Node * answer = createNode();
         Rectangle **aux = node->rectArray;
         int close = 0;
         int i;
         for ( i = 0 ; i <= node->size-1 ; i++ ) {
-            if (close ==1)
+            if (close == 1)
                 node = loadFromDisk(nodeName);
             Rectangle *auxRect = aux[i];
-            
+
             // Agregar rectángulo que intersecta
             if (intersect(auxRect, rect)) {
                 printf("intersect ");
@@ -216,29 +143,20 @@ Node*  search(char *nodeName, Rectangle *rect) {
                     free(recursive);
 
                 }
-                
-                
+
                 answer->rectArray[answer->size] = auxRect;
                 answer->size++;
             }
 
     }
-    writeToDisk(nodeName);
+//     writeToDisk(nodeName);
+    free(node);
     return answer;
-
-
 
 }
 
-/**
- * @brief Inserta un rectángulo al nodo dado.
- *
- * @param node p_node: Nodo donde insertar rectángulo.
- * @param r p_r: Rectángulo a insertar.
- */
 void insert( char *nodeName , Rectangle *r ) {
     Node* node = loadFromDisk(nodeName);
-
 
     if ((node->rectArray)[0]->hijo != NULL) {
         int minMBR = INT_MAX;
@@ -256,7 +174,7 @@ void insert( char *nodeName , Rectangle *r ) {
             printf("Error el nodo aux es null!");
         //Abrir nodo de aux.
         Node *auxHijo = loadFromDisk(aux->hijo);
-        insert( auxHijo, r);
+        insert(auxHijo->this_node_filename, r);
         if (auxHijo->size == M){
             node = loadFromDisk(nodeName);
             Rectangle **rects = linearSplit(node);
@@ -274,6 +192,7 @@ void insert( char *nodeName , Rectangle *r ) {
     writeToDisk(node);
 
 }
+
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
     return NULL;
 }
@@ -284,7 +203,7 @@ Rectangle ** linearSplit(Node *header) {
         h = bounds[1];
         Rectangle *rectangle1;
         Rectangle *rectangle2;
-        Rectangle ** rectangles = calculateXRectangles(header,w,h);
+        Rectangle ** rectangles = calculateXRectangles(header);
         float width = (rectangles[1]-rectangles[0])/w;
         float heigth = (rectangles[3]-rectangles[2])/h;
         rectangle1 = width < heigth ? rectangles[3] : rectangles[1];
@@ -350,9 +269,9 @@ void printRectangle(Rectangle* auxRect) {
 
 }
 
-Rectangle **calculateXRectangles(Node *pNode, int w, int h) {
+Rectangle **calculateXRectangles(Node *pNode) {
     int min_x = 0, max_x = INT_MAX, min_y = 0, max_y = INT_MAX;
-    Rectangle* minX,*maxX,*minY,*maxY;
+    Rectangle* minX, *maxX, *minY, *maxY;
     for (int i = 0 ; i < pNode->size ; i++) {
         Rectangle *rectangle1 = pNode->rectArray[i];
         if(min_x < rectangle1->x) {
@@ -372,6 +291,7 @@ Rectangle **calculateXRectangles(Node *pNode, int w, int h) {
             maxY = rectangle1;
         }
     }
+
     Rectangle **array = (Rectangle**)malloc(sizeof(Rectangle**));
     array[0] = minX;
     array[1] = maxX;
@@ -394,6 +314,3 @@ int *calculateBounds(Node *pNode) {
     array[1] = max_y-min_y;
     return array;
 }
-
-
-
