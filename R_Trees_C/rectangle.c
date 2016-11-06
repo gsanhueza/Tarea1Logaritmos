@@ -9,7 +9,7 @@
  * Inicialización
  *****************************************************/
 Rectangle ** controlOverFlow(Node *header, Rectangle *r);
-Rectangle ** linearSplit(Node *header, Rectangle *r);
+
 
 int *calculateBounds(Node *pNode);
 
@@ -27,14 +27,15 @@ Rectangle **makeRandom(Node pNode);
  * @param id p_id: Identificador.
  * @return Rectangle* El Rectángulo creado.
  */
-Rectangle* createRectangle(int x, int y, int w, int h, char * id) {
+Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
 
     rect->x = x;
     rect->y = y;
     rect->w = w;
     rect->h = h;
-    rect->id = id;
+    rect->id = (char *)malloc(sizeof(char));
+    sprintf(rect->id, "rectangle%d", id);
     rect->hijo = NULL;
     return rect;
 }
@@ -85,14 +86,23 @@ Node* loadFromDisk(char *filename) {
 char* writeToDisk(Node *data) {
     char *fileName = (char *)malloc(sizeof(char));
     FILE *fp;
-    sprintf(fileName, "Nodes/Node%d.bin", count);
+    sprintf(fileName, "Node%d.bin", count);
     count++;
-    fp = fopen(fileName,"wb+");
-    char *c = (char*)data;
-    fwrite(c, sizeof(Node), 1, fp);
+    fp = fopen(fileName,"w+");
+    char *c = (char*) data;
+    while (fwrite(c, sizeof(Node), 1, fp)==1)
+    ;
     fclose(fp);
     return fileName;
 
+}
+
+void reWriteToDisk(Node *node, char* filename) {
+    FILE *fp;
+    fp = fopen(filename,"w+");
+    char *c = (char *) node;
+    fwrite(c, sizeof(Node), 1, fp);
+    fclose(fp);
 }
 
 /*****************************************************
@@ -171,29 +181,35 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  * @param rect p_rect: Rectángulo a buscar.
  * @return Node** Lista de rectángulos que intersectan a *rect.
  */
-Node* search(Node *node, Rectangle *rect) {
+Node*  search(Node *node, Rectangle *rect) {
+        Node * answer = createNode();
+        Rectangle **aux = node->rectArray;
+        int i;
+        for ( i = 0 ; i <= node->size-1 ; i++ ) {
+            Rectangle *auxRect = aux[i];
+            // Agregar rectángulo que intersecta
+            if (intersect(auxRect, rect)) {
+                printRectangle(auxRect,"intersect rectangle");
 
-    Node *answer = createNode();
-    Rectangle **aux = node->rectArray;
+                if (auxRect->hijo != NULL) {
+                    Node *nodeAux = loadFromDisk(auxRect->hijo);
+                    Node* recursive = search(nodeAux,rect);
+                    for (int j = 0 ; j < recursive->size ; j++ ) {
+                        answer->rectArray[answer->size] = recursive->rectArray[i];
+                        answer->size++;
+                    }
+                    free(recursive);
+                    free(nodeAux);
 
-    if (aux == NULL)
-        return answer;
-    int i;
-    for (i=0;i<node->size;i++) {
-        if (aux == NULL)
-            return answer;
-        Rectangle *auxRect = *aux;
-        // Agregar rectángulo que intersecta
-        if (intersect(auxRect, rect)) {
-            printRectangle(auxRect,"intersect rectangle");
-            *(answer->rectArray) = auxRect;
-            answer->size++;
-        }
+                }
+                answer->rectArray[answer->size] = auxRect;
+                answer->size++;
+            }
 
-        // Avanzar en el array
-        aux++;
     }
     return answer;
+
+
 
 }
 
@@ -204,12 +220,12 @@ Node* search(Node *node, Rectangle *rect) {
  * @param r p_r: Rectángulo a insertar.
  */
 
-void insert( Node *node , Rectangle *r ) {
+void insert( Node *node , Rectangle *r , char* filename) {
 
     if ((node->rectArray)[0]->hijo != NULL) {
         int minMBR = INT_MAX;
         Rectangle * aux;
-        for(int i = 0; i < node->size ; i++) {
+        for(int i = 0; i <= node->size-1 ; i++) {
             int this_mbr = MBR(node->rectArray[i],r);
             if ( this_mbr < minMBR ) {
                 minMBR = this_mbr;
@@ -219,22 +235,28 @@ void insert( Node *node , Rectangle *r ) {
         }
         //cerrar Nodo;
         //Abrir nodo de aux.
-        insert( aux->hijo, r);
-        if (aux->hijo->size == M){
-            Rectangle **rects = linearSplit(node,r);
+        Node * nodeaux = loadFromDisk(aux->hijo);
+        insert( nodeaux, r, aux->hijo);
+        if (nodeaux->size == M){
+            Rectangle **rects = linearSplit(nodeaux);
             node->rectArray[node->size++]=rects[0];
-            node->rectArray[node->size++] = rects[1];
+            node->rectArray[node->size++] =rects[1];
+            free(rects);
+            reWriteToDisk(node, filename);
         }
+
+
     }
     else {
-        node->size++;
         node->rectArray[node->size] = r;
+        node->size++;
+        reWriteToDisk(node, filename);
     }
 }
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
     return NULL;
 }
-Rectangle ** linearSplit(Node *header, Rectangle *r) {
+Rectangle ** linearSplit(Node *header) {
         int w, h;
         int *bounds = calculateBounds(header);
         w = bounds[0];
@@ -274,10 +296,12 @@ Rectangle ** linearSplit(Node *header, Rectangle *r) {
 
             }
         }
-        rectangle1->hijo = noder1;
-        rectangle2->hijo = noder2;
+        rectangle1->hijo = writeToDisk(noder1);
+        rectangle2->hijo =  writeToDisk(noder2);
         free(header);
-        Rectangle *rectarray[2] = {rectangle1,rectangle2};
+        Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle **));
+        rectarray[0]=rectangle1;
+        rectarray[1] = rectangle2;
         return rectarray;
 
 }
@@ -297,7 +321,7 @@ Rectangle **makeRandom(Node pNode) {
 }
 
 void printRectangle(Rectangle* auxRect, char * s) {
-    printf("%s %d, have x = %d, y = %d, w = %d, h = %d.\n ",s ,auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
+    printf("%s %s, have x = %d, y = %d, w = %d, h = %d.\n ",s ,auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
 
 }
 
@@ -323,7 +347,11 @@ Rectangle **calculateXRectangles(Node *pNode, int w, int h) {
             maxY = rectangle1;
         }
     }
-    Rectangle * array[4] = {minX,maxX,minY,maxY};
+    Rectangle **array = (Rectangle**)malloc(sizeof(Rectangle**));
+    array[0] = minX;
+    array[1] = maxX;
+    array[2] = minY;
+    array[3] = maxY;
     return array;
 }
 
@@ -336,7 +364,9 @@ int *calculateBounds(Node *pNode) {
         max_y = max_y > r->y + r->h ? max_y : r->y + r->h;
         min_y = min_y < r->y ? min_y : r->y;
     }
-    int array[2] = {max_x-min_x, max_y-min_y};
+    int *array = (int*)malloc(sizeof(int*));
+    array[0] = max_x-min_x;
+    array[1] = max_y-min_y;
     return array;
 }
 

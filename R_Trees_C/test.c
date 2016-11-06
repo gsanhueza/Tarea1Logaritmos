@@ -10,12 +10,17 @@
 Node *createTestRectangles(int n) ;
 
 int main(void) {
-    Node *header = createTestRectangles(50);
-    Rectangle *r = createRectangle(0,0,4,5,"hola");
+    Node *header = createTestRectangles(119);
+    char *name_header = writeToDisk(header);
+    Rectangle *r = createRectangle(0,0,4,5,-1);
     Node *searched;
-
-    insert(header,r);
-    searched = search(header, r);
+    insert(header,r,"Node0.bin");
+    if (header->size==M){
+        Node *new_father = createNode();
+        new_father->rectArray = linearSplit(header);
+        name_header = writeToDisk(new_father);
+    }
+    searched = search(loadFromDisk(name_header), r);
 
 }
 

@@ -5,11 +5,11 @@
 #define MIN_SIZE 1638
 #define TRUE 1
 #define FALSE 0
-#define M 127
+#define M 120
 #define m 52
 #define NUM_RANDOM_RECTS 1000;
 
-static int count =0;
+static int count =2;
 
 /**
  * Estructuras
@@ -33,10 +33,10 @@ typedef struct node {
  * Funciones
  */
 
-Rectangle* createRectangle(int x, int y, int w, int h, char *id);
+Rectangle* createRectangle(int x, int y, int w, int h, int id);
 Node* createNode();
-Node* search(Node *node, Rectangle *rect);
-void insertar (Node *node , Rectangle *r );
+Node * search(Node *node, Rectangle *rect);
+void insert (Node *node , Rectangle *r, char* filename );
 
 Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);
@@ -47,6 +47,5 @@ int intersect (Rectangle *r1, Rectangle *r2);
 void mergeRectangle(Rectangle *r1, Rectangle *r2);
 int MBR(Rectangle *r1, Rectangle *r2);
 void printRectangle(Rectangle *r, char *s);
-void insert( Node *node , Rectangle *r );
-
+Rectangle ** linearSplit(Node *header);
 #endif
