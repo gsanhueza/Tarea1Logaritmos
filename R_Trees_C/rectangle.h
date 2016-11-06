@@ -7,6 +7,7 @@
 #define FALSE 0
 #define M 127
 #define m 52
+#define NUM_RANDOM_RECTS 1000;
 
 static int count =0;
 

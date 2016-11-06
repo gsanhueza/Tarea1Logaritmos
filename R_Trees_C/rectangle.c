@@ -46,7 +46,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, char * id) {
  */
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle *));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE);
     tree->size = 0;
 
     return tree;
@@ -173,13 +173,16 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  */
 Node* search(Node *node, Rectangle *rect) {
 
-    Node *answer = (Node *) malloc(sizeof(Node *));
-    answer->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
-    Node *aux = node;
+    Node *answer = createNode();
+    Rectangle **aux = node->rectArray;
 
-    Rectangle *auxRect = *(aux->rectArray);
-
-    while (auxRect != NULL) {
+    if (aux == NULL)
+        return answer;
+    int i;
+    for (i=0;i<node->size;i++) {
+        if (aux == NULL)
+            return answer;
+        Rectangle *auxRect = *aux;
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect)) {
             printRectangle(auxRect,"intersect rectangle");
@@ -188,10 +191,10 @@ Node* search(Node *node, Rectangle *rect) {
         }
 
         // Avanzar en el array
-        auxRect = *(aux->rectArray++);
+        aux++;
     }
-
     return answer;
+
 }
 
 /**
@@ -200,6 +203,7 @@ Node* search(Node *node, Rectangle *rect) {
  * @param node p_node: Nodo donde insertar rectángulo.
  * @param r p_r: Rectángulo a insertar.
  */
+
 void insert( Node *node , Rectangle *r ) {
 
     if ((node->rectArray)[0]->hijo != NULL) {
@@ -228,7 +232,7 @@ void insert( Node *node , Rectangle *r ) {
     }
 }
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
-
+    return NULL;
 }
 Rectangle ** linearSplit(Node *header, Rectangle *r) {
         int w, h;
@@ -275,6 +279,7 @@ Rectangle ** linearSplit(Node *header, Rectangle *r) {
         free(header);
         Rectangle *rectarray[2] = {rectangle1,rectangle2};
         return rectarray;
+
 }
 
 Rectangle **makeRandom(Node pNode) {

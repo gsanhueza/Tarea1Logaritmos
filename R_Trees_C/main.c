@@ -2,7 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 /*
-int main (void) {
+
+int main (int argc, char **argv) {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    char *a=NULL;
+    if (a == NULL)
+        printf("a es null\n");
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
     Rectangle *q = createRectangle(5,6,7,8,"Q");
 
@@ -11,7 +25,7 @@ int main (void) {
     insertRectToNode(node,r);
     insertRectToNode(node,q);
 
-    printf("Nodo: %s\n",(*(node->rectArray))->id);
+    printf("Nodo: %s\n",((node->rectArray)[1])->id);
 
     writeToDisk(node);
     writeToDisk(node);
