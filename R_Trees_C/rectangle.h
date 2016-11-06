@@ -36,7 +36,7 @@ typedef struct node {
 
 Rectangle* createRectangle(int x, int y, int w, int h, int id);
 Node* createNode();
-Node * search(Node *node, Rectangle *rect);
+Node * search(char *nodeName, Rectangle *rect);
 
 Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);

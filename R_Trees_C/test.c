@@ -27,7 +27,7 @@ int main(int argc,char **argv) {
         new_father->rectArray = linearSplit(header);
         node = writeToDisk(new_father);
     }
-    searched = search(loadFromDisk(node), r);
+    searched = search(node, r);
 
 }
 

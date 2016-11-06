@@ -191,7 +191,8 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  * @param rect p_rect: Rectángulo a buscar.
  * @return Node** Lista de rectángulos que intersectan a *rect.
  */
-Node*  search(Node *node, Rectangle *rect) {
+Node*  search(char *nodeName, Rectangle *rect) {
+        Node *node = loadFromDisk(nodeName);
         Node * answer = createNode();
         Rectangle **aux = node->rectArray;
         int i;
