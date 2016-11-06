@@ -1,7 +1,7 @@
 #include "rectangle.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+/*
 int main (void) {
     Rectangle *r = createRectangle(1, 2, 3, 4, "R");
     Rectangle *q = createRectangle(5,6,7,8,"Q");
@@ -35,7 +35,7 @@ int main (void) {
      *     [3, 4, N]   [5, 6, 7]
      *      |  |        |  |  |
      *      N  N        N  N  N
-     */
+     *
 
     Rectangle *r1 = createRectangle(1, 2, 3, 4, "R1");
     Rectangle *r2 = createRectangle(1, 2, 3, 4, "R2");
@@ -68,5 +68,4 @@ int main (void) {
     while ((iterator = *(resultados->rectArray++)) != NULL) {
         printf("Encontrado = %s\n", iterator->id);
     }
-
-}
+}*/

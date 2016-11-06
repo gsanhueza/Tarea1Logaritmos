@@ -5,7 +5,7 @@
 #define MIN_SIZE 1638
 #define TRUE 1
 #define FALSE 0
-#define PICO 127
+#define M 127
 #define m 52
 
 static int count =0;
@@ -20,7 +20,7 @@ typedef struct rectangle{
     int h;
     int w;
     char *id;
-    struct node* hijo;
+    char *hijo;
 } Rectangle;
 
 typedef struct node {
@@ -45,5 +45,7 @@ void insertRectToNode(Node *n, Rectangle *r);
 int intersect (Rectangle *r1, Rectangle *r2);
 void mergeRectangle(Rectangle *r1, Rectangle *r2);
 int MBR(Rectangle *r1, Rectangle *r2);
+void printRectangle(Rectangle *r, char *s);
+void insert( Node *node , Rectangle *r );
 
 #endif

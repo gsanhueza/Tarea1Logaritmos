@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include <string.h>
+
 
 /*****************************************************
  * Inicialización
  *****************************************************/
 Rectangle ** controlOverFlow(Node *header, Rectangle *r);
-Rectangle * linearSplit(Node *header, Rectangle *r);
+Rectangle ** linearSplit(Node *header, Rectangle *r);
 
 int *calculateBounds(Node *pNode);
 
@@ -25,13 +27,15 @@ Rectangle **makeRandom(Node pNode);
  * @param id p_id: Identificador.
  * @return Rectangle* El Rectángulo creado.
  */
-Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
+Rectangle* createRectangle(int x, int y, int w, int h, char * id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
+
     rect->x = x;
     rect->y = y;
     rect->w = w;
     rect->h = h;
     rect->id = id;
+    rect->hijo = NULL;
     return rect;
 }
 
@@ -177,8 +181,11 @@ Node* search(Node *node, Rectangle *rect) {
 
     while (auxRect != NULL) {
         // Agregar rectángulo que intersecta
-        if (intersect(auxRect, rect))
+        if (intersect(auxRect, rect)) {
+            printRectangle(auxRect,"intersect rectangle");
             *(answer->rectArray) = auxRect;
+            answer->size++;
+        }
 
         // Avanzar en el array
         auxRect = *(aux->rectArray++);
@@ -193,7 +200,7 @@ Node* search(Node *node, Rectangle *rect) {
  * @param node p_node: Nodo donde insertar rectángulo.
  * @param r p_r: Rectángulo a insertar.
  */
-void insert ( Node *node , Rectangle *r, Node* header ) {
+void insert( Node *node , Rectangle *r ) {
 
     if ((node->rectArray)[0]->hijo != NULL) {
         int minMBR = INT_MAX;
@@ -208,40 +215,22 @@ void insert ( Node *node , Rectangle *r, Node* header ) {
         }
         //cerrar Nodo;
         //Abrir nodo de aux.
-        // insert( nodo de aux, r, header);
+        insert( aux->hijo, r);
+        if (aux->hijo->size == M){
+            Rectangle **rects = linearSplit(node,r);
+            node->rectArray[node->size++]=rects[0];
+            node->rectArray[node->size++] = rects[1];
+        }
     }
     else {
         node->size++;
         node->rectArray[node->size] = r;
-        if (node->size == PICO) {
-            header->rectArray=controlOverFlow(header, r);
-        }
     }
 }
 Rectangle **controlOverFlow(Node *header, Rectangle * r) {
 
 }
-Rectangle ** linearSplit(Node *header, Rectangle *r){
-    if ((header->rectArray)[0]->hijo != NULL) {
-        int minMBR = INT_MAX;
-        Rectangle * aux;
-        for(int i = 0; i < header->size ; i++) {
-            int this_mbr = MBR(header->rectArray[i],r);
-            if ( this_mbr < minMBR ) {
-                minMBR = this_mbr;
-                aux = header->rectArray[i];
-            }
-
-        }
-        //cerrar Nodo;
-        //Abrir nodo de aux.
-        // Rectangle **newRectangles = linearSplit( nodo de aux, r);
-        /*while (*newRectangles!=Null){
-         *  header->rectArray[header->size++] = *newRectangles;
-         *
-        */
-    }
-    if ( header -> size == PICO ){
+Rectangle ** linearSplit(Node *header, Rectangle *r) {
         int w, h;
         int *bounds = calculateBounds(header);
         w = bounds[0];
@@ -284,12 +273,8 @@ Rectangle ** linearSplit(Node *header, Rectangle *r){
         rectangle1->hijo = noder1;
         rectangle2->hijo = noder2;
         free(header);
-        return {rectangle1,rectangle2}[2];
-
-
-
-    }
-    return header->rectArray;
+        Rectangle *rectarray[2] = {rectangle1,rectangle2};
+        return rectarray;
 }
 
 Rectangle **makeRandom(Node pNode) {
@@ -304,6 +289,11 @@ Rectangle **makeRandom(Node pNode) {
         times--;
     }
     return pNode.rectArray;
+}
+
+void printRectangle(Rectangle* auxRect, char * s) {
+    printf("%s %d, have x = %d, y = %d, w = %d, h = %d.\n ",s ,auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
+
 }
 
 Rectangle **calculateXRectangles(Node *pNode, int w, int h) {
