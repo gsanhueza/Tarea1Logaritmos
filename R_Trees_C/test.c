@@ -9,6 +9,7 @@
 
 Node *createTestRectangles(int n) ;
 
+
 int randomNum(int max) {
     return rand()%max;
 }
@@ -16,11 +17,17 @@ int randomNum(int max) {
 int main(int argc,char **argv) {
     srand(123);/*Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia*/
     Node *header = createTestRectangles(50);
+    char *node = writeToDisk(header);
     Rectangle *r = createRectangle(0,0,4,5,"hola");
-    Node *searched;
 
-    insert(header,r);
-    searched = search(header, r);
+    Node *searched;
+    insert(node,r);
+    if (header->size==M){
+        Node *new_father = createNode();
+        new_father->rectArray = linearSplit(header);
+        node = writeToDisk(new_father);
+    }
+    searched = search(loadFromDisk(node), r);
 
 }
 
