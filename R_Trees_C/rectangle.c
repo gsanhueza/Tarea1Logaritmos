@@ -79,16 +79,6 @@ char* writeToDisk(Node *data) {
  * Funciones auxiliares
  *****************************************************/
 
-void insertRectToNode(Node *n, Rectangle *r) {
-    int i = 0;
-    Rectangle **header = n->rectArray;
-    while (i++ < n->size)
-        n->rectArray++;
-    *(n->rectArray) = r;
-    n->size++;
-    n->rectArray = header;
-}
-
 int intersect (Rectangle *r1, Rectangle *r2){
     return r1->x <= r2->x + r2->w && r2->x <= r1->x + r1->w && r1->y <= r2->y + r2->h && r2->y <= r1->y + r1->h;
 }

@@ -78,14 +78,6 @@ Node* loadFromDisk(char *filename);
 char* writeToDisk(Node *data);
 
 /**
- * @brief Inserta un rectángulo al nodo dado.
- *
- * @param n p_n: Nodo donde insertar.
- * @param r p_r: Rectángulo a insertar.
- */
-void insertRectToNode(Node *n, Rectangle *r);
-
-/**
  * @brief Retorna un "booleano" que dice si los dos rectángulos se intersectan.
  *
  * @param r1 p_r1: Rectángulo 1.
@@ -95,7 +87,7 @@ void insertRectToNode(Node *n, Rectangle *r);
 int intersect (Rectangle *r1, Rectangle *r2);
 
 /**
- * @brief Actualiza las coordenadas de r1 al agregarle r2, solo las actualiza no añade r2 a r1.
+ * @brief Actualiza las coordenadas de r1 al agregarle r2. (Solo las actualiza, no añade r2 a r1).
  *
  * @param r1 p_r1: Rectángulo 1.
  * @param r2 p_r2: Rectángulo 2.
@@ -121,10 +113,10 @@ void printRectangle(Rectangle *r);
 /**
  * @brief Inserta un rectángulo al nodo dado.
  *
- * @param nodeName p_nodeName: Nodo donde insertar rectángulo.
+ * @param nodeName p_nodeName: Nombre del nodo donde insertar rectángulo.
  * @param r p_r: Rectángulo a insertar.
  */
-void insert( char *nodeName , Rectangle *r );
+void insert(char *nodeName , Rectangle *r);
 
 /**
  * @brief Busca en el nodo todos los rectángulos que intersectan a *rect.

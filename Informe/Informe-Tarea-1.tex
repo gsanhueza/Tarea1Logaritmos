@@ -7,6 +7,7 @@
 \usepackage{bmpsize,wrapfig,xcolor}
 \usepackage{fullpage}
 \usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
 
 % Para evitar que se indente solo a cada rato
 \setlength\parindent{0pt}
@@ -41,8 +42,8 @@
 		\begin{flushright}
 			\begin{tabular}{lll}
 				Integrantes	&:	& Rodrigo Delgado\\
-				&	& Belisario Panay\\
-				&	& Gabriel Sanhueza\\
+						&	& Belisario Panay\\
+						&	& Gabriel Sanhueza\\
 				Profesor	&:	& Gonzalo Navarro\\
 				Ayudante	&:	& Sebastián Ferrada\\
 				Auxiliar	&:	& Jorge Bahamondes\\
@@ -52,11 +53,16 @@
 	\end{titlepage}
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-	\pagebreak
+	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\section*{Hipótesis}
-	% 	TODO Hipótesis
+	\tableofcontents
+
+	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+	\newpage
+	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+	\section{Hipótesis}
 
 	\subsection*{Especificaciones de la máquina utilizada (Anakena)}
 
@@ -71,47 +77,107 @@
 		\item Compilador: gcc version 4.9.3
 	\end{itemize}
 
+	Usaremos siempre la misma semilla de aleatoriedad, para poder tener experimentos ``aleatorios'' repetibles.
 
-	% 	FIXME
-	% 	que limitamos el tamaño de los nodos a 128 rectangulos y que a lo mas va a tener 127, que nuca tenemos mas de dos archivos abiertos
-	% 	y que el random lo utilizamos siempre con la misma semilla para tener experimentos repetibles
+	Limitamos la cantidad máxima de rectángulos en un nodo con respecto al tamaño de página del disco.
+
+	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
+
+	\begin{itemize}
+		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
+		\item m = 40\% de M. = $ 40\% * 128 = 51 $
+	\end{itemize}
+
+	Por último, la idea es nunca tener más de dos archivos abiertos en un instante dado.
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-	\pagebreak
+	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\section*{Diseño Experimental}
-	% 	TODO Diseño Experimental
+	\section{Diseño Experimental}
 
-	Explicar cómo diseñamos el R-Tree y que debería hacer cada método/función
+	En nuestra implementación hicimos 2 \textit{structs} para manejar los rectángulos en el R-Tree.
+
+	\subsection{Structs}
+
+	\subsubsection{Rectangle}
+
+	Esta estructura posee información sobre:
+	\begin{itemize}
+		\item Coordenada X.
+		\item Coordenada Y.
+		\item Ancho del rectángulo.
+		\item Alto del rectángulo.
+		\item Identificador (nombre) del rectángulo.
+		\item Identificador del hijo de este rectángulo.
+	\end{itemize}
+
+	\subsubsection{Node}
+
+	Esta estructura posee información sobre:
+	\begin{itemize}
+		\item Arreglo dinámico de rectángulos.
+		\item Tamaño del arreglo.
+		\item Nombre del nodo actual (para uso como nombre de archivo en disco).
+	\end{itemize}
+
+	\subsection{Constantes}
+
+	\begin{itemize}
+		\item BLOCK\_SIZE: Tamaño del bloque en disco.
+		\item count: Variable estática para diferenciar nodos al escribirlos a disco.
+		\item M: BLOCK\_SIZE / sizeof(Rectangle) --- Máximo número de rectángulos en un nodo.
+		\item m: 40\% de M --- Mínimo número de rectángulos en un nodo.
+	\end{itemize}
+
+	\subsection{Funciones}
+
+	\begin{itemize}
+		\item \textit{Rectangle* createRectangle(int x, int y, int w, int h, int id)}: Crea un rectángulo.
+		\item \textit{Node* createNode()}: Crea un nodo.
+		\item \textit{Node* loadFromDisk(char *filename)}: Carga el archivo \textit{filename} desde el disco.
+		\item \textit{char* writeToDisk(Node *data)}: Escribe la información del nodo al disco.
+		\item \textit{int intersect (Rectangle *r1, Rectangle *r2)}: Revisa si dos rectángulos se intersectan.
+		\item \textit{void mergeRectangle(Rectangle *r1, Rectangle *r2)}: Actualiza las coordenadas de r1 al agregarle r2.
+		\item \textit{int MBR(Rectangle *r1, Rectangle *r2)}: Calcula la nueva Area si se agrega r2 a r1.
+		\item \textit{void printRectangle(Rectangle *r)}: Imprime información de un rectángulo.
+		\item \textit{void insert(char *nodeName , Rectangle *r)}: Inserta un rectángulo al nodo dado.
+		\item \textit{Node *search(char *nodeName, Rectangle *rect)}: Busca en el nodo todos los rectángulos que intersectan a *rect.
+		\item \textit{Rectangle ** linearSplit(Node *header)}: Control de overflow usando Linear Split.
+		\item \textit{Rectangle ** greeneSplit(Node *header)}: Control de overflow usando Greene Split.
+		\item Rectangle ** controlOverFlow(Node *header, Rectangle *r); \textbf{TODO}
+		\item int *calculateBounds(Node *pNode); \textbf{TODO}
+		\item Rectangle **calculateXRectangles(Node *pNode); \textbf{TODO}
+		\item Rectangle **makeRandom(Node pNode); \textbf{TODO}
+	\end{itemize}
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-	\pagebreak
+	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\section*{Presentación de los Resultados}
+	\section{Presentación de los Resultados}
 	%	TODO Presentación de los Resultados
 
-	\subsection*{Tiempo de Construcción del R-Tree}
-	\subsubsection*{Variante 1 de Insertar: (Inserte nombre aquí)}
+	\subsection{Tiempo de Construcción del R-Tree}
+	\subsubsection{Linear Split}
 	% 	TODO Gráficos?
 	Hacer un gráfico?
 
-	\subsubsection*{Variante 2 de Insertar: (Inserte nombre aquí)}
+	\subsubsection{Greene Split}
 	% 	TODO Gráficos?
 	Hacer otro gráfico?
 
-	\subsection*{Espacio ocupado y porcentaje de llenado de páginas de disco}
+	\subsection{Espacio ocupado y porcentaje de llenado de páginas de disco}
 	% 	TODO Gráficos?
 	Aún más gráficos?
 
-	\subsection*{Desempeño de operación \textit{Buscar}}
+	\subsection{Desempeño de operación \textit{Buscar}}
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-	\pagebreak
+	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\section*{Análisis e Interpretación}
+	\section{Análisis e Interpretación}
 	% 	TODO Análisis e Interpretación
 	Aquí hay que hacer el chamullo correspondiente (?)
 
