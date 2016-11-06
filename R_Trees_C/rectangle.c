@@ -193,29 +193,37 @@ Node*  search(char *nodeName, Rectangle *rect) {
         Node *node = loadFromDisk(nodeName);
         Node * answer = createNode();
         Rectangle **aux = node->rectArray;
+        int close = 0;
         int i;
         for ( i = 0 ; i <= node->size-1 ; i++ ) {
+            if (close ==1)
+                node = loadFromDisk(nodeName);
             Rectangle *auxRect = aux[i];
+            
             // Agregar rectángulo que intersecta
             if (intersect(auxRect, rect)) {
-                printRectangle(auxRect,"intersect rectangle");
+                printf("intersect ");
+                printRectangle(auxRect);
 
                 if (auxRect->hijo != NULL) {
-                    Node *nodeAux = loadFromDisk(auxRect->hijo);
-                    Node* recursive = search(nodeAux,rect);
+                    writeToDisk(node);
+                    close = 1;
+                    Node* recursive = search(auxRect->hijo,rect);
                     for (int j = 0 ; j < recursive->size ; j++ ) {
                         answer->rectArray[answer->size] = recursive->rectArray[i];
                         answer->size++;
                     }
                     free(recursive);
-                    free(nodeAux);
 
                 }
+                
+                
                 answer->rectArray[answer->size] = auxRect;
                 answer->size++;
             }
 
     }
+    writeToDisk(nodeName);
     return answer;
 
 
@@ -319,6 +327,10 @@ Rectangle ** linearSplit(Node *header) {
 
 }
 
+Rectangle ** GreeneSplit(Node *header) {
+    return NULL;
+}
+
 Rectangle **makeRandom(Node pNode) {
     int times = pNode.size * 5;
     int r1,r2;
@@ -333,8 +345,8 @@ Rectangle **makeRandom(Node pNode) {
     return pNode.rectArray;
 }
 
-void printRectangle(Rectangle* auxRect, char * s) {
-    printf("%s %s, have x = %d, y = %d, w = %d, h = %d.\n ",s ,auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
+void printRectangle(Rectangle* auxRect) {
+    printf("%s, have x = %d, y = %d, w = %d, h = %d.\n ",auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
 
 }
 
@@ -382,4 +394,6 @@ int *calculateBounds(Node *pNode) {
     array[1] = max_y-min_y;
     return array;
 }
+
+
 

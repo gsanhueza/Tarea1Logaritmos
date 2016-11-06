@@ -46,7 +46,7 @@ void insertRectToNode(Node *n, Rectangle *r);
 int intersect (Rectangle *r1, Rectangle *r2);
 void mergeRectangle(Rectangle *r1, Rectangle *r2);
 int MBR(Rectangle *r1, Rectangle *r2);
-void printRectangle(Rectangle *r, char *s);
+void printRectangle(Rectangle *r);
 void insert( char *nodeName , Rectangle *r );
 Rectangle ** linearSplit(Node *header);
 #endif
