@@ -35,7 +35,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, char *id) {
  */
 Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
-    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle *));
+    tree->rectArray = (Rectangle **)malloc(MAX_SIZE * sizeof(Rectangle **));
     tree->size = 0;
 
     return tree;

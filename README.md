@@ -1,6 +1,7 @@
 # Tarea 1 Logaritmos
 
 * Vamos a usar C (Pero en Java hay cosas igual)
-* Hay que elegir 2 variantes de Split (dentro de las 4 que nos ofrecen)
-* Diseñar bien la cosa \#seviene
+* Haremos Linear Split y Green Split
+* Parece que el buscar funciona bien (?)
+* Linear implementado, falta ver lo de Greene
 
