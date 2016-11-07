@@ -31,3 +31,8 @@ R_Trees_CPP/.idea
 
 # Nodos
 R_Trees_C/Nodes/*
+test.tree
+
+# Ejecutables
+R_Trees_C/main
+R_Trees_C/R_Trees_C
