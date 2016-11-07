@@ -251,9 +251,80 @@ Rectangle ** linearSplit(Node *header) {
     return rectarray;
     
 }
+int partitionX(Node *header,int inicio,int final) {
+    int pivot,i,j;
+    Rectangle *t;
+    Rectangle ** aux = header->rectArray;
+    pivot = inicio;
+    i = inicio;
+    j = final;
+    while (i<j) {
+        while((aux[i]->x) <=(aux[pivot]->x) && i<final)
+            i++;
+        while ((aux[j]->x)>(aux[pivot]->x))
+            j--;
+        if (i<j) {
+            t = aux[i];
+            aux[i] = aux[j];
+            aux[j] = t;
+        }
+    }
+    t = aux[pivot];
+    aux[pivot] = aux[j];
+    aux[j] = t;
 
-Rectangle ** GreeneSplit(Node *header) {
-    return NULL;
+
+
+}
+
+int partitionY(Node *header,int inicio,int final) {
+    int pivot,i,j;
+    Rectangle *t;
+    Rectangle ** aux = header->rectArray;
+    pivot = inicio;
+    i = inicio;
+    j = final;
+    while (i<j) {
+        while((aux[i]->y) <=(aux[pivot]->y) && i<final)
+            i++;
+        while ((aux[j]->y)>(aux[pivot]->y))
+            j--;
+        if (i<j) {
+            t = aux[i];
+            aux[i] = aux[j];
+            aux[j] = t;
+        }
+    }
+    t = aux[pivot];
+    aux[pivot] = aux[j];
+    aux[j] = t;
+    return j;
+
+
+}
+
+void quicksort(Node *header,int inicio,int final,int d){
+    int j;
+    if (inicio < final) {
+        if (d == 0)
+            j=partitionX(header,inicio,final);
+        else
+            j=partitionY(header,inicio,final);
+        quicksort(header,inicio,j,d);
+        quicksort(header,j+1,final,d);
+
+    }
+}
+
+void greeneSplit(Node *header) {
+    Rectangle *min;
+    Rectangle *max;
+    int direccionCorte = 0; /*0 si es el eje x, 1 si es el eje 1*/
+    /*Calcular los rectangulos mas distantes con los pasos de linear split*/
+    //pasosLinear(min,max,header);
+    quicksort(header,0,header->size,direccionCorte);
+    /*Ahora el nodo esta ordenado, hay que mover los primeros M/2 -1 rectangulos al primer nodo y los otros al segundo*/
+
 }
 
 Rectangle **makeRandom(Node pNode) {

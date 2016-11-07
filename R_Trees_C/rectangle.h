@@ -141,7 +141,7 @@ Rectangle ** linearSplit(Node *header);
  * @param header p_header: Nodo a dividir.
  * @return Rectangle** Lista de nodos divididos.
  */
-Rectangle ** greeneSplit(Node *header);
+void greeneSplit(Node *header);
 
 /**
  * @brief Calcula el rectángulo más grande de todos los que están en el nodo.
