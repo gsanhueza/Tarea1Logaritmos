@@ -199,6 +199,7 @@ void linearSplit(Node *header) {
     Rectangle **arrayRect = makeRandom(*header);
     Node *noder1 = createNode();
     Node *noder2 = createNode();
+
     for ( int i = 0; i < header->size ; i++) {
         if(arrayRect[i] != rectangle1 && arrayRect[i] != rectangle2) {
             if (header->size - i + noder1->size == m) {
@@ -231,9 +232,15 @@ void linearSplit(Node *header) {
 
         }
     }
+
+    printf("** TEST 1 **\n");
+
+    // FIXME Aquí hay Segmentation Fault
     rectangle1->hijo = writeToDisk(noder1);
     rectangle2->hijo = writeToDisk(noder2);
-    free(header);
+
+    printf("** TEST 2 **\n");
+
     Rectangle **rectarray = (Rectangle **) malloc(M*sizeof(Rectangle *));
 
     rectarray[0]=rectangle1;
