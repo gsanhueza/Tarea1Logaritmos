@@ -1,7 +1,7 @@
 #ifndef _RECTANGLE_H_
 #define _RECTANGLE_H_
 
-#define BLOCK_SIZE 4096
+#define BLOCK_SIZE 512
 
 /*****************************************************
  * Estructuras
@@ -26,8 +26,8 @@ typedef struct rectangle{
  */
 typedef struct node {
     Rectangle** rectArray;
-    int size;
-    char* this_node_filename;
+    int occupied;
+    char *this_node_filename;
 } Node;
 
 /*****************************************************

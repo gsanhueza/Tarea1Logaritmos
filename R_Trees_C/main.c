@@ -8,13 +8,13 @@
 int main(void) {
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
-    int numRectangles = 130;
+    int numRectangles = 16;
     Rectangle **rects = bateriaRectangulos(numRectangles);
 
     Node *header = createNode();
     Rectangle *r = createRectangle(0, 0, 4, 5, -1);
     header->rectArray[0] = r;
-    header->size = 1;
+    header->occupied = 1;
 
     char *node = writeToDisk(header);
 
