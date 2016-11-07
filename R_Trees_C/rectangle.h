@@ -131,14 +131,14 @@ Node *search(char *nodeName, Rectangle *rect);
  *
  * @param header p_header: Nodo a dividir.
  */
-void linearSplit(Node *header);
+Rectangle ** linearSplit(Node *header);
 
 /**
  * @brief Control de overflow usando Greene Split.
  *
  * @param header p_header: Nodo a dividir.
  */
-void greeneSplit(Node *header);
+Rectangle ** greeneSplit(Node *header);
 
 /**
  * @brief Calcula el rectángulo más grande de todos los que están en el nodo.
