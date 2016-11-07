@@ -17,7 +17,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     rect->y = y;
     rect->w = w;
     rect->h = h;
-    rect->id = (char *)malloc(sizeof(char));
+    rect->id = (char *)malloc(100*sizeof(char));
     sprintf(rect->id, "rectangle%d", id);
     rect->hijo = NULL;
     return rect;
@@ -318,7 +318,16 @@ void quicksort(Node *header,int inicio,int final,int d){
 void greeneSplit(Node *header) {
     Rectangle *min;
     Rectangle *max;
-    int direccionCorte = 0; /*0 si es el eje x, 1 si es el eje 1*/
+    int w, h;
+    int *bounds = calculateBounds(header);
+    w = bounds[0];
+    h = bounds[1];
+    int direccionCorte = 0;
+    Rectangle **rectangles = calculateXRectangles(header);
+    float width = (rectangles[1]-rectangles[0])/w;
+    float heigth = (rectangles[3]-rectangles[2])/h;
+    min = width < heigth ? rectangles[3] : rectangles[1];
+    max = width < heigth ? rectangles[2] : rectangles[0];/*0 si es el eje x, 1 si es el eje 1*/
     /*Calcular los rectangulos mas distantes con los pasos de linear split*/
     //pasosLinear(min,max,header);
     quicksort(header,0,header->size,direccionCorte);
