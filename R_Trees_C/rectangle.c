@@ -117,8 +117,7 @@ Node* search(char *nodeName, Rectangle *rect) {
         Rectangle *auxRect = aux[i];
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect)) {
-            printf("intersect ");
-            printRectangle(auxRect);
+
 
             if (auxRect->hijo != NULL) {
                 Node* recursive = search(auxRect->hijo,rect);
@@ -129,9 +128,12 @@ Node* search(char *nodeName, Rectangle *rect) {
                 free(recursive);
 
             }
-
-            answer->rectArray[answer->size] = auxRect;
-            answer->size++;
+            if (auxRect->hijo == NULL) {
+                answer->rectArray[answer->size] = auxRect;
+                answer->size++;
+                printf("intersect ");
+                printRectangle(auxRect);
+            }
         }
 
     }
