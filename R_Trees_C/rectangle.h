@@ -130,7 +130,7 @@ Node *search(char *nodeName, Rectangle *rect);
 /**
  * @brief Control de overflow usando Linear Split.
  *
- * @param header p_header: Nodo a dividir
+ * @param header p_header: Nodo a dividir.
  * @return Rectangle** Lista de nodos divididos.
  */
 Rectangle ** linearSplit(Node *header);
@@ -138,14 +138,49 @@ Rectangle ** linearSplit(Node *header);
 /**
  * @brief Control de overflow usando Greene Split.
  *
- * @param header p_header: Nodo a dividir
+ * @param header p_header: Nodo a dividir.
  * @return Rectangle** Lista de nodos divididos.
  */
 Rectangle ** greeneSplit(Node *header);
 
-Rectangle ** controlOverFlow(Node *header, Rectangle *r);
+/**
+ * @brief Calcula el rectángulo más grande de todos los que están en el nodo.
+ *
+ * @param pNode p_pNode: Nodo con rectángulos.
+ * @return int* Arreglo con alto y ancho del rectángulo más grande.
+ */
 int *calculateBounds(Node *pNode);
+
+/**
+ * @brief Calcula los rectangulos con mayor bajo y menor alto en un arreglo para el eje X e Y
+ *
+ * @param pNode p_pNode: Nodo con rectángulos.
+ * @return Rectangle** Lista de los 4 rectángulos calculados.
+ */
 Rectangle **calculateXRectangles(Node *pNode);
+
+/**
+ * @brief Desordena el orden de los rectángulos de un nodo para aleatorizar el split.
+ *
+ * @param pNode p_pNode: Nodo con rectángulos.
+ * @return Rectangle** El nodo con rectángulos desordenados.
+ */
 Rectangle **makeRandom(Node pNode);
+
+/**
+ * @brief Retorna un número aleatorio acotado.
+ *
+ * @param max p_max: Cota superior del número aleatorio.
+ * @return int El número aleatorio calculado.
+ */
+int randomNum(int max);
+
+/**
+ * @brief Crea n rectángulos distintos para experimentación.
+ *
+ * @param n p_n: Número de rectángulos a crear.
+ * @return Node* Nodo con rectángulos creados.
+ */
+Node *createTestRectangles(int n);
 
 #endif

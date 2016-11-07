@@ -34,16 +34,17 @@ Node* createNode() {
  *****************************************************/
 
 Node* loadFromDisk(char *filename) {
-
     FILE *fp;
     Node *nodeFile = malloc(sizeof(Node));
+
     fp = fopen(filename,"rb");
-     if (fp != NULL) {
+
+    if (fp != NULL) {
         fread(nodeFile, sizeof(Node), 1, fp);
         fclose(fp);
     }
     else
-        printf("Error: el archivo no se puede abrir -- File: %s",filename);
+        printf("Error: el archivo no se puede abrir -- File: %s", filename);
     return nodeFile;
 }
 
@@ -107,39 +108,39 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
  *****************************************************/
 
 Node* search(char *nodeName, Rectangle *rect) {
-        Node *node = loadFromDisk(nodeName);
-        Node * answer = createNode();
-        Rectangle **aux = node->rectArray;
-        int close = 0;
-        int i;
-        for ( i = 0 ; i <= node->size-1 ; i++ ) {
-            if (close == 1)
-                node = loadFromDisk(nodeName);
-            Rectangle *auxRect = aux[i];
+    Node *node = loadFromDisk(nodeName);
+    Node * answer = createNode();
+    Rectangle **aux = node->rectArray;
+    int close = 0;
+    int i;
+    for ( i = 0 ; i <= node->size-1 ; i++ ) {
+        if (close == 1)
+            node = loadFromDisk(nodeName);
+        Rectangle *auxRect = aux[i];
 
-            // Agregar rectángulo que intersecta
-            if (intersect(auxRect, rect)) {
-                printf("intersect ");
-                printRectangle(auxRect);
+        // Agregar rectángulo que intersecta
+        if (intersect(auxRect, rect)) {
+            printf("intersect ");
+            printRectangle(auxRect);
 
-                if (auxRect->hijo != NULL) {
-                    writeToDisk(node);
-                    close = 1;
-                    Node* recursive = search(auxRect->hijo,rect);
-                    for (int j = 0 ; j < recursive->size ; j++ ) {
-                        answer->rectArray[answer->size] = recursive->rectArray[i];
-                        answer->size++;
-                    }
-                    free(recursive);
-
+            if (auxRect->hijo != NULL) {
+                writeToDisk(node);
+                close = 1;
+                Node* recursive = search(auxRect->hijo,rect);
+                for (int j = 0 ; j < recursive->size ; j++ ) {
+                    answer->rectArray[answer->size] = recursive->rectArray[i];
+                    answer->size++;
                 }
+                free(recursive);
 
-                answer->rectArray[answer->size] = auxRect;
-                answer->size++;
             }
 
+            answer->rectArray[answer->size] = auxRect;
+            answer->size++;
+        }
+
     }
-//     writeToDisk(nodeName);
+    //     writeToDisk(nodeName);
     free(node);
     return answer;
 
@@ -183,56 +184,58 @@ void insert( char *nodeName , Rectangle *r ) {
 
 }
 
-Rectangle **controlOverFlow(Node *header, Rectangle * r) {
-    return NULL;
-}
 Rectangle ** linearSplit(Node *header) {
-        int w, h;
-        int *bounds = calculateBounds(header);
-        w = bounds[0];
-        h = bounds[1];
-        Rectangle *rectangle1;
-        Rectangle *rectangle2;
-        Rectangle ** rectangles = calculateXRectangles(header);
-        float width = (rectangles[1]-rectangles[0])/w;
-        float heigth = (rectangles[3]-rectangles[2])/h;
-        rectangle1 = width < heigth ? rectangles[3] : rectangles[1];
-        rectangle2 = width < heigth ? rectangles[2] : rectangles[0];
-        Rectangle **arrayRect = makeRandom(*header);
-        Node *noder1 = createNode();
-        Node *noder2 = createNode();
-        for ( int i = 0; i < header->size ; i++) {
-            if (arrayRect[i] != rectangle1 || arrayRect[i] != rectangle2) {
-                if (header->size - i + noder1->size == m) {
-                    noder1->rectArray[noder1->size] = arrayRect[i];
-                    noder1->size++;
-                    continue;
-                }
-                if (header->size - i + noder2->size == m) {
-                    noder2->rectArray[noder2->size] = arrayRect[i];
-                    noder2->size++;
-                    continue;
-                }
-                if(MBR(rectangle1, arrayRect[i])<MBR(rectangle2, arrayRect[i])){
-                    noder1->rectArray[noder1->size] = arrayRect[i];
-                    noder1->size++;
-                    mergeRectangle(rectangle1,arrayRect[i]);
-                }
-                else{
-                    noder2->rectArray[noder2->size] = arrayRect[i];
-                    noder2->size++;
-                    mergeRectangle(rectangle2,arrayRect[i]);
-                }
+    int w, h;
+    int *bounds = calculateBounds(header);
+    w = bounds[0];
+    h = bounds[1];
+    Rectangle *rectangle1;
+    Rectangle *rectangle2;
 
+    Rectangle ** rectangles = calculateXRectangles(header);
+    float width = (rectangles[1]-rectangles[0])/w;
+    float heigth = (rectangles[3]-rectangles[2])/h;
+    rectangle1 = width < heigth ? rectangles[3] : rectangles[1];
+    rectangle2 = width < heigth ? rectangles[2] : rectangles[0];
+
+    Rectangle **arrayRect = makeRandom(*header);
+    Node *noder1 = createNode();
+    Node *noder2 = createNode();
+    for ( int i = 0; i < header->size ; i++) {
+        if (arrayRect[i] != rectangle1 || arrayRect[i] != rectangle2) {
+            if (header->size - i + noder1->size == m) {
+                noder1->rectArray[noder1->size] = arrayRect[i];
+                noder1->size++;
+                continue;
             }
+            if (header->size - i + noder2->size == m) {
+                noder2->rectArray[noder2->size] = arrayRect[i];
+                noder2->size++;
+                continue;
+            }
+            if(MBR(rectangle1, arrayRect[i])<MBR(rectangle2, arrayRect[i])){
+                noder1->rectArray[noder1->size] = arrayRect[i];
+                noder1->size++;
+                mergeRectangle(rectangle1,arrayRect[i]);
+            }
+            else{
+                noder2->rectArray[noder2->size] = arrayRect[i];
+                noder2->size++;
+                mergeRectangle(rectangle2,arrayRect[i]);
+            }
+
         }
-        rectangle1->hijo = writeToDisk(noder1);
-        rectangle2->hijo =  writeToDisk(noder2);
-        free(header);
-        Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle **));
-        rectarray[0]=rectangle1;
-        rectarray[1] = rectangle2;
-        return rectarray;
+    }
+    rectangle1->hijo = writeToDisk(noder1);
+    rectangle2->hijo = writeToDisk(noder2);
+
+    Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle **));
+    rectarray[0]=rectangle1;
+    rectarray[1] = rectangle2;
+
+    free(header);
+    free(bounds);
+    return rectarray;
 
 }
 
@@ -244,9 +247,9 @@ Rectangle **makeRandom(Node pNode) {
     int times = pNode.size * 5;
     int r1,r2;
     while (times > 0){
-        r1 = rand()%pNode.size;
-        r2 = rand()%pNode.size;
-        Rectangle * r = pNode.rectArray[r1];
+        r1 = rand() % pNode.size;
+        r2 = rand() % pNode.size;
+        Rectangle *r = pNode.rectArray[r1];
         pNode.rectArray[r1] = pNode.rectArray[r2];
         pNode.rectArray[r2] = r;
         times--;
@@ -255,13 +258,17 @@ Rectangle **makeRandom(Node pNode) {
 }
 
 void printRectangle(Rectangle* auxRect) {
-    printf("%s, have x = %d, y = %d, w = %d, h = %d.\n ",auxRect->id,auxRect->x,auxRect->y,auxRect->w,auxRect->h);
+    printf("%s, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
 
 }
 
 Rectangle **calculateXRectangles(Node *pNode) {
-    int min_x = 0, max_x = INT_MAX, min_y = 0, max_y = INT_MAX;
-    Rectangle* minX, *maxX, *minY, *maxY;
+    int min_x = 0;
+    int max_x = INT_MAX;
+    int min_y = 0;
+    int max_y = INT_MAX;
+    Rectangle *minX, *maxX, *minY, *maxY;
+
     for (int i = 0 ; i < pNode->size ; i++) {
         Rectangle *rectangle1 = pNode->rectArray[i];
         if(min_x < rectangle1->x) {
@@ -291,7 +298,11 @@ Rectangle **calculateXRectangles(Node *pNode) {
 }
 
 int *calculateBounds(Node *pNode) {
-    int max_x = 0, min_x = INT_MAX, min_y = INT_MAX, max_y = 0;
+    int max_x = 0;
+    int min_x = INT_MAX;
+    int max_y = 0;
+    int min_y = INT_MAX;
+
     for ( int i = 0; i < pNode->size; i++ ){
         Rectangle *r = pNode->rectArray[i];
         max_x = max_x > r->x + r->w ? max_x : r->x + r->w;
@@ -300,7 +311,25 @@ int *calculateBounds(Node *pNode) {
         min_y = min_y < r->y ? min_y : r->y;
     }
     int *array = (int*)malloc(sizeof(int*));
-    array[0] = max_x-min_x;
-    array[1] = max_y-min_y;
+    array[0] = max_x - min_x;
+    array[1] = max_y - min_y;
     return array;
+}
+
+int randomNum(int max) {
+    return rand() % max;
+}
+
+Node *createTestRectangles(int n) {
+    Node *node = createNode();
+    char name[200];
+    for (int i = 0; i < n ; i ++){
+        sprintf(name, "Rectangle%d", i);
+        //puts(id);
+        Rectangle *rect = createRectangle(randomNum(10), randomNum(10), randomNum(10), randomNum(10), i);
+        printRectangle(rect);
+        node->rectArray[i] = rect;
+        node->size++;
+    }
+    return node;
 }
