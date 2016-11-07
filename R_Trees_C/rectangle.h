@@ -183,4 +183,6 @@ int randomNum(int max);
  */
 Node *createTestRectangles(int n);
 
+
+Rectangle ** bateriaRectangulos(int n);
 #endif

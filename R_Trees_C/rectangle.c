@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include <math.h>
+
 
 /*****************************************************
  * Inicialización
@@ -163,10 +165,10 @@ void insert( char *nodeName , Rectangle *r ) {
         //Abrir nodo de aux.
         Node *auxHijo = loadFromDisk(aux->hijo);
         insert(auxHijo->this_node_filename, r);
-        if (auxHijo->size == M){
+        if (auxHijo->size >= M){
             node = loadFromDisk(nodeName);
-            Rectangle **rects = linearSplit(node);
-            node->rectArray[node->size++]=rects[0];
+            Rectangle **rects = linearSplit(auxHijo);
+            *aux=*rects[0];
             node->rectArray[node->size++] =rects[1];
             free(rects);
         }
@@ -203,36 +205,29 @@ Rectangle ** linearSplit(Node *header) {
             if (header->size - i + noder1->size == m) {
                 noder1->rectArray[noder1->size] = arrayRect[i];
                 noder1->size++;
-                printf("The rectangle, ");
-                printRectangle(arrayRect[i]);
+
                 mergeRectangle(rectangle1,arrayRect[i]);
-                printf("inside rectangle %s \n", rectangle1->id);
+
                 continue;
             }
             if (header->size - i + noder2->size == m) {
                 noder2->rectArray[noder2->size] = arrayRect[i];
                 noder2->size++;
                 mergeRectangle(rectangle2,arrayRect[i]);
-                printf("The rectangle, ");
-                printRectangle(arrayRect[i]);
-                printf("inside rectangle %s \n", rectangle2->id);
+
                 continue;
             }
             if(MBR(rectangle1, arrayRect[i])<MBR(rectangle2, arrayRect[i])){
                 noder1->rectArray[noder1->size] = arrayRect[i];
                 noder1->size++;
                 mergeRectangle(rectangle1,arrayRect[i]);
-                printf("The rectangle, ");
-                printRectangle(arrayRect[i]);
-                printf("inside rectangle %s \n", rectangle1->id);
+
             }
             else{
                 noder2->rectArray[noder2->size] = arrayRect[i];
                 noder2->size++;
                 mergeRectangle(rectangle2,arrayRect[i]);
-                printf("The rectangle, ");
-                printRectangle(arrayRect[i]);
-                printf("inside rectangle %s \n", rectangle2->id);
+
             }
 
         }
@@ -340,10 +335,23 @@ Node *createTestRectangles(int n) {
     for (int i = 0; i < n ; i ++){
         sprintf(name, "Rectangle%d", i);
         //puts(id);
-        Rectangle *rect = createRectangle(randomNum(100), randomNum(100), randomNum(100), randomNum(100), i);
+        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
         printRectangle(rect);
         node->rectArray[i] = rect;
         node->size++;
     }
     return node;
+}
+
+Rectangle ** bateriaRectangulos(int n) {
+    Rectangle ** pRectangle = (Rectangle **) malloc(sizeof(Rectangle*) * n);
+    char name[2000];
+    for (int i = 0; i < n ; i ++){
+        sprintf(name, "Rectangle%d", i);
+        //puts(id);
+        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
+        printRectangle(rect);
+        pRectangle[i] = rect;
+    }
+    return pRectangle;
 }
