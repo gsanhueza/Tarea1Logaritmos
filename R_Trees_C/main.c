@@ -10,12 +10,14 @@ int main(void) {
     Node *header = createTestRectangles(127);
     char *node = writeToDisk(header);
     Rectangle *r = createRectangle(0,0,4,5,-1);
+    Rectangle *r2 = createRectangle(0,0,4,5,-2);
 
     Node *searched;
+    searched = search(node, r);
     insert(node,r);
 
     header = loadFromDisk(node);
-    linearSplit(loadFromDisk(node));
+    //linearSplit(loadFromDisk(node));
     if (header->size==M){
         //linearSplit(loadFromDisk(node));
         Node *new_father = createNode();
@@ -24,6 +26,6 @@ int main(void) {
         node = writeToDisk(new_father);
     }
     //linearSplit(header);
-    searched = search(node, r);
+    searched = search(node, r2);
 
 }

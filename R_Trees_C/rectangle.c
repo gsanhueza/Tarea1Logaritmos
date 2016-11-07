@@ -114,17 +114,13 @@ Node* search(char *nodeName, Rectangle *rect) {
     int close = 0;
     int i;
     for ( i = 0 ; i <= node->size-1 ; i++ ) {
-        if (close == 1)
-            node = loadFromDisk(nodeName);
         Rectangle *auxRect = aux[i];
-
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect)) {
             printf("intersect ");
             printRectangle(auxRect);
 
             if (auxRect->hijo != NULL) {
-                close = 1;
                 Node* recursive = search(auxRect->hijo,rect);
                 for (int j = 0 ; j < recursive->size ; j++ ) {
                     answer->rectArray[answer->size] = recursive->rectArray[i];
@@ -207,12 +203,14 @@ Rectangle ** linearSplit(Node *header) {
                 noder1->size++;
                 printf("The rectangle, ");
                 printRectangle(arrayRect[i]);
+                mergeRectangle(rectangle1,arrayRect[i]);
                 printf("inside rectangle %s \n", rectangle1->id);
                 continue;
             }
             if (header->size - i + noder2->size == m) {
                 noder2->rectArray[noder2->size] = arrayRect[i];
                 noder2->size++;
+                mergeRectangle(rectangle2,arrayRect[i]);
                 printf("The rectangle, ");
                 printRectangle(arrayRect[i]);
                 printf("inside rectangle %s \n", rectangle2->id);
@@ -239,12 +237,14 @@ Rectangle ** linearSplit(Node *header) {
     }
     rectangle1->hijo = writeToDisk(noder1);
     rectangle2->hijo = writeToDisk(noder2);
-
-    Rectangle **rectarray = (Rectangle **) malloc(2*sizeof(Rectangle *));
+    free(header);
+    Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle *));
     rectarray[0]=rectangle1;
     rectarray[1] = rectangle2;
+    for (int i = 2; i < M ; i ++ )
+        rectarray[i] = NULL;
 
-    free(header);
+
     return rectarray;
     
 }
