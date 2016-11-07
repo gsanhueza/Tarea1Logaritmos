@@ -15,7 +15,7 @@ int main(void) {
     insert(node,r);
 
     header = loadFromDisk(node);
-    //linearSplit(loadFromDisk(node));
+    linearSplit(loadFromDisk(node));
     if (header->size==M){
         //linearSplit(loadFromDisk(node));
         Node *new_father = createNode();
