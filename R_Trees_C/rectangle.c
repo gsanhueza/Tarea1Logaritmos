@@ -234,7 +234,6 @@ Rectangle ** linearSplit(Node *header) {
     rectarray[1] = rectangle2;
 
     free(header);
-    free(bounds);
     return rectarray;
     
 }
