@@ -19,6 +19,7 @@ int main(void) {
         new_father->rectArray = linearSplit(header);
         node = writeToDisk(new_father);
     }
+    linearSplit(header);
     searched = search(node, r);
 
 }

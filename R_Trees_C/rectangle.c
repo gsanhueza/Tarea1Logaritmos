@@ -229,7 +229,7 @@ Rectangle ** linearSplit(Node *header) {
     rectangle1->hijo = writeToDisk(noder1);
     rectangle2->hijo = writeToDisk(noder2);
 
-    Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle **));
+    Rectangle **rectarray = (Rectangle **) malloc(2*sizeof(Rectangle *));
     rectarray[0]=rectangle1;
     rectarray[1] = rectangle2;
 
@@ -289,7 +289,7 @@ Rectangle **calculateXRectangles(Node *pNode) {
         }
     }
 
-    Rectangle **array = (Rectangle**)malloc(sizeof(Rectangle**));
+    Rectangle **array = (Rectangle**)malloc(4 *sizeof(Rectangle*));
     array[0] = minX;
     array[1] = maxX;
     array[2] = minY;
