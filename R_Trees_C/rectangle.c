@@ -149,6 +149,20 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
+void insertToRoot(char *nodeName,Rectangle *r) {
+    insert(nodeName,r);
+    Node *node= loadFromDisk(nodeName);
+    if (node->occupied >=M) {
+        Rectangle ** aux =linearSplit(node);
+        Node *newNode = createNode();
+        newNode->rectArray[0] = aux[0];
+        newNode->rectArray[1] = aux[1];
+        node =newNode;
+        writeToDisk(node);
+    }
+    
+}
+
 void insert( char *nodeName , Rectangle *r ) {
     Node *node = loadFromDisk(nodeName);
 

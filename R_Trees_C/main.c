@@ -8,7 +8,7 @@
 int main(void) {
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
-    int numRectangles = 200; // 262144
+    int numRectangles = 1333; // 262144
     Rectangle **rects = bateriaRectangulos(numRectangles);
 
     Node *header = createNode();
@@ -19,7 +19,7 @@ int main(void) {
     char *node = writeToDisk(header);
 
     for(int i = 0; i < numRectangles; i++) {
-         insert(node, rects[i]);
+         insertToRoot(node, rects[i]);
 //         TODO usar insertToRoot() para chequear overflow del header
     }
 
