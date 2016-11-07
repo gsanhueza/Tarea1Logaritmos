@@ -124,7 +124,6 @@ Node* search(char *nodeName, Rectangle *rect) {
             printRectangle(auxRect);
 
             if (auxRect->hijo != NULL) {
-                writeToDisk(node);
                 close = 1;
                 Node* recursive = search(auxRect->hijo,rect);
                 for (int j = 0 ; j < recursive->size ; j++ ) {
@@ -202,26 +201,38 @@ Rectangle ** linearSplit(Node *header) {
     Node *noder1 = createNode();
     Node *noder2 = createNode();
     for ( int i = 0; i < header->size ; i++) {
-        if (arrayRect[i] != rectangle1 || arrayRect[i] != rectangle2) {
+        if(arrayRect[i] != rectangle1 && arrayRect[i] != rectangle2) {
             if (header->size - i + noder1->size == m) {
                 noder1->rectArray[noder1->size] = arrayRect[i];
                 noder1->size++;
+                printf("The rectangle, ");
+                printRectangle(arrayRect[i]);
+                printf("inside rectangle %s \n", rectangle1->id);
                 continue;
             }
             if (header->size - i + noder2->size == m) {
                 noder2->rectArray[noder2->size] = arrayRect[i];
                 noder2->size++;
+                printf("The rectangle, ");
+                printRectangle(arrayRect[i]);
+                printf("inside rectangle %s \n", rectangle2->id);
                 continue;
             }
             if(MBR(rectangle1, arrayRect[i])<MBR(rectangle2, arrayRect[i])){
                 noder1->rectArray[noder1->size] = arrayRect[i];
                 noder1->size++;
                 mergeRectangle(rectangle1,arrayRect[i]);
+                printf("The rectangle, ");
+                printRectangle(arrayRect[i]);
+                printf("inside rectangle %s \n", rectangle1->id);
             }
             else{
                 noder2->rectArray[noder2->size] = arrayRect[i];
                 noder2->size++;
                 mergeRectangle(rectangle2,arrayRect[i]);
+                printf("The rectangle, ");
+                printRectangle(arrayRect[i]);
+                printf("inside rectangle %s \n", rectangle2->id);
             }
 
         }
@@ -326,7 +337,7 @@ Node *createTestRectangles(int n) {
     for (int i = 0; i < n ; i ++){
         sprintf(name, "Rectangle%d", i);
         //puts(id);
-        Rectangle *rect = createRectangle(randomNum(10), randomNum(10), randomNum(10), randomNum(10), i);
+        Rectangle *rect = createRectangle(randomNum(100), randomNum(100), randomNum(100), randomNum(100), i);
         printRectangle(rect);
         node->rectArray[i] = rect;
         node->size++;

@@ -8,5 +8,7 @@ set(SOURCE_FILES
     rectangle.c
     rectangle.h
         )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/home/rodrigo/Documents/Algoritmos/Tarea1Logaritmos/R_Trees_C/")
+set(CMAKE_RUNTIME_INPUT_DIRECTORY "/home/rodrigo/Documents/Algoritmos/Tarea1Logaritmos/R_Trees_C")
 
 add_executable(R_Trees_C ${SOURCE_FILES})

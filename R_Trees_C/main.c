@@ -17,9 +17,10 @@ int main(void) {
     header = loadFromDisk(node);
     linearSplit(loadFromDisk(node));
     if (header->size==M){
-        linearSplit(loadFromDisk(node));
+        //linearSplit(loadFromDisk(node));
         Node *new_father = createNode();
         new_father->rectArray = linearSplit(header);
+        new_father->size = 2;
         node = writeToDisk(new_father);
     }
     //linearSplit(header);
