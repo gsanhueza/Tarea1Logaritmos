@@ -27,6 +27,7 @@ Node* createNode() {
     Node* tree = (Node *)malloc(sizeof(Node));
     tree->rectArray = (Rectangle **)malloc(M * sizeof(Rectangle));
     tree->occupied = 0;
+    tree->this_node_filename = NULL;
 
     return tree;
 }
@@ -56,7 +57,6 @@ char* writeToDisk(Node *data) {
 
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
-        printf("%s\n", fileName);
     }
     else {
         sprintf(fileName, "Nodes/Node%d.bin", count);
@@ -67,7 +67,7 @@ char* writeToDisk(Node *data) {
     fp = fopen(fileName, "wb");
 
     if (fp == NULL) {
-        printf("No se pudo abrir el archivo %s\n", "fileName"); // FIXME Aquí!
+        printf("No se pudo abrir el archivo %s\n", fileName); // FIXME Aquí!
         return NULL;
     }
 
@@ -150,8 +150,6 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 void insert( char *nodeName , Rectangle *r ) {
     Node *node = loadFromDisk(nodeName);
-
-    printf("ingresé a insert, node->occupied = %d, M = %lu\n", node->occupied, M);
 
     if ((node->rectArray)[0]->hijo != NULL) { // Necesito llegar a la hoja
         int minMBR = INT_MAX;
