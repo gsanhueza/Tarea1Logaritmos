@@ -238,7 +238,8 @@ Rectangle ** linearSplit(Node *header) {
     rectangle1->hijo = writeToDisk(noder1);
     rectangle2->hijo = writeToDisk(noder2);
     free(header);
-    Rectangle **rectarray = (Rectangle **) malloc(sizeof(Rectangle *));
+    Rectangle **rectarray = (Rectangle **) malloc(M*sizeof(Rectangle *));
+
     rectarray[0]=rectangle1;
     rectarray[1] = rectangle2;
     for (int i = 2; i < M ; i ++ )
@@ -299,7 +300,7 @@ Rectangle **calculateXRectangles(Node *pNode) {
         }
     }
 
-    Rectangle **array = (Rectangle**)malloc(4 *sizeof(Rectangle*));
+    Rectangle **array = (Rectangle**)malloc(M *sizeof(Rectangle*));
 
     array[0] = minX;
     array[1] = maxX;
