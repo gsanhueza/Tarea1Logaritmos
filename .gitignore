@@ -28,3 +28,6 @@ R_Trees_CPP/.idea
 # Vim
 *~
 ..*~
+
+# Nodos
+R_Trees_C/Nodes/*

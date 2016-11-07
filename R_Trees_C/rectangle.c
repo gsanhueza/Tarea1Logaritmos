@@ -113,9 +113,9 @@ Node* search(char *nodeName, Rectangle *rect) {
     Node *node = loadFromDisk(nodeName);
     Node * answer = createNode();
     Rectangle **aux = node->rectArray;
-    int close = 0;
     int i;
-    for ( i = 0 ; i <= node->size-1 ; i++ ) {
+
+    for (i = 0 ; i <= node->size - 1 ; i++) {
         Rectangle *auxRect = aux[i];
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect)) {
@@ -167,10 +167,9 @@ void insert( char *nodeName , Rectangle *r ) {
         insert(auxHijo->this_node_filename, r);
         if (auxHijo->size >= M){
             node = loadFromDisk(nodeName);
-            Rectangle **rects = linearSplit(auxHijo);
-            *aux=*rects[0];
-            node->rectArray[node->size++] =rects[1];
-            free(rects);
+            linearSplit(auxHijo);
+            *aux = *auxHijo->rectArray[0];
+            node->rectArray[node->size++] =auxHijo->rectArray[1];
         }
         else
             return;
@@ -183,7 +182,7 @@ void insert( char *nodeName , Rectangle *r ) {
 
 }
 
-Rectangle ** linearSplit(Node *header) {
+void linearSplit(Node *header) {
     int w, h;
     int *bounds = calculateBounds(header);
     w = bounds[0];
@@ -242,9 +241,8 @@ Rectangle ** linearSplit(Node *header) {
     for (int i = 2; i < M ; i ++ )
         rectarray[i] = NULL;
 
+    header->rectArray = rectarray;
 
-    return rectarray;
-    
 }
 int partitionX(Node *header,int inicio,int final) {
     int pivot,i,j;
@@ -268,8 +266,7 @@ int partitionX(Node *header,int inicio,int final) {
     aux[pivot] = aux[j];
     aux[j] = t;
 
-
-
+    return j;
 }
 
 int partitionY(Node *header,int inicio,int final) {
@@ -302,11 +299,11 @@ void quicksort(Node *header,int inicio,int final,int d){
     int j;
     if (inicio < final) {
         if (d == 0)
-            j=partitionX(header,inicio,final);
+            j = partitionX(header,inicio,final);
         else
-            j=partitionY(header,inicio,final);
-        quicksort(header,inicio,j,d);
-        quicksort(header,j+1,final,d);
+            j = partitionY(header,inicio,final);
+        quicksort(header,inicio, j, d);
+        quicksort(header,j + 1, final, d);
 
     }
 }

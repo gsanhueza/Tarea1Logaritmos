@@ -131,15 +131,13 @@ Node *search(char *nodeName, Rectangle *rect);
  * @brief Control de overflow usando Linear Split.
  *
  * @param header p_header: Nodo a dividir.
- * @return Rectangle** Lista de nodos divididos.
  */
-Rectangle ** linearSplit(Node *header);
+void linearSplit(Node *header);
 
 /**
  * @brief Control de overflow usando Greene Split.
  *
  * @param header p_header: Nodo a dividir.
- * @return Rectangle** Lista de nodos divididos.
  */
 void greeneSplit(Node *header);
 
