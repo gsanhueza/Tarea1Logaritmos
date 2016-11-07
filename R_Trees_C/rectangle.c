@@ -236,7 +236,7 @@ Rectangle ** linearSplit(Node *header) {
     free(header);
     free(bounds);
     return rectarray;
-
+    
 }
 
 Rectangle ** GreeneSplit(Node *header) {
@@ -290,6 +290,7 @@ Rectangle **calculateXRectangles(Node *pNode) {
     }
 
     Rectangle **array = (Rectangle**)malloc(4 *sizeof(Rectangle*));
+
     array[0] = minX;
     array[1] = maxX;
     array[2] = minY;

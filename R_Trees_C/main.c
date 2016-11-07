@@ -13,13 +13,16 @@ int main(void) {
 
     Node *searched;
     insert(node,r);
+
     header = loadFromDisk(node);
-    if (header->size==M) {
+    //linearSplit(loadFromDisk(node));
+    if (header->size==M){
+        linearSplit(loadFromDisk(node));
         Node *new_father = createNode();
         new_father->rectArray = linearSplit(header);
         node = writeToDisk(new_father);
     }
-    linearSplit(header);
+    //linearSplit(header);
     searched = search(node, r);
 
 }
