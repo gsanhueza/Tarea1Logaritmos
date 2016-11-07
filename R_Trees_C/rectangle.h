@@ -34,7 +34,6 @@ typedef struct node {
  * Constantes dependientes
  *****************************************************/
 
-static int count = 0;
 #define M BLOCK_SIZE / sizeof(Rectangle)
 #define m (40 * M / 100)
 

@@ -7,7 +7,7 @@
 int main(void) {
     srand(123);/*Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia*/
     Node *header = createNode();
-    Rectangle ** rects = bateriaRectangulos(2);
+    Rectangle ** rects = bateriaRectangulos(262144);
     header->rectArray = rects;
     header->size++;
 

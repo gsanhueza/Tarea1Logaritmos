@@ -5,10 +5,11 @@
 #include <string.h>
 #include <math.h>
 
-
 /*****************************************************
  * Inicialización
  *****************************************************/
+
+int count = 0;
 
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle *));
