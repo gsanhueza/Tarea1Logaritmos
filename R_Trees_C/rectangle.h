@@ -16,7 +16,7 @@ typedef struct rectangle{
     int y;
     int h;
     int w;
-    char *id;
+    int id;
     char *hijo;
 } Rectangle;
 
@@ -179,7 +179,6 @@ int randomNum(int max);
  * @return Node* Nodo con rectángulos creados.
  */
 Node *createTestRectangles(int n);
-
 
 Rectangle ** bateriaRectangulos(int n);
 #endif
