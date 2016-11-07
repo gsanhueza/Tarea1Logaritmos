@@ -17,7 +17,7 @@ Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     rect->y = y;
     rect->w = w;
     rect->h = h;
-    rect->id = (char *)malloc(sizeof(char));
+    rect->id = (char *)malloc(100*sizeof(char));
     sprintf(rect->id, "rectangle%d", id);
     rect->hijo = NULL;
     return rect;
