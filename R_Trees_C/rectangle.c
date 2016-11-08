@@ -149,17 +149,23 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
-void insertToRoot(char *nodeName,Rectangle *r) {
+char *insertToRoot(char *nodeName,Rectangle *r) {
     insert(nodeName,r);
     Node *node= loadFromDisk(nodeName);
     if (node->occupied >=M) {
         Rectangle ** aux =linearSplit(node);
+        writeToDisk(node);
         Node *newNode = createNode();
         newNode->rectArray[0] = aux[0];
         newNode->rectArray[1] = aux[1];
-        node =newNode;
-        writeToDisk(node);
+        newNode->occupied = 2;
+        newNode->this_node_filename = NULL;
+        char *newNodeNane = writeToDisk(newNode);
+        return newNodeNane;
+        
     }
+    writeToDisk(node);
+    return nodeName;
     
 }
 
