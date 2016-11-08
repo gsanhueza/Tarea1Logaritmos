@@ -189,4 +189,9 @@ int randomNum(int max);
  */
 Rectangle ** bateriaRectangulos(int n);
 
+void insertToRootLinear(char *nodeName,Rectangle *r);
+void insertToRootGreene(char* nodeName, Rectangle *r);
+Rectangle **copy(Rectangle **pRectangle, int n);
+void insertGreene(char *name, Rectangle *pRectangle);
+
 #endif
