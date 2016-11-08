@@ -38,7 +38,63 @@ Node* createNode() {
 /*****************************************************
  * Manejo de archivos
  *****************************************************/
+char * writeToDisk(Node * data){
+    FILE *fp;
+    char *fileName = (char * )malloc(sizeof (char)*100);
+    if(data->this_node_filename != NULL) {
+        fileName = data->this_node_filename;
+    }
+    else {
+        sprintf(fileName, "Nodes/Node%d.txt", count);
+        data->this_node_filename = fileName;
+        count++;
+    }
+    fp = fopen(fileName, "w");
+    if (fp == NULL) {
+        printf("No se pudo abrir el archivo %s\n", fileName);
+        return NULL;
+    }
+    fprintf(fp,"%d\n",data->occupied);
+    for ( int i = 0 ; i < data->occupied; i ++ ){
+        Rectangle *r = (data->rectArray[i]);
+        if(r->hijo == NULL || strcmp(r->hijo, "--"))
+            r->hijo = "--";
+        fprintf(fp, "%d %d %d %d %d %s\n",r->x,r->y,r->w,r->h,r->id,r->hijo);
+    }
+    fclose(fp);
+    free(data);
+    return fileName;
+}
+Node * loadFromDisk (char * filename){
+    FILE *fp;
+    Node *nodeFile = createNode();
+    fp = fopen(filename,"r");
+    if (fp!=NULL) {
+        fscanf(fp,"%d\n",&(nodeFile->occupied));
+        for (int i = 0; i<nodeFile->occupied ; i++) {
+            int x, y, h, w, id;
+            char hijo[25];
+            fscanf(fp,"%d%d%d%d%d%s\n",&x,&y,&w,&h,&id,hijo);
+            Rectangle *r = createRectangle(x,y,w,h,id);
+            if (hijo!=NULL && '-'==hijo[0]) {
+                r->hijo = NULL;
+            }
+            else{
+                r->hijo = hijo;
+            }
 
+            nodeFile->rectArray[i] = r;
+        }
+
+        fclose(fp);
+    }
+    else
+        printf("Error: el archivo no se puede abrir -- File: %s", filename);
+//     printf("LFD: nodeFile->this_node_filename = %s\n", nodeFile->this_node_filename);
+    nodeFile->this_node_filename = filename;
+    return nodeFile;
+}
+/*
 Node* loadFromDisk(char *filename) {
     FILE *fp;
     Node *nodeFile =(Node *) malloc(sizeof(Node));
@@ -74,6 +130,7 @@ char* writeToDisk(Node *data) {
         return NULL;
     }
 
+
     char *c = (char*)data;
     fwrite(c, sizeof(Node), 1, fp);
 
@@ -83,7 +140,7 @@ char* writeToDisk(Node *data) {
 //     printf("WTD: filename = %s\n", fileName);
     return fileName;
 
-}
+}*/
 
 /*****************************************************
  * Funciones auxiliares
@@ -153,7 +210,7 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 void insertToRootLinear(char *nodeName,Rectangle *r) {
     insertLinear(nodeName,r);
-    Node *node= loadFromDisk(nodeName);
+    Node *node = loadFromDisk(nodeName);
     if (node->occupied >=M) {
         Rectangle ** aux =linearSplit(node);
         Node *newNode = createNode();
@@ -228,7 +285,7 @@ void insertGreene(char *nodeName, Rectangle *r) {
 void insertLinear( char *nodeName , Rectangle *r ) {
     Node *node = loadFromDisk(nodeName);
 
-    if ((node->rectArray)[0]->hijo != NULL) { // Necesito llegar a la hoja
+    if ((node->rectArray)[0]->hijo != NULL  ) { // Necesito llegar a la hoja
         int minMBR = INT_MAX;
         Rectangle * aux;
 

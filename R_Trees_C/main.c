@@ -29,10 +29,10 @@ int main(void) {
     Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
     headerLinear->rectArray[0] = r;
     headerLinear->occupied = 1;
-    headerLinear->this_node_filename = "Nodes/HeaderLinear.bin";
+    headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
     headerGreene->rectArray[0] = r2;
     headerGreene->occupied = 1;
-    headerGreene->this_node_filename = "Nodes/HeaderGreene.bin";
+    headerGreene->this_node_filename = "Nodes/HeaderGreene.txt";
 
 
     char *node = writeToDisk(headerLinear);
@@ -53,7 +53,7 @@ int main(void) {
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("time in Insert Greene: %f", time_spent);
 
-  /*  begin = clock();
+    begin = clock();
     Node *LinearSearch = search(node,r);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -64,7 +64,7 @@ int main(void) {
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("time in Search Greene: %f", time_spent);
-*/
+
 
 
 }
