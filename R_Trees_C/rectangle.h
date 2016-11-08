@@ -118,11 +118,20 @@ void printRectangle(Rectangle *r);
 void insert(char *nodeName , Rectangle *r);
 
 /**
+ * @brief Inserta un rectángulo al header (root).
+ *
+ * @param nodeName p_nodeName: Nodo root.
+ * @param r p_r: Rectángulo a insertar.
+ * @return char* Nombre del nodo.
+ */
+char * insertToRoot(char *nodeName,Rectangle *r);
+
+/**
  * @brief Busca en el nodo todos los rectángulos que intersectan a *rect.
  *
  * @param nodeName p_nodeName: Nodo donde buscar.
  * @param rect p_rect: Rectángulo a buscar.
- * @return Node** Lista de rectángulos que intersectan a *rect.
+ * @return Node* Nodo con rectángulos que intersectan a *rect.
  */
 Node *search(char *nodeName, Rectangle *rect);
 
@@ -149,7 +158,7 @@ Rectangle ** greeneSplit(Node *header);
 int *calculateBounds(Node *pNode);
 
 /**
- * @brief Calcula los rectangulos con mayor bajo y menor alto en un arreglo para el eje X e Y
+ * @brief Calcula los rectangulos con mayor bajo y menor alto en un arreglo para el eje X e Y.
  *
  * @param pNode p_pNode: Nodo con rectángulos.
  * @return Rectangle** Lista de los 4 rectángulos calculados.
@@ -176,9 +185,8 @@ int randomNum(int max);
  * @brief Crea n rectángulos distintos para experimentación.
  *
  * @param n p_n: Número de rectángulos a crear.
- * @return Node* Nodo con rectángulos creados.
+ * @return Rectangle** Arreglo de rectángulos creados.
  */
-Node *createTestRectangles(int n);
-
 Rectangle ** bateriaRectangulos(int n);
+
 #endif

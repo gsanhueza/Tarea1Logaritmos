@@ -443,20 +443,6 @@ int randomNum(int max) {
     return rand() % max;
 }
 
-Node *createTestRectangles(int n) {
-    Node *node = createNode();
-    char name[200];
-    for (int i = 0; i < n ; i ++){
-        sprintf(name, "Rectangle%d", i);
-        //puts(id);
-        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
-        printRectangle(rect);
-        node->rectArray[i] = rect;
-        node->occupied++;
-    }
-    return node;
-}
-
 Rectangle ** bateriaRectangulos(int n) {
     Rectangle ** pRectangle = (Rectangle **) malloc(sizeof(Rectangle*) * n);
     for (int i = 0; i < n ; i ++){
