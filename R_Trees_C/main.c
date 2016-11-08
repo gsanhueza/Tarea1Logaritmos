@@ -17,10 +17,11 @@ int main(void) {
     header->occupied = 1;
     header->this_node_filename = "Nodes/Node0.bin"; // WHAT
 
+
     char *node = writeToDisk(header);
 
     for(int i = 0; i < numRectangles; i++) {
-         insert(node, rects[i]);
+         insertToRoot(node, rects[i]);
 //         TODO usar insertToRoot() para chequear overflow del header
     }
 

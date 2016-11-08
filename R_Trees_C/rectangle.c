@@ -151,6 +151,25 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
+char * insertToRoot(char *nodeName,Rectangle *r) {
+    insert(nodeName,r);
+    Node *node= loadFromDisk(nodeName);
+    if (node->occupied >=M) {
+        Rectangle ** aux =linearSplit(node);
+        Node *newNode = createNode();
+        newNode->rectArray[0] = aux[0];
+        newNode->rectArray[1] = aux[1];
+        newNode->occupied = 2;
+        newNode->this_node_filename = node->this_node_filename;
+//         newNode->this_node_filename = NULL;
+        free(node);
+//         return writeToDisk(newNode);
+    }
+//     return nodeName;
+// FIXME Estas sobre escribiendo un nodo, quedará repetido
+
+}
+
 void insert( char *nodeName , Rectangle *r ) {
     Node *node = loadFromDisk(nodeName);
 
@@ -166,23 +185,23 @@ void insert( char *nodeName , Rectangle *r ) {
                 printf("%s\n", node->this_node_filename);
             }
         }
-
-        writeToDisk(node);//cerrar Nodo;
         if (aux==NULL)
             printf("Error el nodo aux es null!");
 
+
         //Abrir nodo de aux.
         insert(aux->hijo, r);
+
 
         /* Control de Overflow */
         Node *auxHijo = loadFromDisk(aux->hijo);
 
         if (auxHijo->occupied >= M){
-            linearSplit(auxHijo);
-            *aux = *auxHijo->rectArray[0];
-            writeToDisk(auxHijo);
+            Rectangle ** rects = linearSplit(auxHijo);
+            *aux = *rects[0];
+            free(auxHijo);
             node = loadFromDisk(nodeName);
-            node->rectArray[node->occupied++] =auxHijo->rectArray[1];
+            node->rectArray[node->occupied++] =rects[1];
         }
         else {
             writeToDisk(auxHijo);
@@ -190,9 +209,6 @@ void insert( char *nodeName , Rectangle *r ) {
     }
     else {
         /* Control de Overflow */
-        if (node->occupied == M) {
-            linearSplit(node);
-        }
         node->rectArray[node->occupied] = r;
         node->occupied++;
     }
@@ -340,7 +356,8 @@ Rectangle ** greeneSplit(Node *header) {
     float width = (rectangles[1]-rectangles[0])/w;
     float heigth = (rectangles[3]-rectangles[2])/h;
     min = width < heigth ? rectangles[3] : rectangles[1];
-    max = width < heigth ? rectangles[2] : rectangles[0];/*0 si es el eje x, 1 si es el eje 1*/
+    max = width < heigth ? rectangles[2] : rectangles[0];
+    direccionCorte = width < heigth ? 0:1;/*0 si es el eje x, 1 si es el eje 1*/
     /*Calcular los rectangulos mas distantes con los pasos de linear split*/
     //pasosLinear(min,max,header);
     quicksort(header,0,header->occupied,direccionCorte);
