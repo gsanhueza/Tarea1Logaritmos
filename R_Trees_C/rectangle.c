@@ -183,6 +183,7 @@ void insert( char *nodeName , Rectangle *r ) {
         if (aux==NULL)
             printf("Error el nodo aux es null!");
 
+
         //Abrir nodo de aux.
         insert(aux->hijo, r);
 
@@ -350,7 +351,8 @@ Rectangle ** greeneSplit(Node *header) {
     float width = (rectangles[1]-rectangles[0])/w;
     float heigth = (rectangles[3]-rectangles[2])/h;
     min = width < heigth ? rectangles[3] : rectangles[1];
-    max = width < heigth ? rectangles[2] : rectangles[0];/*0 si es el eje x, 1 si es el eje 1*/
+    max = width < heigth ? rectangles[2] : rectangles[0];
+    direccionCorte = width < heigth ? 0:1;/*0 si es el eje x, 1 si es el eje 1*/
     /*Calcular los rectangulos mas distantes con los pasos de linear split*/
     //pasosLinear(min,max,header);
     quicksort(header,0,header->occupied,direccionCorte);
