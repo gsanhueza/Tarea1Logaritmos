@@ -157,10 +157,12 @@ void insertToRoot(char *nodeName,Rectangle *r) {
         Node *newNode = createNode();
         newNode->rectArray[0] = aux[0];
         newNode->rectArray[1] = aux[1];
-        node =newNode;
+        newNode->occupied = 2;
+        newNode->this_node_filename = node->this_node_filename;
+        free(node);
+        node = newNode;
         writeToDisk(node);
     }
-    
 }
 
 void insert( char *nodeName , Rectangle *r ) {
@@ -189,11 +191,11 @@ void insert( char *nodeName , Rectangle *r ) {
         Node *auxHijo = loadFromDisk(aux->hijo);
 
         if (auxHijo->occupied >= M){
-            linearSplit(auxHijo);
-            *aux = *auxHijo->rectArray[0];
-            writeToDisk(auxHijo);
+            Rectangle ** rects = linearSplit(auxHijo);
+            *aux = *rects[0];
+            free(auxHijo);
             node = loadFromDisk(nodeName);
-            node->rectArray[node->occupied++] =auxHijo->rectArray[1];
+            node->rectArray[node->occupied++] =rects[1];
         }
         else {
             writeToDisk(auxHijo);
