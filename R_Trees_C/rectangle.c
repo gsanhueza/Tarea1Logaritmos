@@ -12,9 +12,6 @@
 
 int count = 1;
 
-
-void insertLinear( char *nodeName , Rectangle *r ) ;
-
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
     rect->x = x;
@@ -316,7 +313,7 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
-void insertToRootLinear(char *nodeName,Rectangle *r) {
+void insertToRootLinear(char *nodeName, Rectangle *r) {
     insertLinear(nodeName,r);
     Node *node = loadFromDisk(nodeName);
     if (node->occupied >=M) {
@@ -329,8 +326,8 @@ void insertToRootLinear(char *nodeName,Rectangle *r) {
         free(node);
         writeToDisk(newNode);
     }
-
 }
+
 void insertToRootGreene(char* nodeName, Rectangle *r){
     insertGreene(nodeName,r);
     Node *node= loadFromDisk(nodeName);
@@ -343,6 +340,48 @@ void insertToRootGreene(char* nodeName, Rectangle *r){
         free(node);
         writeToDisk(newNode);
     }
+}
+
+void insertLinear(char *nodeName , Rectangle *r) {
+    Node *node = loadFromDisk(nodeName);
+
+    if ((node->rectArray)[0]->hijo != NULL  ) { // Necesito llegar a la hoja
+        int minMBR = INT_MAX;
+        Rectangle * aux;
+
+        for(int i = 0; i <= node->occupied - 1 ; i++) {
+            int this_mbr = MBR(node->rectArray[i],r);
+            if ( this_mbr < minMBR ) {
+                minMBR = this_mbr;
+                aux = node->rectArray[i];
+            }
+        }
+
+        //Abrir nodo de aux.
+        insertLinear(aux->hijo, r);
+
+
+        /* Control de Overflow */
+        Node *auxHijo = loadFromDisk(aux->hijo);
+
+        if (auxHijo->occupied >= M){
+            Rectangle ** rects = linearSplit(auxHijo);
+            *aux = *rects[0];
+            free(auxHijo);
+            node = loadFromDisk(nodeName);
+            node->rectArray[node->occupied++] =rects[1];
+        }
+        else {
+            writeToDisk(auxHijo);
+        }
+
+    }
+    else {
+        /* Control de Overflow */
+        node->rectArray[node->occupied++] = r;
+    }
+    writeToDisk(node);
+
 }
 
 void insertGreene(char *nodeName, Rectangle *r) {
@@ -388,48 +427,6 @@ void insertGreene(char *nodeName, Rectangle *r) {
         node->occupied++;
     }
     writeToDisk(node);
-}
-
-void insertLinear(char *nodeName , Rectangle *r) {
-    Node *node = loadFromDisk(nodeName);
-
-    if ((node->rectArray)[0]->hijo != NULL  ) { // Necesito llegar a la hoja
-        int minMBR = INT_MAX;
-        Rectangle * aux;
-
-        for(int i = 0; i <= node->occupied - 1 ; i++) {
-            int this_mbr = MBR(node->rectArray[i],r);
-            if ( this_mbr < minMBR ) {
-                minMBR = this_mbr;
-                aux = node->rectArray[i];
-            }
-        }
-
-        //Abrir nodo de aux.
-        insertLinear(aux->hijo, r);
-
-
-        /* Control de Overflow */
-        Node *auxHijo = loadFromDisk(aux->hijo);
-
-        if (auxHijo->occupied >= M){
-            Rectangle ** rects = linearSplit(auxHijo);
-            *aux = *rects[0];
-            free(auxHijo);
-            node = loadFromDisk(nodeName);
-            node->rectArray[node->occupied++] =rects[1];
-        }
-        else {
-            writeToDisk(auxHijo);
-        }
-
-    }
-    else {
-        /* Control de Overflow */
-        node->rectArray[node->occupied++] = r;
-    }
-    writeToDisk(node);
-
 }
 
 Rectangle ** linearSplit(Node *header) {
