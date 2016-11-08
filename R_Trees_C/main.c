@@ -29,10 +29,10 @@ int main(void) {
     Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
     headerLinear->rectArray[0] = r;
     headerLinear->occupied = 1;
-    headerLinear->this_node_filename = "Nodes/HeaderLinear.bin";
+    headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
     headerGreene->rectArray[0] = r2;
     headerGreene->occupied = 1;
-    headerGreene->this_node_filename = "Nodes/HeaderGreene.bin";
+    headerGreene->this_node_filename = "Nodes/HeaderGreene.txt";
 
 
     char *node = writeToDisk(headerLinear);
