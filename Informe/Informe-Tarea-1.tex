@@ -94,11 +94,14 @@
 	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
 
 	\begin{itemize}
-		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
-		\item m = 40\% de M. = $ 40\% * 128 = 51 $
+		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 512 / 32 = 16 $
+		\item m = 40\% de M. = $ 40\% * 16 = 7 $
 	\end{itemize}
 
 	Por último, la idea es nunca tener más de dos archivos abiertos en un instante dado.
+
+	A partir de esto, consideramos que la inserción tome un tiempo corto con pocos rectángulos y se incremente notablemente a medida que se añaden unos cuantos más.
+	Además, esperamos que la búsqueda se demore menos que la inserción.
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 	\newpage
@@ -106,9 +109,19 @@
 
 	\section{Diseño Experimental}
 
-	En nuestra implementación hicimos 2 \textit{structs} para manejar los rectángulos en el R-Tree.
+	\subsection{Metodología}
+
+	Para cada $n \in \{2^{9}, ..., 2^{18}\}$, se harán 3 experimentos, 3 veces cada uno:
+
+	\begin{itemize}
+		\item Inserción de \textit{n} rectángulos, control de \textit{overflow} con Linear Split.
+		\item Inserción de \textit{n} rectángulos, control de \textit{overflow} con Greene Split.
+		\item Búsqueda de \textit{n/10} rectángulos.
+	\end{itemize}
 
 	\subsection{Structs}
+
+	En nuestra implementación hicimos 2 \textit{structs} para manejar los rectángulos en el R-Tree.
 
 	\subsubsection{Rectangle}
 
