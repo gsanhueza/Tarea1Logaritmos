@@ -53,7 +53,7 @@ int main(void) {
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("time in Insert Greene: %f", time_spent);
 
-    begin = clock();
+  /*  begin = clock();
     Node *LinearSearch = search(node,r);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -64,7 +64,7 @@ int main(void) {
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("time in Search Greene: %f", time_spent);
-
+*/
 
 
 }

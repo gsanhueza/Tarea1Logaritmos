@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <string.h>
 #include <math.h>
+#include <error.h>
 
 /*****************************************************
  * Inicialización
@@ -12,6 +13,7 @@
 int count = 1;
 
 
+void insertLinear( char *nodeName , Rectangle *r ) ;
 
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
@@ -39,7 +41,7 @@ Node* createNode() {
 
 Node* loadFromDisk(char *filename) {
     FILE *fp;
-    Node *nodeFile = malloc(sizeof(Node));
+    Node *nodeFile =(Node *) malloc(sizeof(Node));
 
     fp = fopen(filename,"rb");
 
@@ -56,7 +58,6 @@ Node* loadFromDisk(char *filename) {
 char* writeToDisk(Node *data) {
     FILE *fp;
     char *fileName = (char *) malloc(100 * sizeof(char));
-
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
     }
@@ -121,7 +122,7 @@ Node* search(char *nodeName, Rectangle *rect) {
     Rectangle **aux = node->rectArray;
     int i;
 
-    for (i = 0 ; i <= node->occupied - 1 ; i++) {
+    for (i = 0 ; i < node->occupied  ; i++) {
         Rectangle *auxRect = aux[i];
         // Agregar rectángulo que intersecta
         if (intersect(auxRect, rect)) {
@@ -130,15 +131,13 @@ Node* search(char *nodeName, Rectangle *rect) {
             if (auxRect->hijo != NULL) {
                 Node* recursive = search(auxRect->hijo,rect);
                 for (int j = 0 ; j < recursive->occupied ; j++ ) {
-                    answer->rectArray[answer->occupied] = recursive->rectArray[i];
-                    answer->occupied++;
+                    answer->rectArray[answer->occupied++] = recursive->rectArray[j];
                 }
                 free(recursive);
 
             }
-            if (auxRect->hijo == NULL) {
-                answer->rectArray[answer->occupied] = auxRect;
-                answer->occupied++;
+            else {
+                answer->rectArray[answer->occupied++] = auxRect;
                 printf("intersect ");
                 printRectangle(auxRect);
             }
@@ -162,12 +161,9 @@ void insertToRootLinear(char *nodeName,Rectangle *r) {
         newNode->rectArray[1] = aux[1];
         newNode->occupied = 2;
         newNode->this_node_filename = node->this_node_filename;
-//         newNode->this_node_filename = NULL;
         free(node);
-//         return writeToDisk(newNode);
+        writeToDisk(newNode);
     }
-//     return nodeName;
-// FIXME Estas sobre escribiendo un nodo, quedará repetido
 
 }
 void insertToRootGreene(char* nodeName, Rectangle *r){
@@ -176,8 +172,7 @@ void insertToRootGreene(char* nodeName, Rectangle *r){
     if (node->occupied >=M) {
         Rectangle ** aux =greeneSplit(node);
         Node *newNode = createNode();
-        newNode->rectArray[0] = aux[0];
-        newNode->rectArray[1] = aux[1];
+        newNode->rectArray = aux;
         newNode->occupied = 2;
         newNode->this_node_filename = node->this_node_filename;
         free(node);
@@ -203,7 +198,6 @@ void insertGreene(char *nodeName, Rectangle *r) {
         if (aux==NULL)
             printf("Error el nodo aux es null!");
 
-
         //Abrir nodo de aux.
         insertGreene(aux->hijo, r);
 
@@ -216,7 +210,8 @@ void insertGreene(char *nodeName, Rectangle *r) {
             *aux = *rects[0];
             free(auxHijo);
             node = loadFromDisk(nodeName);
-            node->rectArray[node->occupied++] =rects[1];
+            node->rectArray[node->occupied++] = rects[1];
+
         }
         else {
             writeToDisk(auxHijo);
@@ -244,9 +239,6 @@ void insertLinear( char *nodeName , Rectangle *r ) {
                 aux = node->rectArray[i];
             }
         }
-        if (aux==NULL)
-            printf("Error el nodo aux es null!");
-
 
         //Abrir nodo de aux.
         insertLinear(aux->hijo, r);
@@ -265,11 +257,11 @@ void insertLinear( char *nodeName , Rectangle *r ) {
         else {
             writeToDisk(auxHijo);
         }
+
     }
     else {
         /* Control de Overflow */
-        node->rectArray[node->occupied] = r;
-        node->occupied++;
+        node->rectArray[node->occupied++] = r;
     }
     writeToDisk(node);
 
@@ -371,7 +363,7 @@ int partitionY(Node *header,int inicio,int final) {
     i = inicio;
     j = final-1;
     while (i<j) {
-        while((aux[i]->y) <=(aux[pivot]->y) && i<final)
+        while((aux[i]->y) <=(aux[pivot]->y) && i<final-1)
             i++;
         while ((aux[j]->y)>(aux[pivot]->y))
             j--;
@@ -384,6 +376,7 @@ int partitionY(Node *header,int inicio,int final) {
     t = aux[pivot];
     aux[pivot] = aux[j];
     aux[j] = t;
+
     return j;
 
 
@@ -413,27 +406,23 @@ Rectangle ** greeneSplit(Node *header) {
     Rectangle **rectangles = calculateXRectangles(header);
     float width = (rectangles[1]-rectangles[0])/w;
     float heigth = (rectangles[3]-rectangles[2])/h;
-    min = width < heigth ? rectangles[3] : rectangles[1];
-    max = width < heigth ? rectangles[2] : rectangles[0];
+    max = width < heigth ? rectangles[3] : rectangles[1];
+    min = width < heigth ? rectangles[2] : rectangles[0];
     direccionCorte = width < heigth ? 0:1;/*0 si es el eje x, 1 si es el eje 1*/
     /*Calcular los rectangulos mas distantes con los pasos de linear split*/
     //pasosLinear(min,max,header);
     quicksort(header,0,header->occupied,direccionCorte);
     Node *noder1 = createNode();
     Node *noder2 = createNode();
-    int j=0,k=0;
-    for(int i = 0 ; i < M  ; i++) {
+    for(int i = 0 ; i < header->occupied  ; i++) {
         if(header->rectArray[i] != min && header->rectArray[i] != max && noder1->occupied < M/2 + 1 ) {
-            noder1->rectArray[j] = header->rectArray[i];
-            noder1->occupied++;
+            noder1->rectArray[noder1->occupied++] = header->rectArray[i];
             mergeRectangle(min,header->rectArray[i]);
-            j++;
         }
         else if(header->rectArray[i] != min && header->rectArray[i] != max) {
-            noder2->rectArray[k] = header->rectArray[i];
-            noder2->occupied++;
+            noder2->rectArray[noder2->occupied++] = header->rectArray[i];
             mergeRectangle(max,header->rectArray[i]);
-            k++;
+
         }
     }
     min->hijo = writeToDisk(noder1);
@@ -553,11 +542,11 @@ Rectangle ** bateriaRectangulos(int n) {
     return pRectangle;
 }
 Rectangle **copy(Rectangle **pRectangle, int n){
-    Rectangle ** pRectangle1 = (Rectangle **) malloc(sizeof(Rectangle*) * n);
+    Rectangle ** pRectangle1 = (Rectangle **) malloc(sizeof(Rectangle*)*n);
     for(int i = 0 ; i < n; i++ ){
-        Rectangle *r = pRectangle[i];
-        Rectangle *rect =createRectangle(r->x,r->y,r->w, r->h, r->id + n);
+        Rectangle r = *pRectangle[i];
+        Rectangle *rect = createRectangle(r.x,r.y,r.w, r.h, r.id);
         pRectangle1[i] = rect;
     }
-    return pRectangle;
+    return pRectangle1;
 }
