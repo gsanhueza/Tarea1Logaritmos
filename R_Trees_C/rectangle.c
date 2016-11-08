@@ -268,6 +268,7 @@ Rectangle ** bateriaRectangulos(int n) {
     }
     return pRectangle;
 }
+
 Rectangle **copy(Rectangle **pRectangle, int n){
     Rectangle ** pRectangle1 = (Rectangle **) malloc(sizeof(Rectangle*)*n);
     for(int i = 0 ; i < n; i++ ){

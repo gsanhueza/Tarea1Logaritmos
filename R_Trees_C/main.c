@@ -1,12 +1,23 @@
-#include "rectangle.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#include "rectangle.h"
 
 int main(void) {
+
+    /* Si no existe directorio, crearlo */
+    struct stat st = {0};
+
+    if (stat("Nodes", &st) == -1) {
+        printf("Creando carpeta Nodes...\n");
+        mkdir("Nodes", 0700);
+    }
+
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
     clock_t begin = clock();
@@ -21,9 +32,10 @@ int main(void) {
 
     Node *headerLinear = createNode();
     Node *headerGreene = createNode();
-    Rectangle *r = createRectangle(0, 0, 4, 5, -1);
 
+    Rectangle *r = createRectangle(0, 0, 4, 5, -1);
     Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
+
     headerLinear->rectArray[0] = r;
     headerLinear->occupied = 1;
     headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
