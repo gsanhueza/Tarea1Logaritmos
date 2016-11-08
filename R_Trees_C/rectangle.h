@@ -244,3 +244,4 @@ Rectangle ** linearSplit(Node *header);
 Rectangle ** greeneSplit(Node *header);
 
 #endif
+
