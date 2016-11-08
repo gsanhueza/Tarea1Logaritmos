@@ -268,6 +268,18 @@ Rectangle ** bateriaRectangulos(int n) {
     }
     return pRectangle;
 }
+
+char* bateriaRectangulosDisk(int n) {
+    Node* pNode = createNode();
+    char* fileName =writeToDisk(pNode);
+    for (int i = 0; i < n ; i ++){
+        pNode = loadFromDisk(fileName);
+        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
+        pNode->rectArray[i] = rect;
+        writeToDisk(pNode);
+    }
+    return fileName;
+}
 Rectangle **copy(Rectangle **pRectangle, int n){
     Rectangle ** pRectangle1 = (Rectangle **) malloc(sizeof(Rectangle*)*n);
     for(int i = 0 ; i < n; i++ ){
