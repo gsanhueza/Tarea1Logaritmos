@@ -1,7 +1,7 @@
 # Tarea 1 Logaritmos
 
-* Vamos a usar C (Pero en Java hay cosas igual)
-* Haremos Linear Split y Green Split
-* Parece que el buscar funciona bien (?)
-* Linear implementado, falta ver lo de Greene
-
+* DONE: Vamos a usar C.
+* DONE: Linear Split implementado.
+* DONE: Green Split implementado.
+* TODO: Probar search.
+* TODO: Hacer experimentos.

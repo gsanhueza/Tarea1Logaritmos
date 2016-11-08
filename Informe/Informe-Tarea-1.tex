@@ -66,7 +66,11 @@
 
 	\subsection{Problema a resolver}
 
-	TODO
+	Los R-trees son un tipo de árbol que se maneja en memoria secundaria, el cual contiene rectángulos como información. El problema a resolver consiste en implementar un R-Tree,
+	una herramienta de búsquedas de rectángulos y 2 heurísticas de inserción de rectángulos en el R-Tree.
+
+	En particular, se busca evaluar el impacto entre distintas versiones de \textit{inserción} que manejan una versión específica de manejo de \textit{overflow} (para este caso,
+	\textit{Linear Split} y \textit{Greene Split}.
 
 	\subsection{Hipótesis}
 
@@ -89,7 +93,6 @@
 
 	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
 
-% 	FIXME Decidir si usar 512 o 4096
 	\begin{itemize}
 		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
 		\item m = 40\% de M. = $ 40\% * 128 = 51 $
@@ -124,17 +127,17 @@
 	Esta estructura posee información sobre:
 	\begin{itemize}
 		\item Arreglo dinámico de rectángulos.
-		\item Tamaño del arreglo.
+		\item Número de rectángulos escritos en el arreglo.
 		\item Nombre del nodo actual (para uso como nombre de archivo en disco).
 	\end{itemize}
 
 	\subsection{Constantes}
 
 	\begin{itemize}
-		\item BLOCK\_SIZE: Tamaño del bloque en disco.
-		\item count: Variable estática para diferenciar nodos al escribirlos a disco.
-		\item M: BLOCK\_SIZE / sizeof(Rectangle) --- Máximo número de rectángulos en un nodo.
-		\item m: 40\% de M --- Mínimo número de rectángulos en un nodo.
+		\item \textbf{BLOCK\_SIZE:} Tamaño del bloque en disco.
+		\item \textbf{count}: Variable global para diferenciar nodos al escribirlos a disco.
+		\item \textbf{M}: BLOCK\_SIZE / sizeof(Rectangle) --- Máximo número de rectángulos en un nodo.
+		\item \textbf{m}: 40\% de M --- Mínimo número de rectángulos en un nodo.
 	\end{itemize}
 
 	\subsection{Funciones}
@@ -149,13 +152,15 @@
 		\item \textit{int MBR(Rectangle *r1, Rectangle *r2)}: Calcula la nueva Area si se agrega r2 a r1.
 		\item \textit{void printRectangle(Rectangle *r)}: Imprime información de un rectángulo.
 		\item \textit{void insert(char *nodeName , Rectangle *r)}: Inserta un rectángulo al nodo dado.
+		\item \textit{char * insertToRoot(char *nodeName,Rectangle *r)}: Inserta un rectángulo al header (root).
 		\item \textit{Node *search(char *nodeName, Rectangle *rect)}: Busca en el nodo todos los rectángulos que intersectan a *rect.
 		\item \textit{Rectangle ** linearSplit(Node *header)}: Control de overflow usando Linear Split.
 		\item \textit{Rectangle ** greeneSplit(Node *header)}: Control de overflow usando Greene Split.
-		\item Rectangle ** controlOverFlow(Node *header, Rectangle *r); \textbf{TODO}
-		\item int *calculateBounds(Node *pNode); \textbf{TODO}
-		\item Rectangle **calculateXRectangles(Node *pNode); \textbf{TODO}
-		\item Rectangle **makeRandom(Node pNode); \textbf{TODO}
+		\item \textit{int *calculateBounds(Node *pNode)}: Calcula el rectángulo más grande de todos los que están en el nodo.
+		\item \textit{Rectangle **calculateXRectangles(Node *pNode)}: Calcula los rectangulos con mayor bajo y menor alto en un arreglo para el eje X e Y.
+		\item \textit{Rectangle **makeRandom(Node pNode)}: Desordena el orden de los rectángulos de un nodo para aleatorizar el split.
+		\item \textit{int randomNum(int max)}: Retorna un número aleatorio acotado.
+		\item \textit{Rectangle ** bateriaRectangulos(int n)}: Crea n rectángulos distintos para experimentación.
 	\end{itemize}
 
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
