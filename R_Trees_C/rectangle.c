@@ -9,7 +9,7 @@
  * Inicialización
  *****************************************************/
 
-int count = 0;
+int count = 1;
 
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
@@ -48,6 +48,7 @@ Node* loadFromDisk(char *filename) {
     }
     else
         printf("Error: el archivo no se puede abrir -- File: %s", filename);
+//     printf("LFD: nodeFile->this_node_filename = %s\n", nodeFile->this_node_filename);
     return nodeFile;
 }
 
@@ -57,7 +58,7 @@ char* writeToDisk(Node *data) {
 
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
-        printf("%s\n", fileName); // FIXME Hay problemas con el nombre del archivo
+//         printf("%s\n", fileName); // FIXME Hay problemas con el nombre del archivo
     }
     else {
         sprintf(fileName, "Nodes/Node%d.bin", count);
@@ -78,6 +79,7 @@ char* writeToDisk(Node *data) {
     fclose(fp);
     free(data);
     data = NULL;
+//     printf("WTD: filename = %s\n", fileName);
     return fileName;
 
 }
@@ -175,6 +177,7 @@ void insert( char *nodeName , Rectangle *r ) {
             if ( this_mbr < minMBR ) {
                 minMBR = this_mbr;
                 aux = node->rectArray[i];
+                printf("%s\n", node->this_node_filename);
             }
         }
 
@@ -374,7 +377,7 @@ Rectangle **makeRandom(Node pNode) {
 }
 
 void printRectangle(Rectangle* auxRect) {
-     printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
+//      printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
 
 }
 
