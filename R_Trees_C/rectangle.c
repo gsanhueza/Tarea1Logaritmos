@@ -151,7 +151,7 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
-void insertToRoot(char *nodeName,Rectangle *r) {
+char * insertToRoot(char *nodeName,Rectangle *r) {
     insert(nodeName,r);
     Node *node= loadFromDisk(nodeName);
     if (node->occupied >=M) {
@@ -161,10 +161,12 @@ void insertToRoot(char *nodeName,Rectangle *r) {
         newNode->rectArray[1] = aux[1];
         newNode->occupied = 2;
         newNode->this_node_filename = node->this_node_filename;
+//         newNode->this_node_filename = NULL;
         free(node);
-        writeToDisk(newNode);
+//         return writeToDisk(newNode);
     }
-    
+//     return nodeName;
+// FIXME Estas sobre escribiendo un nodo, quedará repetido
 
 }
 
