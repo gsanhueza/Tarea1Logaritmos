@@ -17,6 +17,7 @@ int main(void) {
     header->occupied = 1;
     header->this_node_filename = "Nodes/Node0.bin"; // WHAT
 
+
     char *node = writeToDisk(header);
 
     for(int i = 0; i < numRectangles; i++) {
