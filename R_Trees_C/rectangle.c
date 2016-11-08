@@ -11,9 +11,10 @@
 
 int count = 0;
 
+
+
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
-
     rect->x = x;
     rect->y = y;
     rect->w = w;
@@ -57,7 +58,7 @@ char* writeToDisk(Node *data) {
 
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
-        printf("%s\n", fileName); // FIXME Hay problemas con el nombre del archivo
+       // FIXME Hay problemas con el nombre del archivo
     }
     else {
         sprintf(fileName, "Nodes/Node%d.bin", count);
@@ -149,8 +150,8 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
-void insertToRoot(char *nodeName,Rectangle *r) {
-    insert(nodeName,r);
+void insertToRootLinear(char *nodeName,Rectangle *r) {
+    insertLinear(nodeName,r);
     Node *node= loadFromDisk(nodeName);
     if (node->occupied >=M) {
         Rectangle ** aux =linearSplit(node);
@@ -165,8 +166,22 @@ void insertToRoot(char *nodeName,Rectangle *r) {
     
 
 }
+void insertToRootGreene(char* nodeName, Rectangle *r){
+    insertGreene(nodeName,r);
+    Node *node= loadFromDisk(nodeName);
+    if (node->occupied >=M) {
+        Rectangle ** aux =greeneSplit(node);
+        Node *newNode = createNode();
+        newNode->rectArray[0] = aux[0];
+        newNode->rectArray[1] = aux[1];
+        newNode->occupied = 2;
+        newNode->this_node_filename = node->this_node_filename;
+        free(node);
+        writeToDisk(newNode);
+    }
+}
 
-void insert( char *nodeName , Rectangle *r ) {
+void insertGreene(char *nodeName, Rectangle *r) {
     Node *node = loadFromDisk(nodeName);
 
     if ((node->rectArray)[0]->hijo != NULL) { // Necesito llegar a la hoja
@@ -185,7 +200,51 @@ void insert( char *nodeName , Rectangle *r ) {
 
 
         //Abrir nodo de aux.
-        insert(aux->hijo, r);
+        insertGreene(aux->hijo, r);
+
+
+        /* Control de Overflow */
+        Node *auxHijo = loadFromDisk(aux->hijo);
+
+        if (auxHijo->occupied >= M){
+            Rectangle ** rects = greeneSplit(auxHijo);
+            *aux = *rects[0];
+            free(auxHijo);
+            node = loadFromDisk(nodeName);
+            node->rectArray[node->occupied++] =rects[1];
+        }
+        else {
+            writeToDisk(auxHijo);
+        }
+    }
+    else {
+        /* Control de Overflow */
+        node->rectArray[node->occupied] = r;
+        node->occupied++;
+    }
+    writeToDisk(node);
+}
+
+void insertLinear( char *nodeName , Rectangle *r ) {
+    Node *node = loadFromDisk(nodeName);
+
+    if ((node->rectArray)[0]->hijo != NULL) { // Necesito llegar a la hoja
+        int minMBR = INT_MAX;
+        Rectangle * aux;
+
+        for(int i = 0; i <= node->occupied - 1 ; i++) {
+            int this_mbr = MBR(node->rectArray[i],r);
+            if ( this_mbr < minMBR ) {
+                minMBR = this_mbr;
+                aux = node->rectArray[i];
+            }
+        }
+        if (aux==NULL)
+            printf("Error el nodo aux es null!");
+
+
+        //Abrir nodo de aux.
+        insertLinear(aux->hijo, r);
 
 
         /* Control de Overflow */
@@ -306,7 +365,7 @@ int partitionY(Node *header,int inicio,int final) {
     Rectangle ** aux = header->rectArray;
     pivot = inicio;
     i = inicio;
-    j = final;
+    j = final-1;
     while (i<j) {
         while((aux[i]->y) <=(aux[pivot]->y) && i<final)
             i++;
@@ -356,8 +415,34 @@ Rectangle ** greeneSplit(Node *header) {
     /*Calcular los rectangulos mas distantes con los pasos de linear split*/
     //pasosLinear(min,max,header);
     quicksort(header,0,header->occupied,direccionCorte);
+    Node *noder1 = createNode();
+    Node *noder2 = createNode();
+    int j=0,k=0;
+    for(int i = 0 ; i < M  ; i++) {
+        if(header->rectArray[i] != min && header->rectArray[i] != max && noder1->occupied < M/2 + 1 ) {
+            noder1->rectArray[j] = header->rectArray[i];
+            noder1->occupied++;
+            j++;
+        }
+        else if(header->rectArray[i] != min && header->rectArray[i] != max) {
+            noder2->rectArray[k] = header->rectArray[i];
+            noder2->occupied++;
+            k++;
+        }
+    }
+    min->hijo = writeToDisk(noder1);
+    max->hijo = writeToDisk(noder2);
+    Rectangle **rectarray = (Rectangle **) malloc(M * sizeof(Rectangle *));
+
+    rectarray[0] = min;
+    rectarray[1] = max;
+    for (int i = 2; i < M ; i++)
+        rectarray[i] = NULL;
+
+    return rectarray;
+
     /*Ahora el nodo esta ordenado, hay que mover los primeros M/2 -1 rectangulos al primer nodo y los otros al segundo*/
-    return NULL;
+
 }
 
 Rectangle **makeRandom(Node pNode) {
@@ -456,8 +541,17 @@ Rectangle ** bateriaRectangulos(int n) {
     Rectangle ** pRectangle = (Rectangle **) malloc(sizeof(Rectangle*) * n);
     for (int i = 0; i < n ; i ++){
         Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
-        printRectangle(rect);
+
         pRectangle[i] = rect;
+    }
+    return pRectangle;
+}
+Rectangle **copy(Rectangle **pRectangle, int n){
+    Rectangle ** pRectangle1 = (Rectangle **) malloc(sizeof(Rectangle*) * n);
+    for(int i = 0 ; i < n; i++ ){
+        Rectangle *r = pRectangle[i];
+        Rectangle *rect =createRectangle(r->x,r->y,r->w, r->h, r->id + n);
+        pRectangle1[i] = rect;
     }
     return pRectangle;
 }
