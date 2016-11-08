@@ -154,6 +154,7 @@ void insertToRoot(char *nodeName,Rectangle *r) {
     Node *node= loadFromDisk(nodeName);
     if (node->occupied >=M) {
         Rectangle ** aux =linearSplit(node);
+        writeToDisk(node);
         Node *newNode = createNode();
         newNode->rectArray[0] = aux[0];
         newNode->rectArray[1] = aux[1];
@@ -163,6 +164,8 @@ void insertToRoot(char *nodeName,Rectangle *r) {
         node = newNode;
         writeToDisk(node);
     }
+    
+
 }
 
 void insert( char *nodeName , Rectangle *r ) {
