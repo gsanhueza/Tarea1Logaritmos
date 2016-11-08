@@ -156,15 +156,13 @@ void insertToRoot(char *nodeName,Rectangle *r) {
     Node *node= loadFromDisk(nodeName);
     if (node->occupied >=M) {
         Rectangle ** aux =linearSplit(node);
-        writeToDisk(node);
         Node *newNode = createNode();
         newNode->rectArray[0] = aux[0];
         newNode->rectArray[1] = aux[1];
         newNode->occupied = 2;
         newNode->this_node_filename = node->this_node_filename;
         free(node);
-        node = newNode;
-        writeToDisk(node);
+        writeToDisk(newNode);
     }
     
 
@@ -185,13 +183,12 @@ void insert( char *nodeName , Rectangle *r ) {
                 printf("%s\n", node->this_node_filename);
             }
         }
-
-        writeToDisk(node);//cerrar Nodo;
         if (aux==NULL)
             printf("Error el nodo aux es null!");
 
         //Abrir nodo de aux.
         insert(aux->hijo, r);
+
 
         /* Control de Overflow */
         Node *auxHijo = loadFromDisk(aux->hijo);
@@ -209,9 +206,6 @@ void insert( char *nodeName , Rectangle *r ) {
     }
     else {
         /* Control de Overflow */
-        if (node->occupied == M) {
-            linearSplit(node);
-        }
         node->rectArray[node->occupied] = r;
         node->occupied++;
     }
