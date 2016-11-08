@@ -189,9 +189,47 @@ int randomNum(int max);
  */
 Rectangle ** bateriaRectangulos(int n);
 
+/**
+ * @brief Inserción Linear Split con control de Overflow en Root.
+ *
+ * @param nodeName p_nodeName Nodo Root
+ * @param r p_r: Rectángulo a insertar.
+ */
 void insertToRootLinear(char *nodeName,Rectangle *r);
+
+/**
+ * @brief Inserción Greene Split con control de Overflow en Root.
+ *
+ * @param nodeName p_nodeName: odo Root
+ * @param r p_r: Rectángulo a insertar.
+ */
 void insertToRootGreene(char* nodeName, Rectangle *r);
+
+/**
+ * @brief Inserción Linear Split con control de Overflow en el resto de los nodos.
+ *
+ * @param nodeName p_nodeName Nodo
+ * @param r p_r: Rectángulo a insertar.
+ */
+void insertLinear(char *nodeName , Rectangle *r);
+
+/**
+ * @brief Inserción Greene Split con control de Overflow en el resto de los nodos.
+ *
+ * @param nodeName p_nodeName Nodo
+ * @param r p_r: Rectángulo a insertar.
+ */
+void insertGreene(char *nodeName, Rectangle *r);
+
+/**
+ * @brief Copia un arreglo de n elementos.
+ *
+ * @param pRectangle p_pRectangle: Arreglo de rectángulos
+ * @param n p_n: Número de rectángulos a copiar
+ * @return Rectangle** Copia del arreglo.
+ */
 Rectangle **copy(Rectangle **pRectangle, int n);
-void insertGreene(char *name, Rectangle *pRectangle);
+
+void quicksort(Node *header, int inicio, int final, int d);
 
 #endif

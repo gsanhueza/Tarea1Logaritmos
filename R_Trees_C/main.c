@@ -9,18 +9,15 @@
 int main(void) {
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
-
     clock_t begin = clock();
     int numRectangles = 2000; // 262144
-    Rectangle **rects = bateriaRectangulos(numRectangles);
-
 
     Rectangle **rectLinear = bateriaRectangulos(numRectangles);
     Rectangle **rectGreene = copy(rectLinear, numRectangles);
 
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time in create Rects: %f \n ", time_spent);
+    printf("time in create Rects: %f\n", time_spent);
 
     Node *headerLinear = createNode();
     Node *headerGreene = createNode();
@@ -29,10 +26,10 @@ int main(void) {
     Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
     headerLinear->rectArray[0] = r;
     headerLinear->occupied = 1;
-    headerLinear->this_node_filename = "Nodes/HeaderLinear.bin";
+    headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
     headerGreene->rectArray[0] = r2;
     headerGreene->occupied = 1;
-    headerGreene->this_node_filename = "Nodes/HeaderGreene.bin";
+    headerGreene->this_node_filename = "Nodes/HeaderGreene.txt";
 
 
     char *node = writeToDisk(headerLinear);
@@ -43,7 +40,7 @@ int main(void) {
     }
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time in Insert Linear: %f", time_spent);
+    printf("time in Insert Linear: %f\n", time_spent);
 
     begin = clock();
     for(int i = 0; i < numRectangles; i++) {
@@ -51,19 +48,19 @@ int main(void) {
     }
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time in Insert Greene: %f", time_spent);
+    printf("time in Insert Greene: %f\n", time_spent);
 
     begin = clock();
-    Node *LinearSearch = search(node,r);
+    /*Node *LinearSearch = */search(node, r);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time in Search Linear: %f", time_spent);
+    printf("time in Search Linear: %f\n", time_spent);
 
     begin = clock();
-    Node *GreeneSearch = search(nodeGreene, r2);
+    /*Node *GreeneSearch = */search(nodeGreene, r2);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("time in Search Greene: %f", time_spent);
+    printf("time in Search Greene: %f\n", time_spent);
 
 
 
