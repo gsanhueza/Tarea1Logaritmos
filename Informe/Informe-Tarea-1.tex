@@ -74,17 +74,18 @@
 
 	\subsection{Hipótesis}
 
-	\subsubsection*{Especificaciones de la máquina utilizada (Anakena)}
+	\subsubsection*{Especificaciones de la máquina utilizada}
 
 	\begin{itemize}
-		\item Procesador: Intel \textregistered Xeon \textregistered CPU E5620 @ 2.40GHz
+		\item Procesador: Intel \textregistered Core \textregistered i7-6700HQ @ 2.60GHz
 		\item Arquitectura: x86\_64
-		\item Número de CPUs: 12
+		\item Número de CPUs: 4
+		\item Número de Threads: 8
 		\item Memoria RAM: 12288 KB
-		\item Tamaño de página de disco: M = 512 bytes ($\ulcorner40\% M\urcorner = 205$)
-		\item Sistema Operativo: Linux version 4.4.6-gentoo
+		\item Tamaño de página de disco: M = 4096 bytes ($\ulcorner40\% M\urcorner = 1638$)
+		\item Sistema Operativo: Arch Linux 4.8.6
 		\item Lenguaje usado: C
-		\item Compilador: gcc version 4.9.3
+		\item Compilador: gcc version 6.2.1
 	\end{itemize}
 
 	Usaremos siempre la misma semilla de aleatoriedad, para poder tener experimentos ``aleatorios'' repetibles.
@@ -94,8 +95,8 @@
 	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
 
 	\begin{itemize}
-		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 512 / 32 = 16 $
-		\item m = 40\% de M. = $ 40\% * 16 = 7 $
+		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
+		\item m = 40\% de M. = $ 40\% * 128 = 51 $
 	\end{itemize}
 
 	Por último, la idea es nunca tener más de dos archivos abiertos en un instante dado.
@@ -261,31 +262,33 @@
 	\subsection{Espacio ocupado y porcentaje de llenado de páginas de disco}
 % 	TODO Espacio ocupado disco
 
+	Porcentaje de llenado = avgsize(nodes)/max(nodes)
+
 	\begin{center}
 
-		\begin{tabular}{|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			Rectángulos	& Espacio ocupado & Porcentaje de llenado\\
+			Rectángulos	& Espacio ocupado (bytes) & Nodos & Tamaño promedio & Tamaño Máximo & \% llenado por nodo\\
 			\hline
-			$2^{9}$ 	& 50 	& 50\\
+			$2^{9}$ 	& 1 & 2 & 3 & 4 & 5\%\\
 			\hline
-			$2^{10}$ 	& 50 	& 50\\
+			$2^{10}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{11}$ 	& 50 	& 50\\
+			$2^{11}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{12}$ 	& 50 	& 50\\
+			$2^{12}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{13}$ 	& 50 	& 50\\
+			$2^{13}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{14}$ 	& 50 	& 50\\
+			$2^{14}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{15}$ 	& 50 	& 50\\
+			$2^{15}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{16}$ 	& 50 	& 50\\
+			$2^{16}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{17}$ 	& 50 	& 50\\
+			$2^{17}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
-			$2^{18}$ 	& 50 	& 50\\
+			$2^{18}$ 	& 1 & 2 & 3 & 4 & 5\\
 			\hline
 		\end{tabular}
 

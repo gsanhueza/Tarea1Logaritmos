@@ -21,7 +21,7 @@ int main(void) {
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
     clock_t begin = clock();
-    int numRectangles = 2000; // 262144
+    int numRectangles = 512; // 262144
 
     Rectangle **rectLinear = bateriaRectangulos(numRectangles);
     Rectangle **rectGreene = copy(rectLinear, numRectangles);
