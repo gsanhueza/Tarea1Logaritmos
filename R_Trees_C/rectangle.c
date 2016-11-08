@@ -298,7 +298,6 @@ Rectangle ** linearSplit(Node *header) {
             if (header->occupied - i + noder1->occupied == m) {
                 noder1->rectArray[noder1->occupied] = arrayRect[i];
                 noder1->occupied++;
-
                 mergeRectangle(rectangle1, arrayRect[i]);
                 continue;
             }
@@ -427,11 +426,13 @@ Rectangle ** greeneSplit(Node *header) {
         if(header->rectArray[i] != min && header->rectArray[i] != max && noder1->occupied < M/2 + 1 ) {
             noder1->rectArray[j] = header->rectArray[i];
             noder1->occupied++;
+            mergeRectangle(min,header->rectArray[i]);
             j++;
         }
         else if(header->rectArray[i] != min && header->rectArray[i] != max) {
             noder2->rectArray[k] = header->rectArray[i];
             noder2->occupied++;
+            mergeRectangle(max,header->rectArray[i]);
             k++;
         }
     }
