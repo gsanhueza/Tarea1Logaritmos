@@ -9,8 +9,11 @@
 int main(void) {
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
-    int numRectangles = 1333; // 262144
+
     clock_t begin = clock();
+    int numRectangles = 2000; // 262144
+    Rectangle **rects = bateriaRectangulos(numRectangles);
+
 
     Rectangle **rectLinear = bateriaRectangulos(numRectangles);
     Rectangle **rectGreene = copy(rectLinear, numRectangles);
@@ -22,6 +25,7 @@ int main(void) {
     Node *headerLinear = createNode();
     Node *headerGreene = createNode();
     Rectangle *r = createRectangle(0, 0, 4, 5, -1);
+
     Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
     headerLinear->rectArray[0] = r;
     headerLinear->occupied = 1;
@@ -29,6 +33,7 @@ int main(void) {
     headerGreene->rectArray[0] = r2;
     headerGreene->occupied = 1;
     headerGreene->this_node_filename = "Nodes/HeaderGreene.bin";
+
 
     char *node = writeToDisk(headerLinear);
     char *nodeGreene = writeToDisk(headerGreene);

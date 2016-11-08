@@ -9,7 +9,7 @@
  * Inicialización
  *****************************************************/
 
-int count = 0;
+int count = 1;
 
 
 
@@ -49,6 +49,7 @@ Node* loadFromDisk(char *filename) {
     }
     else
         printf("Error: el archivo no se puede abrir -- File: %s", filename);
+//     printf("LFD: nodeFile->this_node_filename = %s\n", nodeFile->this_node_filename);
     return nodeFile;
 }
 
@@ -58,7 +59,6 @@ char* writeToDisk(Node *data) {
 
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
-       // FIXME Hay problemas con el nombre del archivo
     }
     else {
         sprintf(fileName, "Nodes/Node%d.bin", count);
@@ -79,6 +79,7 @@ char* writeToDisk(Node *data) {
     fclose(fp);
     free(data);
     data = NULL;
+//     printf("WTD: filename = %s\n", fileName);
     return fileName;
 
 }
@@ -150,6 +151,7 @@ Node* search(char *nodeName, Rectangle *rect) {
 
 }
 
+
 void insertToRootLinear(char *nodeName,Rectangle *r) {
     insertLinear(nodeName,r);
     Node *node= loadFromDisk(nodeName);
@@ -160,10 +162,12 @@ void insertToRootLinear(char *nodeName,Rectangle *r) {
         newNode->rectArray[1] = aux[1];
         newNode->occupied = 2;
         newNode->this_node_filename = node->this_node_filename;
+//         newNode->this_node_filename = NULL;
         free(node);
-        writeToDisk(newNode);
+//         return writeToDisk(newNode);
     }
-    
+//     return nodeName;
+// FIXME Estas sobre escribiendo un nodo, quedará repetido
 
 }
 void insertToRootGreene(char* nodeName, Rectangle *r){
@@ -193,6 +197,7 @@ void insertGreene(char *nodeName, Rectangle *r) {
             if ( this_mbr < minMBR ) {
                 minMBR = this_mbr;
                 aux = node->rectArray[i];
+                printf("%s\n", node->this_node_filename);
             }
         }
         if (aux==NULL)
@@ -460,7 +465,7 @@ Rectangle **makeRandom(Node pNode) {
 }
 
 void printRectangle(Rectangle* auxRect) {
-     printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
+//      printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
 
 }
 
