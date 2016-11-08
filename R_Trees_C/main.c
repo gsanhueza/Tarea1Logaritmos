@@ -15,7 +15,7 @@ int main(void) {
     Rectangle *r = createRectangle(0, 0, 4, 5, -1);
     header->rectArray[0] = r;
     header->occupied = 1;
-    header->this_node_filename = "Node/Header.bin";
+    header->this_node_filename = "Nodes/Header.bin";
 
     char *node = writeToDisk(header);
 
