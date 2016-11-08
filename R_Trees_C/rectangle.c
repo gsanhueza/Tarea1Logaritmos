@@ -9,7 +9,7 @@
  * Inicialización
  *****************************************************/
 
-int count = 0;
+int count = 1;
 
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
@@ -48,6 +48,7 @@ Node* loadFromDisk(char *filename) {
     }
     else
         printf("Error: el archivo no se puede abrir -- File: %s", filename);
+//     printf("LFD: nodeFile->this_node_filename = %s\n", nodeFile->this_node_filename);
     return nodeFile;
 }
 
@@ -57,6 +58,7 @@ char* writeToDisk(Node *data) {
 
     if (data->this_node_filename != NULL) {
         fileName = data->this_node_filename;
+//         printf("%s\n", fileName); // FIXME Hay problemas con el nombre del archivo
     }
     else {
         sprintf(fileName, "Nodes/Node%d.bin", count);
@@ -67,7 +69,7 @@ char* writeToDisk(Node *data) {
     fp = fopen(fileName, "wb");
 
     if (fp == NULL) {
-        printf("No se pudo abrir el archivo %s\n", fileName); // FIXME Aquí!
+        printf("No se pudo abrir el archivo %s\n", fileName);
         return NULL;
     }
 
@@ -77,6 +79,7 @@ char* writeToDisk(Node *data) {
     fclose(fp);
     free(data);
     data = NULL;
+//     printf("WTD: filename = %s\n", fileName);
     return fileName;
 
 }
@@ -154,19 +157,20 @@ void insert( char *nodeName , Rectangle *r ) {
     if ((node->rectArray)[0]->hijo != NULL) { // Necesito llegar a la hoja
         int minMBR = INT_MAX;
         Rectangle * aux;
-        printf("+++ Test 1 +++\n");
-        printf("** in insert, node->size = %d\n", node->occupied);
+
         for(int i = 0; i <= node->occupied - 1 ; i++) {
             int this_mbr = MBR(node->rectArray[i],r);
             if ( this_mbr < minMBR ) {
                 minMBR = this_mbr;
                 aux = node->rectArray[i];
+                printf("%s\n", node->this_node_filename);
             }
         }
-        printf("+++ Test 2 +++\n");
+
         writeToDisk(node);//cerrar Nodo;
         if (aux==NULL)
             printf("Error el nodo aux es null!");
+
         //Abrir nodo de aux.
         insert(aux->hijo, r);
 
@@ -196,7 +200,7 @@ void insert( char *nodeName , Rectangle *r ) {
 
 }
 
-void linearSplit(Node *header) {
+Rectangle ** linearSplit(Node *header) {
     int w, h;
     int *bounds = calculateBounds(header);
     w = bounds[0];
@@ -214,11 +218,9 @@ void linearSplit(Node *header) {
     Node *noder1 = createNode();
     Node *noder2 = createNode();
 
-    printf("** in linear split, before the FOR, header->size = %d\n", header->occupied);
     for ( int i = 0; i < header->occupied ; i++) {
         if(arrayRect[i] != rectangle1 && arrayRect[i] != rectangle2) {
             if (header->occupied - i + noder1->occupied == m) {
-                printf("** IN OPTION 1 **\n");
                 noder1->rectArray[noder1->occupied] = arrayRect[i];
                 noder1->occupied++;
 
@@ -226,7 +228,6 @@ void linearSplit(Node *header) {
                 continue;
             }
             if (header->occupied - i + noder2->occupied == m) {
-                printf("** IN OPTION 2 **\n");
                 noder2->rectArray[noder2->occupied] = arrayRect[i];
                 noder2->occupied++;
 
@@ -235,14 +236,12 @@ void linearSplit(Node *header) {
                 continue;
             }
             if(MBR(rectangle1, arrayRect[i])<MBR(rectangle2, arrayRect[i])){
-                printf("** IN OPTION 3 **\n");
                 noder1->rectArray[noder1->occupied] = arrayRect[i];
                 noder1->occupied++;
                 mergeRectangle(rectangle1,arrayRect[i]);
 
             }
             else{
-                printf("** IN OPTION 4 **\n");
                 noder2->rectArray[noder2->occupied] = arrayRect[i];
                 noder2->occupied++;
                 mergeRectangle(rectangle2,arrayRect[i]);
@@ -252,23 +251,17 @@ void linearSplit(Node *header) {
         }
     }
 
-    printf("** NODER1->size = %d\n", noder1->occupied);
-    printf("** NODER2->size = %d\n", noder2->occupied);
-
-    // FIXME Aquí hay Segmentation Fault
     rectangle1->hijo = writeToDisk(noder1);
     rectangle2->hijo = writeToDisk(noder2);
 
-    printf("** TEST 2 **\n");
+    Rectangle **rectarray = (Rectangle **) malloc(M * sizeof(Rectangle *));
 
-    Rectangle **rectarray = (Rectangle **) malloc(M*sizeof(Rectangle *));
-
-    rectarray[0]=rectangle1;
+    rectarray[0] = rectangle1;
     rectarray[1] = rectangle2;
-    for (int i = 2; i < M ; i ++ )
+    for (int i = 2; i < M ; i++)
         rectarray[i] = NULL;
 
-    header->rectArray = rectarray;
+    return rectarray;
 
 }
 int partitionX(Node *header,int inicio,int final) {
@@ -335,7 +328,7 @@ void quicksort(Node *header,int inicio,int final,int d){
     }
 }
 
-void greeneSplit(Node *header) {
+Rectangle ** greeneSplit(Node *header) {
     Rectangle *min;
     Rectangle *max;
     int w, h;
@@ -352,7 +345,7 @@ void greeneSplit(Node *header) {
     //pasosLinear(min,max,header);
     quicksort(header,0,header->occupied,direccionCorte);
     /*Ahora el nodo esta ordenado, hay que mover los primeros M/2 -1 rectangulos al primer nodo y los otros al segundo*/
-
+    return NULL;
 }
 
 Rectangle **makeRandom(Node pNode) {
@@ -370,7 +363,7 @@ Rectangle **makeRandom(Node pNode) {
 }
 
 void printRectangle(Rectangle* auxRect) {
-//     printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
+//      printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
 
 }
 
