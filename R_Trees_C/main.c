@@ -27,7 +27,7 @@ int main(void) {
 
     clock_gettime(CLOCK_MONOTONIC, &start);
 
-    for (int i = 9; i <= 21; i++)
+    for (int i = 9; i <= 15; i++)
     {
     int numRectangles = (int) pow(2, i);
     printf("\nTesting %d rectangles...\n\n", numRectangles);
