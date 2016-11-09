@@ -61,6 +61,27 @@ Rectangle* createRectangle(int x, int y, int w, int h, int id);
 Node* createNode();
 
 /**
+ * @brief Setter de cantidad de accesos al disco.
+ *
+ * @param n p_n: Número de accesos.
+ */
+void setAccessToDisk(int n);
+
+/**
+ * @brief Getter para accesos al disco.
+ *
+ * @return int Accesos al disco.
+ */
+int getAccessToDisk();
+
+/**
+ * @brief Libera memoria no usada.
+ *
+ * @param pNode p_pNode: Nodo a liberar.
+ */
+void freeMemory(Node *pNode);
+
+/**
  * @brief Escribe los datos de un nodo a disco.
  *
  * @param data p_data: Datos a escribir.
@@ -171,21 +192,20 @@ int *calculateBounds(Node *pNode);
 int randomNum(int max);
 
 /**
- * @brief Crea 1 Rectangulo.
+ * @brief Crea un rectangulo de tamaño aleatorio.
  *
- * @param n p_n: Número de rectángulo.
+ * @param i p_i: Id de rectángulo.
  * @return Rectangle* Rectangulo creado.
  */
-Rectangle * bateriaRectangulos(int n);
+Rectangle * generateRandomRectangle(int i);
 
 /**
  * @brief Copia un rectangulo.
  *
- * @param r p_r: rectangulo a copiar
- * @param n p_n: id del rectangulo a copiar
+ * @param r p_r: Rectángulo a copiar
  * @return Rectangle* Copia del rectangulo.
  */
-Rectangle *copy(Rectangle r, int n);
+Rectangle *copy(Rectangle r);
 
 /**
  * @brief Busca en el nodo todos los rectángulos que intersectan a *rect.

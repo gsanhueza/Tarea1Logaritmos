@@ -13,17 +13,6 @@
 int count = 1;
 int accessToDisk = 0;
 
-void setAccessToDisk(int n) {
-    accessToDisk=n;
-}
-int getAccessToDisk(){
-    return accessToDisk;
-}
-
-void insertLinear( char *nodeName , Rectangle *r ) ;
-
-void freeMemory(Node *pNode);
-
 Rectangle* createRectangle(int x, int y, int w, int h, int id) {
     Rectangle *rect = (Rectangle *)malloc(sizeof(Rectangle));
     rect->x = x;
@@ -47,6 +36,21 @@ Node* createNode() {
 /*****************************************************
  * Manejo de archivos
  *****************************************************/
+
+void setAccessToDisk(int n) {
+    accessToDisk = n;
+}
+int getAccessToDisk(){
+    return accessToDisk;
+}
+
+void freeMemory(Node *pNode) {
+    for(int i = 0; i<pNode->occupied; i ++){
+        free(pNode->rectArray[i]);
+    }
+    free(pNode);
+}
+
 char * writeToDisk(Node * data){
     FILE *fp;
     char *fileName = (char * )malloc(sizeof (char)*30);
@@ -211,6 +215,169 @@ void mergeRectangle(Rectangle *r1, Rectangle *r2) {
     r1->h = max_y - r1->y;
 }
 
+int partitionX(Node *header,int inicio,int final) {
+    int pivot,i,j;
+    Rectangle *t;
+    Rectangle ** aux = header->rectArray;
+    pivot = inicio;
+    i = inicio;
+    j = final-1;
+    while (i<j) {
+        while((aux[i]->x) <=(aux[pivot]->x) && i<final-1)
+            i++;
+        while ((aux[j]->x)>(aux[pivot]->x))
+            j--;
+        if (i<j) {
+            t = aux[i];
+            aux[i] = aux[j];
+            aux[j] = t;
+        }
+    }
+    t = aux[pivot];
+    aux[pivot] = aux[j];
+    aux[j] = t;
+
+    return j;
+}
+
+int partitionY(Node *header,int inicio,int final) {
+    int pivot,i,j;
+    Rectangle *t;
+    Rectangle ** aux = header->rectArray;
+    pivot = inicio;
+    i = inicio;
+    j = final-1;
+    while (i<j) {
+        while((aux[i]->y) <=(aux[pivot]->y) && i<final-1)
+            i++;
+        while ((aux[j]->y)>(aux[pivot]->y))
+            j--;
+        if (i<j) {
+            t = aux[i];
+            aux[i] = aux[j];
+            aux[j] = t;
+        }
+    }
+    t = aux[pivot];
+    aux[pivot] = aux[j];
+    aux[j] = t;
+
+    return j;
+}
+
+void quicksort(Node *header,int inicio,int final,int d){
+    int j;
+    if (inicio < final) {
+        if (d == 0)
+            j = partitionX(header,inicio,final);
+        else
+            j = partitionY(header,inicio,final);
+        quicksort(header,inicio, j, d);
+        quicksort(header,j + 1, final, d);
+
+    }
+}
+
+void makeRandom(Node *pNode) {
+    int times = pNode->occupied * 5;
+    int r1,r2;
+    while (times > 0){
+        r1 = rand() % pNode->occupied;
+        r2 = rand() % pNode->occupied;
+        Rectangle *r = pNode->rectArray[r1];
+        pNode->rectArray[r1] = pNode->rectArray[r2];
+        pNode->rectArray[r2] = r;
+        times--;
+    }
+}
+
+void printRectangle(Rectangle* auxRect) {
+      printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
+}
+
+Rectangle **calculateXRectangles(Node *pNode) {
+    int min_x = 0;
+    int max_x = INT_MAX;
+    int min_y = 0;
+    int max_y = INT_MAX;
+    Rectangle *minX, *maxX, *minY, *maxY;
+
+    for (int i = 0 ; i < pNode->occupied ; i++) {
+        Rectangle *rectangle1 = pNode->rectArray[i];
+        if(min_x < rectangle1->x) {
+            min_x = rectangle1->x;
+            minX = rectangle1;
+        }
+        if(max_x > rectangle1->x + rectangle1->w) {
+            max_x = rectangle1->x + rectangle1->w;
+            maxX = rectangle1;
+        }
+        if(min_y < rectangle1->y) {
+            min_y = rectangle1->y;
+            minY = rectangle1;
+        }
+        if(max_y > rectangle1->y + rectangle1->h) {
+            max_y = rectangle1->y + rectangle1->h;
+            maxY = rectangle1;
+        }
+    }
+
+    Rectangle **array = (Rectangle**)malloc(4 *sizeof(Rectangle*));
+
+    array[0] = minX;
+    array[1] = maxX;
+    array[2] = minY;
+    array[3] = maxY;
+    return array;
+}
+
+int *calculateBounds(Node *pNode) {
+    int max_x = 0;
+    int min_x = INT_MAX;
+    int max_y = 0;
+    int min_y = INT_MAX;
+
+    for ( int i = 0; i < pNode->occupied; i++ ){
+        Rectangle *r = pNode->rectArray[i];
+        max_x = max_x > r->x + r->w ? max_x : r->x + r->w;
+        min_x = min_x < r->x ? min_x : r->x;
+        max_y = max_y > r->y + r->h ? max_y : r->y + r->h;
+        min_y = min_y < r->y ? min_y : r->y;
+    }
+    int *array = (int*)malloc(sizeof(int)*2);
+    array[0] = max_x - min_x;
+    array[1] = max_y - min_y;
+    return array;
+}
+
+int randomNum(int max) {
+    return rand() % max;
+}
+
+Node *createTestRectangles(int n) {
+    Node *node = createNode();
+    char name[200];
+    for (int i = 0; i < n ; i ++){
+        sprintf(name, "Rectangle%d", i);
+        //puts(id);
+        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
+        printRectangle(rect);
+        node->rectArray[i] = rect;
+        node->occupied++;
+    }
+    return node;
+}
+
+Rectangle * generateRandomRectangle(int i){
+    Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
+    return rect;
+}
+
+Rectangle *copy(Rectangle r){
+    Rectangle *rect = createRectangle(r.x,r.y,r.w, r.h, r.id);
+    return rect;
+}
+
 /*****************************************************
  * Implementación de la tarea
  *****************************************************/
@@ -283,14 +450,6 @@ void insertToRootGreene(char* nodeName, Rectangle *r){
     else{
         writeToDisk(node);
     }
-}
-
-void freeMemory(Node *pNode) {
-    for(int i = 0; i<pNode->occupied; i ++){
-        free(pNode->rectArray[i]);
-    }
-    free(pNode);
-
 }
 
 void insertGreene(char *nodeName, Rectangle *r) {
@@ -443,70 +602,6 @@ Rectangle ** linearSplit(Node *header) {
     return rectarray;
 
 }
-int partitionX(Node *header,int inicio,int final) {
-    int pivot,i,j;
-    Rectangle *t;
-    Rectangle ** aux = header->rectArray;
-    pivot = inicio;
-    i = inicio;
-    j = final-1;
-    while (i<j) {
-        while((aux[i]->x) <=(aux[pivot]->x) && i<final-1)
-            i++;
-        while ((aux[j]->x)>(aux[pivot]->x))
-            j--;
-        if (i<j) {
-            t = aux[i];
-            aux[i] = aux[j];
-            aux[j] = t;
-        }
-    }
-    t = aux[pivot];
-    aux[pivot] = aux[j];
-    aux[j] = t;
-
-    return j;
-}
-
-int partitionY(Node *header,int inicio,int final) {
-    int pivot,i,j;
-    Rectangle *t;
-    Rectangle ** aux = header->rectArray;
-    pivot = inicio;
-    i = inicio;
-    j = final-1;
-    while (i<j) {
-        while((aux[i]->y) <=(aux[pivot]->y) && i<final-1)
-            i++;
-        while ((aux[j]->y)>(aux[pivot]->y))
-            j--;
-        if (i<j) {
-            t = aux[i];
-            aux[i] = aux[j];
-            aux[j] = t;
-        }
-    }
-    t = aux[pivot];
-    aux[pivot] = aux[j];
-    aux[j] = t;
-
-    return j;
-
-
-}
-
-void quicksort(Node *header,int inicio,int final,int d){
-    int j;
-    if (inicio < final) {
-        if (d == 0)
-            j = partitionX(header,inicio,final);
-        else
-            j = partitionY(header,inicio,final);
-        quicksort(header,inicio, j, d);
-        quicksort(header,j + 1, final, d);
-
-    }
-}
 
 Rectangle ** greeneSplit(Node *header) {
     Rectangle *min;
@@ -554,104 +649,4 @@ Rectangle ** greeneSplit(Node *header) {
 
     /*Ahora el nodo esta ordenado, hay que mover los primeros M/2 -1 rectangulos al primer nodo y los otros al segundo*/
 
-}
-
-void makeRandom(Node *pNode) {
-    int times = pNode->occupied * 5;
-    int r1,r2;
-    while (times > 0){
-        r1 = rand() % pNode->occupied;
-        r2 = rand() % pNode->occupied;
-        Rectangle *r = pNode->rectArray[r1];
-        pNode->rectArray[r1] = pNode->rectArray[r2];
-        pNode->rectArray[r2] = r;
-        times--;
-    }
-}
-
-void printRectangle(Rectangle* auxRect) {
-//      printf("Rectangle %d, have x = %d, y = %d, w = %d, h = %d.\n ", auxRect->id, auxRect->x, auxRect->y, auxRect->w, auxRect->h);
-
-}
-
-Rectangle **calculateXRectangles(Node *pNode) {
-    int min_x = 0;
-    int max_x = INT_MAX;
-    int min_y = 0;
-    int max_y = INT_MAX;
-    Rectangle *minX, *maxX, *minY, *maxY;
-
-    for (int i = 0 ; i < pNode->occupied ; i++) {
-        Rectangle *rectangle1 = pNode->rectArray[i];
-        if(min_x < rectangle1->x) {
-            min_x = rectangle1->x;
-            minX = rectangle1;
-        }
-        if(max_x > rectangle1->x + rectangle1->w) {
-            max_x = rectangle1->x + rectangle1->w;
-            maxX = rectangle1;
-        }
-        if(min_y < rectangle1->y) {
-            min_y = rectangle1->y;
-            minY = rectangle1;
-        }
-        if(max_y > rectangle1->y + rectangle1->h) {
-            max_y = rectangle1->y + rectangle1->h;
-            maxY = rectangle1;
-        }
-    }
-
-    Rectangle **array = (Rectangle**)malloc(4 *sizeof(Rectangle*));
-
-    array[0] = minX;
-    array[1] = maxX;
-    array[2] = minY;
-    array[3] = maxY;
-    return array;
-}
-
-int *calculateBounds(Node *pNode) {
-    int max_x = 0;
-    int min_x = INT_MAX;
-    int max_y = 0;
-    int min_y = INT_MAX;
-
-    for ( int i = 0; i < pNode->occupied; i++ ){
-        Rectangle *r = pNode->rectArray[i];
-        max_x = max_x > r->x + r->w ? max_x : r->x + r->w;
-        min_x = min_x < r->x ? min_x : r->x;
-        max_y = max_y > r->y + r->h ? max_y : r->y + r->h;
-        min_y = min_y < r->y ? min_y : r->y;
-    }
-    int *array = (int*)malloc(sizeof(int)*2);
-    array[0] = max_x - min_x;
-    array[1] = max_y - min_y;
-    return array;
-}
-
-int randomNum(int max) {
-    return rand() % max;
-}
-
-Node *createTestRectangles(int n) {
-    Node *node = createNode();
-    char name[200];
-    for (int i = 0; i < n ; i ++){
-        sprintf(name, "Rectangle%d", i);
-        //puts(id);
-        Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
-        printRectangle(rect);
-        node->rectArray[i] = rect;
-        node->occupied++;
-    }
-    return node;
-}
-
-Rectangle * bateriaRectangulos(int i){
-    Rectangle *rect = createRectangle(randomNum(499900), randomNum(499900),1 + randomNum(99), 1 + randomNum(99), i);
-    return rect;
-}
-Rectangle *copy(Rectangle r, int n){
-    Rectangle *rect = createRectangle(r.x,r.y,r.w, r.h, r.id);
-    return rect;
 }

@@ -10,18 +10,21 @@
 void TestGreene(int initial);
 void TestLinear(int numbers);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
      /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
+
+     if (argc != 3) {
+         printf("Usage: ./main rectangles mode\n");
+         printf("** mode = 1 (Linear) / 2 (Greene)\n");
+         exit(1);
+    }
     int initial = atoi(argv[1]);
-    srand((unsigned int) initial%73);
-    if (atoi(argv[2])>6)
+    srand((unsigned int) initial % 73);
+
+    if (atoi(argv[2]) == 1)
         TestLinear(initial);
     else
         TestGreene(initial);
-
-
-
-
 }
 
 void TestGreene(int initial) {
@@ -30,7 +33,7 @@ void TestGreene(int initial) {
     double time_spent = 0, time_spent_mono= 0;
 
     Node *headerGreene = createNode();
-    headerGreene->rectArray[0] = bateriaRectangulos(0);
+    headerGreene->rectArray[0] = generateRandomRectangle(0);
     headerGreene->occupied = 1;
     headerGreene->this_node_filename = "Nodes/HeaderGreene.bin";
     char *node = writeToDisk(headerGreene);
@@ -39,7 +42,7 @@ void TestGreene(int initial) {
 
 
     for(int i = 1; i < initial; i++) {
-        Rectangle * rect = bateriaRectangulos(i);
+        Rectangle * rect = generateRandomRectangle(i);
         insertToRootGreene(node, rect);
     };
 
@@ -53,7 +56,7 @@ void TestGreene(int initial) {
     clock_gettime(CLOCK_MONOTONIC,&startMono);
 
     for (int i = 0; i <(int)1.0*initial/10 ; i++ ) {
-        Rectangle *rect = bateriaRectangulos(i);
+        Rectangle *rect = generateRandomRectangle(i);
         search(node, rect);
     }
     clock_gettime(CLOCK_REALTIME, &finish);
@@ -71,7 +74,7 @@ void TestLinear(int initial) {
     struct timespec start,finish,startMono,finishMono;
 
     Node *headerLinear = createNode();
-    headerLinear->rectArray[0] = bateriaRectangulos(0);
+    headerLinear->rectArray[0] = generateRandomRectangle(0);
     headerLinear->occupied = 1;
     headerLinear->this_node_filename = "Nodes/HeaderLinear.bin";
     char *node = writeToDisk(headerLinear);
@@ -79,7 +82,7 @@ void TestLinear(int initial) {
     clock_gettime(CLOCK_MONOTONIC,&startMono);
 
     for(int i = 1; i < initial; i++) {
-        Rectangle * rect = bateriaRectangulos(i);
+        Rectangle * rect = generateRandomRectangle(i);
         insertToRootLinear(node, rect);
     };
     clock_gettime(CLOCK_REALTIME, &finish);
@@ -93,7 +96,7 @@ void TestLinear(int initial) {
     clock_gettime(CLOCK_MONOTONIC,&startMono);
 
     for (int i = 0; i <(int)1.0*initial/10 ; i++ ) {
-        Rectangle *rect = bateriaRectangulos(i);
+        Rectangle *rect = generateRandomRectangle(i);
         search(node, rect);
 
     }

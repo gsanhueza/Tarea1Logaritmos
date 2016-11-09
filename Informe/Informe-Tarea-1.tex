@@ -77,26 +77,26 @@
 	\subsubsection*{Especificaciones de la máquina utilizada}
 
 	\begin{itemize}
-		\item Procesador: Intel \textregistered Core \textregistered i7-6700HQ @ 2.60GHz
+		\item Procesador: Intel \textregistered Core \textregistered i5-4570 @ 3.20GHz
 		\item Arquitectura: x86\_64
 		\item Número de CPUs: 4
-		\item Número de Threads: 8
-		\item Memoria RAM: 12288 KB
-		\item Tamaño de página de disco: M = 4096 bytes ($\ulcorner40\% M\urcorner = 1638$)
-		\item Sistema Operativo: Arch Linux 4.8.6
+		\item Número de Threads: 4
+		\item Memoria RAM: 8092 KB
+		\item Tamaño de página de disco: M = 2048 bytes ($\ulcorner40\% M\urcorner = 820$)
+		\item Sistema Operativo: Elementary O.S. 0.4 Loki
 		\item Lenguaje usado: C
-		\item Compilador: gcc version 6.2.1
+		\item Compilador: gcc version 5.4.0
 	\end{itemize}
 
 	Usaremos siempre la misma semilla de aleatoriedad, para poder tener experimentos ``aleatorios'' repetibles.
 
 	Limitamos la cantidad máxima de rectángulos en un nodo con respecto al tamaño de página del disco.
 
-	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
+	Así, si \textit{BLOCK\_SIZE} = 2048 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
 
 	\begin{itemize}
-		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
-		\item m = 40\% de M. = $ 40\% * 128 = 51 $
+		\item M = \textit{BLOCK\_SIZE / sizeof(Rectangle)} = $ 2048 / 32 = 64 $
+		\item m = 40\% de M. = $ 40\% * 64 = 25 $
 	\end{itemize}
 
 	Por último, la idea es nunca tener más de dos archivos abiertos en un instante dado.
@@ -159,6 +159,9 @@
 	\begin{itemize}
 		\item \textit{Rectangle* createRectangle(int x, int y, int w, int h, int id)}: Crea un rectángulo con coordenadas y nombre.
 		\item \textit{Node* createNode()}: Crea un nodo con un arreglo de rectángulos como información interna.
+		\item \textit{void setAccessToDisk(int n)}: Setter de cantidad de accesos al disco.
+		\item \textit{int getAccessToDisk()}: Getter para accesos al disco.
+		\item \textit{void freeMemory(Node *pNode)}: Libera memoria no usada.
 		\item \textit{writeToDisk(Node *data)}: Escribe los datos de un nodo a disco.
 		\item \textit{Node* loadFromDisk(char *filename)}: Carga un archivo del disco.
 		\item \textit{int intersect (Rectangle *r1, Rectangle *r2)}: Retorna un "booleano" que dice si los dos rectángulos se intersectan.
@@ -172,8 +175,8 @@
 		\item \textit{Rectangle **calculateXRectangles(Node *pNode)}: Calcula los rectangulos con mayor bajo y menor alto en un arreglo para el eje X e Y.
 		\item \textit{int *calculateBounds(Node *pNode)}: Calcula el rectángulo más grande de todos los que están en el nodo.
 		\item \textit{int randomNum(int max)}: Retorna un número aleatorio acotado.
-		\item \textit{Rectangle ** bateriaRectangulos(int n)}: Crea n rectángulos distintos para experimentación.
-		\item \textit{Rectangle **copy(Rectangle **pRectangle, int n)}: Copia un arreglo de n elementos.
+		\item \textit{Rectangle *generateRandomRectangle(int n)}: Crea un rectángulo de id \textit{n}, de tamaño aleatorio.
+		\item \textit{Rectangle *copy(Rectangle *r)}: Copia un rectángulo.
 		\item \textit{Node *search(char *nodeName, Rectangle *rect)}: Busca en el nodo todos los rectángulos que intersectan a *rect.
 		\item \textit{void insertToRootLinear(char *nodeName, Rectangle *r)}: Inserción Linear Split con control de Overflow en Root.
 		\item \textit{void insertToRootGreene(char* nodeName, Rectangle *r)}: Inserción Greene Split con control de Overflow en Root.
