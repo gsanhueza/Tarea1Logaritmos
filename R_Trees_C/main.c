@@ -97,7 +97,7 @@ int main(int argc, char **argv) {
     clock_gettime(CLOCK_MONOTONIC, &finish);
     time_spent = (finish.tv_sec - start.tv_sec);
     time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    printf("time in Insert Greene: %f\n", time_spent);
+    printf("\ntime in Insert Greene: %f\n", time_spent);
 
     /* Search Greene */
     clock_gettime(CLOCK_MONOTONIC, &start);
