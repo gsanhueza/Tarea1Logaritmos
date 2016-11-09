@@ -70,7 +70,7 @@ legend("Linear Split", "Greene Split");
 grid on;
 xlabel ("Num. Rectangulos (log)");
 ylabel ("Tiempo (segs)");
-title ("Linear y Greene Split - Nímero de Rectangulos vs Tiempo de insercion");
+title ("Linear y Greene Split - Numero de Rectangulos vs Tiempo de insercion");
 hold off;
 
 # Plot para espacio y % de llenado
@@ -93,6 +93,6 @@ semilogx(rectangles/10, greene_search_time, "b");
 legend("Linear Split", "Greene Split");
 grid on;
 xlabel ("Numero de Rectangulos (log)");
-ylabel ("Tiempo de búsqueda (mseg)");
+ylabel ("Tiempo de busqueda (mseg)");
 title ("Linear y Greene Split - Numero de Rectangulos vs Tiempo de busqueda");
 hold off;
