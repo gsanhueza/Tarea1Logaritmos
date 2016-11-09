@@ -74,17 +74,18 @@
 
 	\subsection{Hipótesis}
 
-	\subsubsection*{Especificaciones de la máquina utilizada (Anakena)}
+	\subsubsection*{Especificaciones de la máquina utilizada}
 
 	\begin{itemize}
-		\item Procesador: Intel \textregistered Xeon \textregistered CPU E5620 @ 2.40GHz
+		\item Procesador: Intel \textregistered Core \textregistered i7-6700HQ @ 2.60GHz
 		\item Arquitectura: x86\_64
-		\item Número de CPUs: 12
+		\item Número de CPUs: 4
+		\item Número de Threads: 8
 		\item Memoria RAM: 12288 KB
-		\item Tamaño de página de disco: M = 512 bytes ($\ulcorner40\% M\urcorner = 205$)
-		\item Sistema Operativo: Linux version 4.4.6-gentoo
+		\item Tamaño de página de disco: M = 4096 bytes ($\ulcorner40\% M\urcorner = 1638$)
+		\item Sistema Operativo: Arch Linux 4.8.6
 		\item Lenguaje usado: C
-		\item Compilador: gcc version 4.9.3
+		\item Compilador: gcc version 6.2.1
 	\end{itemize}
 
 	Usaremos siempre la misma semilla de aleatoriedad, para poder tener experimentos ``aleatorios'' repetibles.
@@ -94,8 +95,8 @@
 	Así, si \textit{BLOCK\_SIZE} = 4096 y tenemos un \textit{struct rectangle} llamado \textit{Rectangle}:
 
 	\begin{itemize}
-		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 512 / 32 = 16 $
-		\item m = 40\% de M. = $ 40\% * 16 = 7 $
+		\item M = \textit{BLOCK\_SIZE / sizeof(struct rectangle)} = $ 4096 / 32 = 128 $
+		\item m = 40\% de M. = $ 40\% * 128 = 51 $
 	\end{itemize}
 
 	Por último, la idea es nunca tener más de dos archivos abiertos en un instante dado.
@@ -111,7 +112,7 @@
 
 	\subsection{Metodología}
 
-	Para cada $n \in \{2^{9}, ..., 2^{18}\}$, se harán 3 experimentos, 3 veces cada uno:
+	Para cada $n \in \{2^{9}, ..., 2^{18}\}$, se harán 3 experimentos:
 
 	\begin{itemize}
 		\item Inserción de \textit{n} rectángulos, control de \textit{overflow} con Linear Split.
@@ -187,71 +188,60 @@
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 	\section{Presentación de los Resultados}
-	%	TODO Presentación de los Resultados
 
-	\subsection{Tiempo de Construcción del R-Tree}
+	\subsection{Tiempo de Inserción del R-Tree}
 	\subsubsection{Linear Split}
-	% 	TODO Linear Split
 
 	\begin{center}
 
-		\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|}
 			\hline
-			Rectángulos	& Exp. 1 (segs) & Exp. 2 (segs) & Exp. 3 (segs) & Min & Max & Prom & Desv. Est\\
+			Rectángulos	& Tiempo (segs)\\
 			\hline
-			$2^{9}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{9}$ 	& 0.103387\\
 			\hline
-			$2^{10}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{10}$ 	& 0.166307\\
 			\hline
-			$2^{11}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{11}$ 	& 0.321261\\
 			\hline
-			$2^{12}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{12}$ 	& 0.848601\\
 			\hline
-			$2^{13}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{13}$ 	& 1.410179\\
 			\hline
-			$2^{14}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{14}$ 	& 2.861004\\
 			\hline
-			$2^{15}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{15}$ 	& 5.5939641\\
 			\hline
-			$2^{16}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
-			$2^{17}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
-			$2^{18}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
+% 			$2^{16}$ 	& 11.047045 & 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+% 			\hline
+% 			$2^{17}$ 	& 22.128518 & 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+% 			\hline
 		\end{tabular}
 
 		\includegraphics{logoFCFM.png}
 	\end{center}
 
 	\subsubsection{Greene Split}
-	% 	TODO Greene Split
 
 	\begin{center}
 
-		\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|}
 			\hline
-			Rectángulos	& Exp. 1 (segs) & Exp. 2 (segs) & Exp. 3 (segs) & Min & Max & Prom & Desv. Est\\
+			Rectángulos	& Tiempo (segs)\\
 			\hline
-			$2^{9}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{9}$ 	& 0.082136\\
 			\hline
-			$2^{10}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{10}$ 	& 0.177814\\
 			\hline
-			$2^{11}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{11}$ 	& 0.419102\\
 			\hline
-			$2^{12}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{12}$ 	& 1.610996\\
 			\hline
-			$2^{13}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{13}$ 	& 1.404789\\
 			\hline
-			$2^{14}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{14}$ 	& 2.787653\\
 			\hline
-			$2^{15}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
-			$2^{16}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
-			$2^{17}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
-			\hline
-			$2^{18}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{15}$ 	& 5.467977\\
 			\hline
 		\end{tabular}
 
@@ -259,33 +249,28 @@
 	\end{center}
 
 	\subsection{Espacio ocupado y porcentaje de llenado de páginas de disco}
-% 	TODO Espacio ocupado disco
+
+	\underline{\textit{Nota:}} Porcentaje de llenado = avgsize(nodes)/max(nodes)
 
 	\begin{center}
 
-		\begin{tabular}{|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			Rectángulos	& Espacio ocupado & Porcentaje de llenado\\
+			Rectángulos	& Espacio (bytes) & Nodos & Tamaño Promedio & Tamaño Máximo & \% llenado\\
 			\hline
-			$2^{9}$ 	& 50 	& 50\\
+			$2^{9}$ 	& 31023 & 18 & 1723 & 2785 & 61,9\%\\
 			\hline
-			$2^{10}$ 	& 50 	& 50\\
+			$2^{10}$ 	& 58160 & 34 & 1710 & 2418 & 70,7\%\\
 			\hline
-			$2^{11}$ 	& 50 	& 50\\
+			$2^{11}$ 	& 114416 & 64 & 1788 & 2837 & 63,0\%\\
 			\hline
-			$2^{12}$ 	& 50 	& 50\\
+			$2^{12}$ 	& 226980 & 130 & 1746 & 3065 & 57,0\%\\
 			\hline
-			$2^{13}$ 	& 50 	& 50\\
+			$2^{13}$ 	& 460264 & 262 & 1757 & 3218 & 55,5\%\\
 			\hline
-			$2^{14}$ 	& 50 	& 50\\
+			$2^{14}$ 	& 931496 & 522 & 1785 & 3349 & 53,3\%\\
 			\hline
-			$2^{15}$ 	& 50 	& 50\\
-			\hline
-			$2^{16}$ 	& 50 	& 50\\
-			\hline
-			$2^{17}$ 	& 50 	& 50\\
-			\hline
-			$2^{18}$ 	& 50 	& 50\\
+			$2^{15}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
 			\hline
 		\end{tabular}
 
@@ -295,31 +280,52 @@
 	\subsection{Desempeño de operación \textit{Buscar}}
 % 	TODO Desempeño de buscar
 
+	\subsubsection{Header con Linear Split}
 	\begin{center}
 
-		\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|}
 			\hline
-			Rectángulos	& Exp. 1 (segs) & Exp. 2 (segs) & Exp. 3 (segs) & Min & Max & Prom & Desv. Est\\
+			Rectángulos	& Tiempo (segs)\\
 			\hline
-			$2^{9}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{9}/10$ 	& 0.000012\\
 			\hline
-			$2^{10}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{10}/10$ 	& 0.000021\\
 			\hline
-			$2^{11}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{11}/10$ 	& 0.000020\\
 			\hline
-			$2^{12}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{12}/10$ 	& 0.000040\\
 			\hline
-			$2^{13}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{13}/10$ 	& 0.000019\\
 			\hline
-			$2^{14}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{14}/10$ 	& 0.000048\\
 			\hline
-			$2^{15}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{15}/10$ 	& 0.000012\\
 			\hline
-			$2^{16}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+		\end{tabular}
+
+		\includegraphics{logoFCFM.png}
+	\end{center}
+
+	\subsubsection{Header con Greene Split}
+	\begin{center}
+
+		\begin{tabular}{|c|c|}
 			\hline
-			$2^{17}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			Rectángulos	& Tiempo (segs)\\
 			\hline
-			$2^{18}$ 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 	& 50 \\
+			$2^{9}/10$ 	& 0.000009\\
+			\hline
+			$2^{10}/10$ 	& 0.000020\\
+			\hline
+			$2^{11}/10$ 	& 0.000027\\
+			\hline
+			$2^{12}/10$ 	& 0.000037\\
+			\hline
+			$2^{13}/10$ 	& 0.000008\\
+			\hline
+			$2^{14}/10$ 	& 0.000010\\
+			\hline
+			$2^{15}/10$ 	& 0.000008\\
 			\hline
 		\end{tabular}
 

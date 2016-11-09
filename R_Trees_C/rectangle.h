@@ -1,7 +1,7 @@
 #ifndef _RECTANGLE_H_
 #define _RECTANGLE_H_
 
-#define BLOCK_SIZE 512
+#define BLOCK_SIZE 4096
 
 /*****************************************************
  * Estructuras
