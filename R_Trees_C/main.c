@@ -26,7 +26,11 @@ int main(void) {
     double time_spent;
 
     clock_gettime(CLOCK_MONOTONIC, &start);
-    int numRectangles = 32*1024; // 262144
+
+    for (int i = 9; i <= 21; i++)
+    {
+    int numRectangles = (int) pow(2, i);
+    printf("\nTesting %d rectangles...\n\n", numRectangles);
 
     Rectangle **rectLinear = bateriaRectangulos(numRectangles);
     Rectangle **rectGreene = copy(rectLinear, numRectangles);
@@ -84,7 +88,5 @@ int main(void) {
     time_spent = (finish.tv_sec - start.tv_sec);
     time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     printf("time in Search Greene: %f\n", time_spent);
-
-
-
+    }
 }
