@@ -9,7 +9,7 @@
 
 #include "rectangle.h"
 
-int main(void) {
+int main(int argc, char **argv) {
 
     /* Si no existe directorio, crearlo */
     struct stat st = {0};
@@ -27,65 +27,91 @@ int main(void) {
 
     clock_gettime(CLOCK_MONOTONIC, &start);
 
-    for (int i = 9; i <= 15; i++) {
-        int numRectangles = (int) pow(2, i);
-        printf("\nTesting %d rectangles...\n\n", numRectangles);
+    int i = atoi(argv[1]);
 
-        Rectangle **rectLinear = bateriaRectangulos(numRectangles);
-        Rectangle **rectGreene = copy(rectLinear, numRectangles);
+    int numRectangles = (int) pow(2, i);
+    printf("\nTesting %d (2^%d) rectangles...\n\n", numRectangles, i);
 
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        time_spent = (finish.tv_sec - start.tv_sec);
-        time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    Rectangle **rectLinear = bateriaRectangulos(numRectangles);
+    Rectangle **rectGreene = copy(rectLinear, numRectangles);
+    Rectangle **busqueda = bateriaRectangulos(numRectangles / 10);
 
-        printf("time in create Rects: %f\n", time_spent);
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
-        Node *headerLinear = createNode();
-        Node *headerGreene = createNode();
+    printf("time in create Rects: %f\n", time_spent);
 
-        Rectangle *r = createRectangle(0, 0, 4, 5, -1);
-        Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
+    Node *headerLinear = createNode();
+    Node *headerGreene = createNode();
 
-        headerLinear->rectArray[0] = r;
-        headerLinear->occupied = 1;
-        headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
-        headerGreene->rectArray[0] = r2;
-        headerGreene->occupied = 1;
-        headerGreene->this_node_filename = "Nodes/HeaderGreene.txt";
+    char *nodeLinear;
+    char *nodeGreene;
+
+    Rectangle *r = createRectangle(0, 0, 4, 5, -1);
+    Rectangle *r2 = createRectangle(0, 0, 4, 5, -1);
+
+    headerLinear->rectArray[0] = r;
+    headerLinear->occupied = 1;
+    headerLinear->this_node_filename = "Nodes/HeaderLinear.txt";
+    headerGreene->rectArray[0] = r2;
+    headerGreene->occupied = 1;
+    headerGreene->this_node_filename = "Nodes/HeaderGreene.txt";
 
 
-        char *node = writeToDisk(headerLinear);
-        char *nodeGreene = writeToDisk(headerGreene);
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        for(int i = 0; i < numRectangles; i++) {
-            insertToRootLinear(node, rectLinear[i]);
-        }
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        time_spent = (finish.tv_sec - start.tv_sec);
-        time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-        printf("time in Insert Linear: %f\n", time_spent);
+    nodeLinear = writeToDisk(headerLinear);
+    nodeGreene = writeToDisk(headerGreene);
 
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        for(int i = 0; i < numRectangles; i++) {
-            insertToRootGreene(nodeGreene,rectGreene[i]);
-        }
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        time_spent = (finish.tv_sec - start.tv_sec);
-        time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-        printf("time in Insert Greene: %f\n", time_spent);
-
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        /*Node *LinearSearch = */search(node, r);
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        time_spent = (finish.tv_sec - start.tv_sec);
-        time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-        printf("time in Search Linear: %f\n", time_spent);
-
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        /*Node *GreeneSearch = */search(nodeGreene, r2);
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        time_spent = (finish.tv_sec - start.tv_sec);
-        time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-        printf("time in Search Greene: %f\n", time_spent);
+    /* Insert Linear */
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    for(int i = 0; i < numRectangles; i++) {
+        insertToRootLinear(nodeLinear, rectLinear[i]);
     }
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    printf("time in Insert Linear: %f\n", time_spent);
+
+    /* Search Linear */
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    for (int i = 0; i < numRectangles / 10; i++){
+        /*Node *LinearSearch = */search(nodeLinear, busqueda[i]);
+    }
+
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    printf("time in Search Linear: %f\n", time_spent);
+
+    /* Cleaning */
+    system("rm Nodes/ -rf");
+    system("mkdir Nodes");
+    nodeLinear = writeToDisk(headerLinear);
+    nodeGreene = writeToDisk(headerGreene);
+
+    /* Insert Greene */
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    for(int i = 0; i < numRectangles; i++) {
+        insertToRootGreene(nodeGreene,rectGreene[i]);
+    }
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    printf("time in Insert Greene: %f\n", time_spent);
+
+    /* Search Greene */
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    for (int i = 0; i < numRectangles / 10; i++){
+        /*Node *LinearSearch = */search(nodeGreene, busqueda[i]);
+    }
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+    printf("time in Search Greene: %f\n", time_spent);
+
+    /* Cleaning */
+    system("rm Nodes/ -rf");
+    system("mkdir Nodes");
+    nodeLinear = writeToDisk(headerLinear);
+    nodeGreene = writeToDisk(headerGreene);
 }
