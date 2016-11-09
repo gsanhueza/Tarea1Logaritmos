@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -20,14 +21,20 @@ int main(void) {
 
     srand(123); /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
 
-    clock_t begin = clock();
-    int numRectangles = 512; // 262144
+    /* Timer */
+    struct timespec start, finish;
+    double time_spent;
+
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    int numRectangles = 32*1024; // 262144
 
     Rectangle **rectLinear = bateriaRectangulos(numRectangles);
     Rectangle **rectGreene = copy(rectLinear, numRectangles);
 
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+
     printf("time in create Rects: %f\n", time_spent);
 
     Node *headerLinear = createNode();
@@ -46,32 +53,36 @@ int main(void) {
 
     char *node = writeToDisk(headerLinear);
     char *nodeGreene = writeToDisk(headerGreene);
-    begin = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
     for(int i = 0; i < numRectangles; i++) {
         insertToRootLinear(node, rectLinear[i]);
     }
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     printf("time in Insert Linear: %f\n", time_spent);
 
-    begin = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
     for(int i = 0; i < numRectangles; i++) {
         insertToRootGreene(nodeGreene,rectGreene[i]);
     }
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     printf("time in Insert Greene: %f\n", time_spent);
 
-    begin = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
     /*Node *LinearSearch = */search(node, r);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     printf("time in Search Linear: %f\n", time_spent);
 
-    begin = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
     /*Node *GreeneSearch = */search(nodeGreene, r2);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &finish);
+    time_spent = (finish.tv_sec - start.tv_sec);
+    time_spent += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     printf("time in Search Greene: %f\n", time_spent);
 
 
