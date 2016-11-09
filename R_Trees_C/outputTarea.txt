@@ -1,0 +1,56 @@
+
+Testing 512 (2^9) rectangles...
+
+time in create Rects: 0.000106
+time in Insert Linear: 0.124382
+time in Search Linear: 0.000411
+time in Insert Greene: 0.078087
+time in Search Greene: 0.000490
+
+Testing 1024 (2^10) rectangles...
+
+time in create Rects: 0.007245
+time in Insert Linear: 0.160731
+time in Search Linear: 0.001220
+time in Insert Greene: 0.156979
+time in Search Greene: 0.001146
+
+Testing 2048 (2^11) rectangles...
+
+time in create Rects: 0.010698
+time in Insert Linear: 0.304074
+time in Search Linear: 0.004068
+time in Insert Greene: 0.301353
+time in Search Greene: 0.003845
+
+Testing 4096 (2^12) rectangles...
+
+time in create Rects: 0.015934
+time in Insert Linear: 0.724888
+time in Search Linear: 0.013092
+time in Insert Greene: 0.609705
+time in Search Greene: 0.013267
+
+Testing 8192 (2^13) rectangles...
+
+time in create Rects: 0.032956
+time in Insert Linear: 1.217081
+time in Search Linear: 0.004290
+time in Insert Greene: 1.322449
+time in Search Greene: 0.004558
+
+Testing 16384 (2^14) rectangles...
+
+time in create Rects: 0.038090
+time in Insert Linear: 2.511472
+time in Search Linear: 0.010340
+time in Insert Greene: 2.539249
+time in Search Greene: 0.010905
+
+Testing 32768 (2^15) rectangles...
+
+time in create Rects: 0.064086
+time in Insert Linear: 5.163849
+time in Search Linear: 0.024031
+time in Insert Greene: 5.295457
+time in Search Greene: 0.026004
