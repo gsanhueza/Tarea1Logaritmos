@@ -136,9 +136,8 @@ void quicksort(Node *header,int inicio,int final,int d);
  * @brief Desordena el orden de los rectángulos de un nodo para aleatorizar el split.
  *
  * @param pNode p_pNode: Nodo con rectángulos.
- * @return Rectangle** El nodo con rectángulos desordenados.
  */
-Rectangle **makeRandom(Node pNode);
+void makeRandom(Node *pNode);
 
 /**
  * @brief Imprime información de un rectángulo.
@@ -172,12 +171,12 @@ int *calculateBounds(Node *pNode);
 int randomNum(int max);
 
 /**
- * @brief Crea n rectángulos distintos para experimentación.
+ * @brief Crea 1 Rectangulo.
  *
- * @param n p_n: Número de rectángulos a crear.
- * @return Rectangle** Arreglo de rectángulos creados.
+ * @param n p_n: Número de rectángulo.
+ * @return Rectangle* Rectangulo creado.
  */
-Rectangle ** bateriaRectangulos(int n);
+Rectangle * bateriaRectangulos(int n);
 
 /**
  * @brief Copia un rectangulo.
