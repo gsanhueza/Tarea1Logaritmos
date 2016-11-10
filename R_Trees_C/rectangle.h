@@ -1,7 +1,7 @@
 #ifndef _RECTANGLE_H_
 #define _RECTANGLE_H_
 
-#define BLOCK_SIZE 4096
+#define BLOCK_SIZE 2048
 
 /*****************************************************
  * Estructuras
@@ -90,9 +90,9 @@ int intersect (Rectangle *r1, Rectangle *r2);
  *
  * @param r1 p_r1: Rectángulo 1.
  * @param r2 p_r2: Rectángulo 2.
- * @return int La diferencia de las Areas.
+ * @return long La diferencia de las Areas.
  */
-int MBR(Rectangle *r1, Rectangle *r2);
+long MBR(Rectangle *r1, Rectangle *r2);
 
 /**
  * @brief Actualiza las coordenadas de r1 al agregarle r2. (Solo las actualiza, no añade r2 a r1).
@@ -180,13 +180,13 @@ int randomNum(int max);
 Rectangle ** bateriaRectangulos(int n);
 
 /**
- * @brief Copia un arreglo de n elementos.
+ * @brief Copia un rectangulo.
  *
- * @param pRectangle p_pRectangle: Arreglo de rectángulos
- * @param n p_n: Número de rectángulos a copiar
- * @return Rectangle** Copia del arreglo.
+ * @param r p_r: rectangulo a copiar
+ * @param n p_n: id del rectangulo a copiar
+ * @return Rectangle* Copia del rectangulo.
  */
-Rectangle **copy(Rectangle **pRectangle, int n);
+Rectangle *copy(Rectangle r, int n);
 
 /**
  * @brief Busca en el nodo todos los rectángulos que intersectan a *rect.
@@ -244,4 +244,3 @@ Rectangle ** linearSplit(Node *header);
 Rectangle ** greeneSplit(Node *header);
 
 #endif
-
