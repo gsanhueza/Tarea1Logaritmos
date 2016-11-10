@@ -36,16 +36,16 @@ gst(10) = 38.643265;
 
 # Porcentajes de llenado
 
-percent_fill(1) = 61.9;
-percent_fill(2) = 70.7;
-percent_fill(3) = 63.0;
-percent_fill(4) = 57.0;
-percent_fill(5) = 55.5;
-percent_fill(6) = 53.3;
-percent_fill(7) = 54.4;
-percent_fill(8) = 54.4;
-percent_fill(9) = 54.4;
-percent_fill(10) = 54.4;
+percent_fill(1) = 46.1;
+percent_fill(2) = 47.6;
+percent_fill(3) = 48.8;
+percent_fill(4) = 49.5;
+percent_fill(5) = 49.7;
+percent_fill(6) = 49.8;
+percent_fill(7) = 50.0;
+percent_fill(8) = 50.1;
+percent_fill(9) = 50.1;
+percent_fill(10) = 50.2;
 
 # Tiempos Búsqueda Linear Split (seg)
 
@@ -92,10 +92,10 @@ hold off;
 
 figure(2);
 hold on;
-semilogx(rectangles, percent_fill, "b");
+plot(rectangles, percent_fill, "b");
 grid on;
 legend("% llenado");
-xlabel ("Numero de Rectangulos (log2(n))");
+xlabel ("Numero de Rectangulos");
 ylabel ("Porcentaje de llenado del nodo");
 title ("Numero de Rectangulos vs % de llenado de nodos");
 hold off;

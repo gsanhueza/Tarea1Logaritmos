@@ -6,18 +6,26 @@
 #include <math.h>
 #include <time.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 void TestGreene(int initial);
 void TestLinear(int numbers);
 
 int main(int argc, char **argv) {
-     /* Inicializa el random, si no se cambia el parametro lanzara siempre la misma secuencia */
+    struct stat st = {0};
 
-     if (argc != 3) {
+    if (stat("Nodes", &st) == -1) {
+        printf("Creando carpeta Nodes...\n");
+        mkdir("Nodes", 0700);
+    }
+
+    if (argc != 3) {
          printf("Usage: ./main rectangles mode\n");
          printf("** mode = 1 (Linear) / 2 (Greene)\n");
          exit(1);
     }
+
     int initial = atoi(argv[1]);
     srand((unsigned int) initial % 73);
 

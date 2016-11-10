@@ -229,41 +229,33 @@
 	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\subsection{TODO: Espacio ocupado y porcentaje de llenado de páginas de disco}
-
-	\underline{\textit{Nota:}} Porcentaje de llenado = avgsize(nodes)/max(nodes)
+	\subsection{Espacio ocupado y porcentaje de llenado de páginas de disco}
 
 	\begin{center}
 
 		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			Rectángulos	& Espacio & Nodos & Tamaño Promedio & Tamaño Máximo & \% llenado\\
+			Rectángulos	& Nodos & Tamaño Total & Tamaño Promedio Nodo & \% llenado & Accesos a disco\\
 			\hline
-			$2^{9}$ 	& 16.5 KB & 17 & 0.97 KB & 1.5 KB & 61,9\%\\
+			$2^{9}$ 	& 18 & 16.5 KB & 956 bytes & 46,1\% & 102 \\
 			\hline
-			$2^{10}$ 	& 136 KB & 33 & 1710 & 2418 & 70,7\%\\
+			$2^{10}$ 	& 34 & 136 KB & 972 bytes & 47,6\% & 204 \\
 			\hline
-			$2^{11}$ 	& 272 KB & 67 & 1788 & 2837 & 63,0\%\\
+			$2^{11}$ 	& 68 & 272 KB & 982 bytes & 48,8\% & 408 \\
 			\hline
-			$2^{12}$ 	& 536 KB & 133 & 1746 & 3065 & 57,0\%\\
+			$2^{12}$ 	& 134 & 536 KB & 987 bytes & 49,5\% & 818 \\
 			\hline
-			$2^{13}$ 	& 1.1 MB & 266 & 1757 & 3218 & 55,5\%\\
+			$2^{13}$ 	& 266 & 1.1 MB & 990 bytes & 49,7\% & 1638 \\
 			\hline
-			$2^{14}$ 	& x & x & x & x & 53,3\%\\
+			$2^{14}$ 	& 530 & 2.1 MB & 992 bytes & 49,8\% & 3276 \\
 			\hline
-			$2^{15}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{15}$ 	& 1058 & 4.2 MB & 994 bytes & 50,0\% & 6552 \\
 			\hline
-			$2^{16}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{16}$ 	& 2116 & 8.4 MB & 995 bytes & 50,1\% & 13106 \\
 			\hline
-			$2^{17}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{17}$ 	& 4240 & 17 MB & 996 bytes & 50,1\% & 26214 \\
 			\hline
-			$2^{18}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{19}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{20}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{21}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{18}$ 	& 8458 & 34 MB & 996 bytes & 50,2\% & 52428 \\
 			\hline
 		\end{tabular}
 
@@ -332,10 +324,11 @@
 
 	Para este caso, los experimentos realizados hacen que los rectángulos insertados y buscados ocupen tanta memoria que se requiere leer y escribir de disco.
 
-	TODO:
 	\begin{itemize}
 		\item Según el análisis, tanto Linear Split como Greene Split muestran resultados parecidos, con una muy ligera ventaja de Linear Split.
 		\item La búsqueda produce resultados un poco más apreciables, donde se muestra la ventaja que consiguió Linear Split.
+		\item El uso de C facilitó el manejo preciso de memoria, pero aumentó considerablemente la complejidad para el algoritmo de uso correcto de la memoria, tanto
+		principal como secundaria.
 	\end{itemize}
 
 
