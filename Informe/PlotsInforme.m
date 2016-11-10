@@ -47,6 +47,19 @@ percent_fill(8) = 50.1;
 percent_fill(9) = 50.1;
 percent_fill(10) = 50.2;
 
+# Accesos a disco
+
+disk_access(1) = 102;
+disk_access(2) = 204;
+disk_access(3) = 408;
+disk_access(4) = 818;
+disk_access(5) = 1638;
+disk_access(6) = 3276;
+disk_access(7) = 6552;
+disk_access(8) = 13106;
+disk_access(9) = 26214;
+disk_access(10) = 52428;
+
 # Tiempos Búsqueda Linear Split (seg)
 
 linear_search_time(1) = 0.002877;
@@ -111,4 +124,16 @@ grid on;
 xlabel ("Numero de Rectangulos");
 ylabel ("Tiempo de busqueda (segs)");
 title ("Linear y Greene Split - Numero de Rectangulos vs Tiempo de busqueda");
+hold off;
+
+# Plot para accesos a disco
+
+figure(4);
+hold on;
+plot(rectangles, disk_access, "r");
+legend("Accesos a disco");
+grid on;
+xlabel ("Numero de Rectangulos");
+ylabel ("Accesos a disco");
+title ("Numero de Rectangulos vs Accesos a disco");
 hold off;
