@@ -1,7 +1,5 @@
 # Tarea 1 Logaritmos
 
-* DONE: Vamos a usar C.
-* DONE: Linear Split implementado.
-* DONE: Green Split implementado.
-* TODO: Probar search.
-* TODO: Hacer experimentos.
+* Viene con Makefile listo
+* Se usa con "./main 512 1" para 512 rectángulos con Linear Split
+* Se usa con "./main 1024 2" para 1024 rectángulos con Greene Split
