@@ -1,0 +1,155 @@
+
+blocksize 4096
+
+
+begin test Linear for 512 rectangles
+Clock real time in Linear insert: 0.090544
+ Clock mono time in Linear insert, 0.090544 
+Clock real time spent in Linear Search : 0.002877 , access to Disk (write+read): 102 
+Clock mono time spent in Linear Search : 0.002877 
+begin test Greene for 512 rectangles
+Clock real time in Green insert: 0.079349
+ Clock mono time in Green insert, 0.079349 
+Clock real time spent in Greene Search : 0.002891 , access to Disk (write+read): 102 
+Clock mono time spent in Greene Search : 0.002891 
+begin test Linear for 1024 rectangles
+Clock real time in Linear insert: 0.164019
+ Clock mono time in Linear insert, 0.164019 
+Clock real time spent in Linear Search : 0.005631 , access to Disk (write+read): 204 
+Clock mono time spent in Linear Search : 0.005631 
+begin test Greene for 1024 rectangles
+Clock real time in Green insert: 0.134480
+ Clock mono time in Green insert, 0.134480 
+Clock real time spent in Greene Search : 0.005252 , access to Disk (write+read): 204 
+Clock mono time spent in Greene Search : 0.005252 
+begin test Linear for 2048 rectangles
+Clock real time in Linear insert: 0.298953
+ Clock mono time in Linear insert, 0.298953 
+Clock real time spent in Linear Search : 0.011399 , access to Disk (write+read): 408 
+Clock mono time spent in Linear Search : 0.011399 
+begin test Greene for 2048 rectangles
+Clock real time in Green insert: 0.260028
+ Clock mono time in Green insert, 0.260028 
+Clock real time spent in Greene Search : 0.010876 , access to Disk (write+read): 408 
+Clock mono time spent in Greene Search : 0.010876 
+begin test Linear for 4096 rectangles
+Clock real time in Linear insert: 0.521460
+ Clock mono time in Linear insert, 0.521460 
+Clock real time spent in Linear Search : 0.022630 , access to Disk (write+read): 818 
+Clock mono time spent in Linear Search : 0.022630 
+begin test Greene for 4096 rectangles
+Clock real time in Green insert: 0.534319
+ Clock mono time in Green insert, 0.534319 
+Clock real time spent in Greene Search : 0.028296 , access to Disk (write+read): 818 
+Clock mono time spent in Greene Search : 0.028296 
+begin test Linear for 8192 rectangles
+Clock real time in Linear insert: 0.966952
+ Clock mono time in Linear insert, 0.966952 
+Clock real time spent in Linear Search : 0.045871 , access to Disk (write+read): 1638 
+Clock mono time spent in Linear Search : 0.045871 
+begin test Greene for 8192 rectangles
+Clock real time in Green insert: 0.963934
+ Clock mono time in Green insert, 0.963934 
+Clock real time spent in Greene Search : 0.058527 , access to Disk (write+read): 1638 
+Clock mono time spent in Greene Search : 0.058527 
+begin test Linear for 16384 rectangles
+Clock real time in Linear insert: 2.704462
+ Clock mono time in Linear insert, 2.704462 
+Clock real time spent in Linear Search : 0.116145 , access to Disk (write+read): 3276 
+Clock mono time spent in Linear Search : 0.116145 
+begin test Greene for 16384 rectangles
+Clock real time in Green insert: 2.247448
+ Clock mono time in Green insert, 2.247448 
+Clock real time spent in Greene Search : 0.093235 , access to Disk (write+read): 3276 
+Clock mono time spent in Greene Search : 0.093235 
+begin test Linear for 32768 rectangles
+Clock real time in Linear insert: 5.425123
+ Clock mono time in Linear insert, 5.425123 
+Clock real time spent in Linear Search : 0.717755 , access to Disk (write+read): 6552 
+Clock mono time spent in Linear Search : 0.717755 
+begin test Greene for 32768 rectangles
+Clock real time in Green insert: 4.912580
+ Clock mono time in Green insert, 4.912580 
+Clock real time spent in Greene Search : 0.223559 , access to Disk (write+read): 6552 
+Clock mono time spent in Greene Search : 0.223559 
+begin test Linear for 65536 rectangles
+Clock real time in Linear insert: 9.942731
+ Clock mono time in Linear insert, 9.942731 
+Clock real time spent in Linear Search : 0.495848 , access to Disk (write+read): 13106 
+Clock mono time spent in Linear Search : 0.495848 
+begin test Greene for 65536 rectangles
+Clock real time in Green insert: 9.818921
+ Clock mono time in Green insert, 9.818921 
+Clock real time spent in Greene Search : 0.465250 , access to Disk (write+read): 13106 
+Clock mono time spent in Greene Search : 0.465250 
+begin test Linear for 131072 rectangles
+Clock real time in Linear insert: 19.675351
+ Clock mono time in Linear insert, 19.675351 
+Clock real time spent in Linear Search : 0.832019 , access to Disk (write+read): 26214 
+Clock mono time spent in Linear Search : 0.832020 
+begin test Greene for 131072 rectangles
+Clock real time in Green insert: 19.402311
+ Clock mono time in Green insert, 19.402311 
+Clock real time spent in Greene Search : 1.389346 , access to Disk (write+read): 26214 
+Clock mono time spent in Greene Search : 1.389346 
+begin test Linear for 262144 rectangles
+Clock real time in Linear insert: 38.226344
+ Clock mono time in Linear insert, 38.226344 
+Clock real time spent in Linear Search : 2.194899 , access to Disk (write+read): 52428 
+Clock mono time spent in Linear Search : 2.194899 
+begin test Greene for 262144 rectangles
+Clock real time in Green insert: 38.643265
+ Clock mono time in Green insert, 38.643265 
+Clock real time spent in Greene Search : 2.282709 , access to Disk (write+read): 52428 
+Clock mono time spent in Greene Search : 2.282709 
+begin test Linear for 524288 rectangles
+Clock real time in Linear insert: 76.036276
+ Clock mono time in Linear insert, 76.036276 
+Clock real time spent in Linear Search : 3.697003 , access to Disk (write+read): 104856 
+Clock mono time spent in Linear Search : 3.697003 
+begin test Greene for 524288 rectangles
+Clock real time in Green insert: 75.292200
+ Clock mono time in Green insert, 75.292200 
+Clock real time spent in Greene Search : 3.571821 , access to Disk (write+read): 104856 
+Clock mono time spent in Greene Search : 3.571821 
+begin test Linear for 1048576 rectangles
+Clock real time in Linear insert: 146.480025
+ Clock mono time in Linear insert, 146.480025 
+Clock real time spent in Linear Search : 7.061168 , access to Disk (write+read): 209714 
+Clock mono time spent in Linear Search : 7.061168 
+begin test Greene for 1048576 rectangles
+Clock real time in Green insert: 148.151667
+ Clock mono time in Green insert, 148.151667 
+Clock real time spent in Greene Search : 6.956966 , access to Disk (write+read): 209714 
+Clock mono time spent in Greene Search : 6.956966 
+begin test Linear for 2097152 rectangles
+Clock real time in Linear insert: 285.183525
+ Clock mono time in Linear insert, 285.183525 
+Clock real time spent in Linear Search : 13.667646 , access to Disk (write+read): 419430 
+Clock mono time spent in Linear Search : 13.667646 
+begin test Greene for 2097152 rectangles
+Clock real time in Green insert: 295.043629
+ Clock mono time in Green insert, 295.043629 
+Clock real time spent in Greene Search : 14.228509 , access to Disk (write+read): 419430 
+Clock mono time spent in Greene Search : 14.228509 
+begin test Linear for 4194304 rectangles
+Clock real time in Linear insert: 615.995846
+ Clock mono time in Linear insert, 615.995846 
+Clock real time spent in Linear Search : 31.592917 , access to Disk (write+read): 838860 
+Clock mono time spent in Linear Search : 31.592917 
+begin test Greene for 4194304 rectangles
+Clock real time in Green insert: 1164.154523
+ Clock mono time in Green insert, 1164.154523 
+Clock real time spent in Greene Search : 129.334721 , access to Disk (write+read): 838860 
+Clock mono time spent in Greene Search : 129.334721 
+begin test Linear for 8388608 rectangles
+Clock real time in Linear insert: 5338.015789
+ Clock mono time in Linear insert, 5338.015789 
+Clock real time spent in Linear Search : 300.843780 , access to Disk (write+read): 1677720 
+Clock mono time spent in Linear Search : 300.843780 
+begin test Greene for 8388608 rectangles
+Clock real time in Green insert: 4873.448599
+ Clock mono time in Green insert, 4873.448599 
+Clock real time spent in Greene Search : 371.746175 , access to Disk (write+read): 1677720 
+Clock mono time spent in Greene Search : 371.746175 
+
