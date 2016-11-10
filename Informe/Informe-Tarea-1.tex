@@ -81,7 +81,7 @@
 		\item Arquitectura: x86\_64
 		\item Número de CPUs: 4
 		\item Número de Threads: 4
-		\item Memoria RAM: 8092 KB
+		\item Memoria RAM: 8192 KB
 		\item Tamaño de página de disco: M = 2048 bytes ($\ulcorner40\% M\urcorner = 820$)
 		\item Sistema Operativo: Elementary O.S. 0.4 Loki
 		\item Lenguaje usado: C
@@ -112,7 +112,7 @@
 
 	\subsection{Metodología}
 
-	Para cada $n \in \{2^{9}, ..., 2^{21}\}$, se harán 3 experimentos:
+	Para cada $n \in \{2^{9}, ..., 2^{18}\}$, se harán 3 experimentos:
 
 	\begin{itemize}
 		\item Inserción de \textit{n} rectángulos, control de \textit{overflow} con Linear Split.
@@ -200,31 +200,25 @@
 			\hline
 			Rectángulos	& Tiempo (segs) (Linear) & Tiempo (segs) (Greene) \\
 			\hline
-			$2^{9}$ 	& 0.103387	& 0.082136\\
+			$2^{9}$ 	& 0.090544	& 0.079349\\
 			\hline
-			$2^{10}$ 	& 0.166307	& 0.177814\\
+			$2^{10}$ 	& 0.164019	& 0.134480\\
 			\hline
-			$2^{11}$ 	& 0.321261	& 0.419102\\
+			$2^{11}$ 	& 0.298953	& 0.260028\\
 			\hline
-			$2^{12}$ 	& 0.848601	& 1.610996\\
+			$2^{12}$ 	& 0.521460	& 0.534319\\
 			\hline
-			$2^{13}$ 	& 1.410179	& 1.404789\\
+			$2^{13}$ 	& 0.966952	& 0.963934\\
 			\hline
-			$2^{14}$ 	& 2.861004	& 2.787653\\
+			$2^{14}$ 	& 2.704462	& 2.247448\\
 			\hline
-			$2^{15}$ 	& 5.593964	& 5.467977\\
+			$2^{15}$ 	& 5.425123	& 4.912580\\
 			\hline
-			$2^{16}$ 	& 5.593964	& 5.467977\\
+			$2^{16}$ 	& 9.942731	& 9.818921\\
 			\hline
-			$2^{17}$ 	& 5.593964	& 5.467977\\
+			$2^{17}$ 	& 19.675351	& 19.402311\\
 			\hline
-			$2^{18}$ 	& 5.593964	& 5.467977\\
-			\hline
-			$2^{19}$ 	& 5.593964	& 5.467977\\
-			\hline
-			$2^{20}$ 	& 5.593964	& 5.467977\\
-			\hline
-			$2^{21}$ 	& 5.593964	& 5.467977\\
+			$2^{18}$ 	& 38.226344	& 38.643265\\
 			\hline
 		\end{tabular}
 
@@ -237,39 +231,31 @@
 
 	\subsection{Espacio ocupado y porcentaje de llenado de páginas de disco}
 
-	\underline{\textit{Nota:}} Porcentaje de llenado = avgsize(nodes)/max(nodes)
-
 	\begin{center}
 
 		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
-			Rectángulos	& Espacio (bytes) & Nodos & Tamaño Promedio & Tamaño Máximo & \% llenado\\
+			Rectángulos	& Nodos & Tamaño Total & Tamaño Promedio Nodo & \% llenado & Accesos a disco\\
 			\hline
-			$2^{9}$ 	& 31023 & 18 & 1723 & 2785 & 61,9\%\\
+			$2^{9}$ 	& 18 & 16.5 KB & 956 bytes & 46,1\% & 102 \\
 			\hline
-			$2^{10}$ 	& 58160 & 34 & 1710 & 2418 & 70,7\%\\
+			$2^{10}$ 	& 34 & 136 KB & 972 bytes & 47,6\% & 204 \\
 			\hline
-			$2^{11}$ 	& 114416 & 64 & 1788 & 2837 & 63,0\%\\
+			$2^{11}$ 	& 68 & 272 KB & 982 bytes & 48,8\% & 408 \\
 			\hline
-			$2^{12}$ 	& 226980 & 130 & 1746 & 3065 & 57,0\%\\
+			$2^{12}$ 	& 134 & 536 KB & 987 bytes & 49,5\% & 818 \\
 			\hline
-			$2^{13}$ 	& 460264 & 262 & 1757 & 3218 & 55,5\%\\
+			$2^{13}$ 	& 266 & 1.1 MB & 990 bytes & 49,7\% & 1638 \\
 			\hline
-			$2^{14}$ 	& 931496 & 522 & 1785 & 3349 & 53,3\%\\
+			$2^{14}$ 	& 530 & 2.1 MB & 992 bytes & 49,8\% & 3276 \\
 			\hline
-			$2^{15}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{15}$ 	& 1058 & 4.2 MB & 994 bytes & 50,0\% & 6552 \\
 			\hline
-			$2^{16}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{16}$ 	& 2116 & 8.4 MB & 995 bytes & 50,1\% & 13106 \\
 			\hline
-			$2^{17}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{17}$ 	& 4240 & 17 MB & 996 bytes & 50,1\% & 26214 \\
 			\hline
-			$2^{18}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{19}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{20}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
-			\hline
-			$2^{21}$ 	& 1880850 & 1042 & 1805 & 3320 & 54,4\%\\
+			$2^{18}$ 	& 8458 & 34 MB & 996 bytes & 50,2\% & 52428 \\
 			\hline
 		\end{tabular}
 
@@ -286,33 +272,27 @@
 
 		\begin{tabular}{|c|c||c|}
 			\hline
-			Rectángulos	& Tiempo (mseg) (Linear) & Tiempo (mseg) (Greene) \\
+			Rectángulos	& Tiempo (seg) (Linear) & Tiempo (seg) (Greene) \\
 			\hline
-			$2^{9}/10$ 	& 0.012	& 0.009\\
+			$2^{9}/10$ 	& 0.002877	& 0.002891\\
 			\hline
-			$2^{10}/10$ 	& 0.021	& 0.020\\
+			$2^{10}/10$ 	& 0.005631	& 0.005252\\
 			\hline
-			$2^{11}/10$ 	& 0.020	& 0.027\\
+			$2^{11}/10$ 	& 0.011399	& 0.010876\\
 			\hline
-			$2^{12}/10$ 	& 0.040	& 0.037\\
+			$2^{12}/10$ 	& 0.022630	& 0.028296\\
 			\hline
-			$2^{13}/10$ 	& 0.019	& 0.008\\
+			$2^{13}/10$ 	& 0.045871	& 0.058527\\
 			\hline
-			$2^{14}/10$ 	& 0.048	& 0.010\\
+			$2^{14}/10$ 	& 0.116145	& 0.093235\\
 			\hline
-			$2^{15}/10$ 	& 0.012	& 0.008\\
+			$2^{15}/10$ 	& 0.717755	& 0.223559\\
 			\hline
-			$2^{16}/10$ 	& 0.012	& 0.008\\
+			$2^{16}/10$ 	& 0.495848	& 0.465250\\
 			\hline
-			$2^{17}/10$ 	& 0.012	& 0.008\\
+			$2^{17}/10$ 	& 0.832019	& 1.389346\\
 			\hline
-			$2^{18}/10$ 	& 0.012	& 0.008\\
-			\hline
-			$2^{19}/10$ 	& 0.012	& 0.008\\
-			\hline
-			$2^{20}/10$ 	& 0.012	& 0.008\\
-			\hline
-			$2^{21}/10$ 	& 0.012	& 0.008\\
+			$2^{18}/10$ 	& 2.194899	& 2.282709\\
 			\hline
 		\end{tabular}
 
@@ -323,38 +303,32 @@
 	\newpage
 	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-	\section{Análisis e Interpretación}
-% 	TODO Análisis e Interpretación
+	\section{Análisis y Conclusiones}
+% 	FIXME Análisis e Interpretación
 
 	\subsection{Control de Overflow}
 
-	En nuestra implementación, tanto Linear Split como Greene Split toman tiempos muy parecidos, lineal con respecto al logaritmo del número de rectángulos.
+	En nuestra implementación, tanto Linear Split como Greene Split toman tiempos muy parecidos, lineal con respecto al número de rectángulos.
 
-	Sin embargo, para $n = 17$, Greene Split genera inserciones notablemente más rápidas que Linear Split.
+	Esto es, para al duplicar el número de rectángulos, se duplica también el tiempo, con una ventaja despreciable de Linear Split al inicio y de Greene Split al final.
 
 	\subsection{Buscar}
 
-	La búsqueda de rectángulos en ambos...
+	Un arreglo con control de Overflow Linear Split permite buscar ligeramente más rápido que uno con control de Overflow Greene Split, dado que comienzan a diverger en
+	$n = 2^{16} = 65536$ rectángulos.
 
-	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-	\newpage
-	% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
-	\section{Conclusiones}
+	\subsection{Conclusiones}
 
 	El trabajo de un algoritmo en memoria secundaria es considerablemente más lento que uno en memoria principal. Sin embargo, a menudo se requiere trabajar con una cantidad de datos
 	muy alta, lo que hace que cargarlos todos en memoria principal sea inviable.
 
 	Para este caso, los experimentos realizados hacen que los rectángulos insertados y buscados ocupen tanta memoria que se requiere leer y escribir de disco.
 
-	\vspace*{10px}
-
-	TODO:
 	\begin{itemize}
-		\item quien es mejor, linear o greene
-		\item como se comporta la busqueda
-		\item que significa que el porcentaje de uso sea como del 60\%
-		\item etc...
+		\item Según el análisis, tanto Linear Split como Greene Split muestran resultados parecidos, con una muy ligera ventaja de Linear Split.
+		\item La búsqueda produce resultados un poco más apreciables, donde se muestra la ventaja que consiguió Linear Split.
+		\item El uso de C facilitó el manejo preciso de memoria, pero aumentó considerablemente la complejidad para el algoritmo de uso correcto de la memoria, tanto
+		principal como secundaria.
 	\end{itemize}
 
 

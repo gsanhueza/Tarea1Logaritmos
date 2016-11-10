@@ -1,7 +1,7 @@
 # Inicializador
 
 start = 9;
-finish = 21;
+finish = 18;
 for i = start : finish
   rectangles(i - start + 1) = 2^i;
 end
@@ -10,83 +10,68 @@ end
 
 # Tiempos Inserción Linear Split
 
-lst(1) = 0.103387;
-lst(2) = 0.166307;
-lst(3) = 0.321261;
-lst(4) = 0.848601;
-lst(5) = 1.410179;
-lst(6) = 2.861004;
-lst(7) = 5.593964;
-lst(8) = 5.593964;
-lst(9) = 5.593964;
-lst(10) = 5.593964;
-lst(11) = 5.593964;
-lst(12) = 5.593964;
-lst(13) = 5.593964;
+lst(1) = 0.090544;
+lst(2) = 0.164019;
+lst(3) = 0.298953;
+lst(4) = 0.521460;
+lst(5) = 0.966952;
+lst(6) = 2.704462;
+lst(7) = 5.425123;
+lst(8) = 9.942731;
+lst(9) = 19.675351;
+lst(10) = 38.226344;
 
 # Tiempos Inserción Greene Split
 
-gst(1) = 0.082136;
-gst(2) = 0.177814;
-gst(3) = 0.419102;
-gst(4) = 1.610996;
-gst(5) = 1.404789;
-gst(6) = 2.787653;
-gst(7) = 5.467977;
-gst(8) = 5.467977;
-gst(9) = 5.467977;
-gst(10) = 5.467977;
-gst(11) = 5.467977;
-gst(12) = 5.467977;
-gst(13) = 5.467977;
+gst(1) = 0.079349;
+gst(2) = 0.134480;
+gst(3) = 0.260028;
+gst(4) = 0.534319;
+gst(5) = 0.963934;
+gst(6) = 2.247448;
+gst(7) = 4.912580;
+gst(8) = 9.818921;
+gst(9) = 19.402311;
+gst(10) = 38.643265;
 
 # Porcentajes de llenado
 
-percent_fill(1) = 61.9;
-percent_fill(2) = 70.7;
-percent_fill(3) = 63.0;
-percent_fill(4) = 57.0;
-percent_fill(5) = 55.5;
-percent_fill(6) = 53.3;
-percent_fill(7) = 54.4;
-percent_fill(8) = 54.4;
-percent_fill(9) = 54.4;
-percent_fill(10) = 54.4;
-percent_fill(11) = 54.4;
-percent_fill(12) = 54.4;
-percent_fill(13) = 54.4;
+percent_fill(1) = 46.1;
+percent_fill(2) = 47.6;
+percent_fill(3) = 48.8;
+percent_fill(4) = 49.5;
+percent_fill(5) = 49.7;
+percent_fill(6) = 49.8;
+percent_fill(7) = 50.0;
+percent_fill(8) = 50.1;
+percent_fill(9) = 50.1;
+percent_fill(10) = 50.2;
 
-# Tiempos Búsqueda Linear Split (mseg)
+# Tiempos Búsqueda Linear Split (seg)
 
-linear_search_time(1) = 0.012;
-linear_search_time(2) = 0.021;
-linear_search_time(3) = 0.020;
-linear_search_time(4) = 0.040;
-linear_search_time(5) = 0.019;
-linear_search_time(6) = 0.048;
-linear_search_time(7) = 0.012;
-linear_search_time(8) = 0.012;
-linear_search_time(9) = 0.012;
-linear_search_time(10) = 0.012;
-linear_search_time(11) = 0.012;
-linear_search_time(12) = 0.012;
-linear_search_time(13) = 0.012;
+linear_search_time(1) = 0.002877;
+linear_search_time(2) = 0.005631;
+linear_search_time(3) = 0.011399;
+linear_search_time(4) = 0.022630;
+linear_search_time(5) = 0.045872;
+linear_search_time(6) = 0.116145;
+linear_search_time(7) = 0.717755;
+linear_search_time(8) = 0.495848;
+linear_search_time(9) = 0.832019;
+linear_search_time(10) = 2.194899;
 
-# Tiempos Búsqueda Greene Split (mseg)
+# Tiempos Búsqueda Greene Split (seg)
 
-greene_search_time(1) = 0.009;
-greene_search_time(2) = 0.020;
-greene_search_time(3) = 0.027;
-greene_search_time(4) = 0.037;
-greene_search_time(5) = 0.008;
-greene_search_time(6) = 0.010;
-greene_search_time(7) = 0.008;
-greene_search_time(8) = 0.008;
-greene_search_time(9) = 0.008;
-greene_search_time(10) = 0.008;
-greene_search_time(11) = 0.008;
-greene_search_time(12) = 0.008;
-greene_search_time(13) = 0.008;
+greene_search_time(1) = 0.002891;
+greene_search_time(2) = 0.005252;
+greene_search_time(3) = 0.010876;
+greene_search_time(4) = 0.028296;
+greene_search_time(5) = 0.058527;
+greene_search_time(6) = 0.093235;
+greene_search_time(7) = 0.223559;
+greene_search_time(8) = 0.465250;
+greene_search_time(9) = 1.389346;
+greene_search_time(10) = 2.282709;
 
 # --- END DATA --- #
 
@@ -94,11 +79,11 @@ greene_search_time(13) = 0.008;
 
 figure(1);
 hold on;
-plot(log2(rectangles), lst, "r");
-plot(log2(rectangles), gst, "b");
+plot(rectangles, lst, "r");
+plot(rectangles, gst, "b");
 legend("Linear Split", "Greene Split");
 grid on;
-xlabel ("Numero de Rectangulos (log2(n))");
+xlabel ("Numero de Rectangulos");
 ylabel ("Tiempo (segs)");
 title ("Linear y Greene Split - Numero de Rectangulos vs Tiempo de insercion");
 hold off;
@@ -107,10 +92,10 @@ hold off;
 
 figure(2);
 hold on;
-semilogx(rectangles, percent_fill, "b");
+plot(rectangles, percent_fill, "b");
 grid on;
 legend("% llenado");
-xlabel ("Numero de Rectangulos (log2(n))");
+xlabel ("Numero de Rectangulos");
 ylabel ("Porcentaje de llenado del nodo");
 title ("Numero de Rectangulos vs % de llenado de nodos");
 hold off;
@@ -119,11 +104,11 @@ hold off;
 
 figure(3);
 hold on;
-semilogx(rectangles/10, linear_search_time, "r");
-semilogx(rectangles/10, greene_search_time, "b");
+plot(rectangles, linear_search_time, "r");
+plot(rectangles, greene_search_time, "b");
 legend("Linear Split", "Greene Split");
 grid on;
-xlabel ("Numero de Rectangulos (log)");
-ylabel ("Tiempo de busqueda (mseg)");
+xlabel ("Numero de Rectangulos");
+ylabel ("Tiempo de busqueda (segs)");
 title ("Linear y Greene Split - Numero de Rectangulos vs Tiempo de busqueda");
 hold off;
